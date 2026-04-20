@@ -1,0 +1,24 @@
+{
+    "model_name": "Qwen3-8B-Base",
+    "tie_word_embeddings": false,
+    "standardized_dims": {
+        "embed": [
+            151936,
+            4096
+        ],
+        "lm_head": [
+            151936,
+            4096
+        ]
+    },
+    "raw_tensors_dimensions": {
+        "model.embed_tokens.weight": [
+            151936,
+            4096
+        ],
+        "lm_head.weight": [
+            151936,
+            4096
+        ]
+    }
+}

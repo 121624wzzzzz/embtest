@@ -1,0 +1,24 @@
+{
+    "model_name": "DeepSeek-V2-Lite-Chat",
+    "tie_word_embeddings": false,
+    "standardized_dims": {
+        "embed": [
+            102400,
+            2048
+        ],
+        "lm_head": [
+            102400,
+            2048
+        ]
+    },
+    "raw_tensors_dimensions": {
+        "lm_head.weight": [
+            102400,
+            2048
+        ],
+        "model.embed_tokens.weight": [
+            102400,
+            2048
+        ]
+    }
+}

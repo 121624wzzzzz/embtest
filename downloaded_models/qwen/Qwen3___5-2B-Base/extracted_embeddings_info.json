@@ -1,0 +1,20 @@
+{
+    "model_name": "Qwen3.5-2B-Base",
+    "tie_word_embeddings": true,
+    "standardized_dims": {
+        "embed": [
+            248320,
+            2048
+        ],
+        "lm_head": [
+            248320,
+            2048
+        ]
+    },
+    "raw_tensors_dimensions": {
+        "model.language_model.embed_tokens.weight": [
+            248320,
+            2048
+        ]
+    }
+}

@@ -1,0 +1,10 @@
+f7ec16e5231f7627f3e234f75ac4d3d9  config.json
+92d1e728590f0c70800e5ffabeb7c505  generation_config.json
+7fce5d6efd064e026076475ddf9bf7b3  model-00001-of-00004.safetensors
+4c0f28fae242de999994b86f1048cd5b  model-00002-of-00004.safetensors
+a9e2aeffc80bd2e10e4be1de4c7ef471  model-00003-of-00004.safetensors
+162f9088a941601d2731a6f18cd2ee95  model-00004-of-00004.safetensors
+8918290652a4ee6dc89dea20d86768d4  model.safetensors.index.json
+86e190b9782f5ca378a0eb25f30a0f69  tokenizer.json
+291724ef50f729e45d68f474a7755bbc  tokenizer.model
+9eaf4a967754057f6abf81ce9e3c2952  tokenizer_config.json

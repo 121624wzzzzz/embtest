@@ -1,0 +1,12 @@
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.gguf
+*.onnx
+*.h5
+*.msgpack
+*.pb
+*.tflite
+*.ot

@@ -1,0 +1,24 @@
+{
+    "model_name": "GLM-5-744B",
+    "tie_word_embeddings": false,
+    "standardized_dims": {
+        "embed": [
+            154880,
+            6144
+        ],
+        "lm_head": [
+            154880,
+            6144
+        ]
+    },
+    "raw_tensors_dimensions": {
+        "lm_head.weight": [
+            154880,
+            6144
+        ],
+        "model.embed_tokens.weight": [
+            154880,
+            6144
+        ]
+    }
+}

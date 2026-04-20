@@ -1,0 +1,10 @@
+- dataset:
+    id: cais/hle
+    task_id: hle
+  value: 50.4
+  date: '2026-02-13'
+  source:
+    url: https://huggingface.co/zai-org/GLM-5
+    name: Model Card
+    user: SaylorTwift
+  notes: "With tools"
