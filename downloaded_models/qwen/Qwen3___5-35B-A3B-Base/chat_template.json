@@ -1,3 +1,0 @@
-{
-    "chat_template": "{% if messages is string %}\n    {{- messages -}}\n{% else %}\n    {% for content in messages[0]['content'] %}\n        {% if content['type'] == 'image' or 'image' in content or 'image_url' in content %}\n            {{- \"<|vision_start|><|image_pad|><|vision_end|>\" -}}\n        {%- elif content.type == 'audio' or 'audio' in content or 'audio_url' in content %}\n            {{- \"<|audio_start|><|audio_pad|><|audio_end|>\" -}}\n        {% elif content['type'] == 'video' or 'video' in content %}\n            {{- \"<|vision_start|><|video_pad|><|vision_end|>\" -}}\n        {% elif 'text' in content %}\n            {{- content['text'] -}}\n        {% endif %}\n    {% endfor %}\n{% endif %}"
-}

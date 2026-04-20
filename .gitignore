@@ -10,3 +10,4 @@
 *.pb
 *.tflite
 *.ot
+downloaded_models/
