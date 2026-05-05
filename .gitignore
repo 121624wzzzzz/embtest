@@ -11,3 +11,8 @@
 *.tflite
 *.ot
 downloaded_models/
+extracts/
+logs/
+__pycache__/
+*.pyc
+.vscode/

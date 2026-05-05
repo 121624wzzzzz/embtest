@@ -1,0 +1,7 @@
+type,tied_untied,n,mean_R2,note
+intra_EU,untied,17,0.29218982411114885,untied 模型内 E→U
+intra_EU,tied,22,0.9999999999996966,tied 模型内 E→U
+cross_E,untied,44,0.4725771252615182,untied-untied 跨模型 E–E
+cross_U,untied,44,0.531298081155363,untied-untied 跨模型 U–U
+cross_E,tied,51,0.4692470204732817,tied-tied 跨模型 E–E
+cross_U,tied,51,0.4692470204732817,tied-tied 跨模型 U–U

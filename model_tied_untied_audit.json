@@ -1,0 +1,256 @@
+{
+  "summary": {
+    "total": 90,
+    "tied_count": 40,
+    "untied_count": 50,
+    "physical_three_count": 8
+  },
+  "tied_models": [
+    "Gemma-2-27B",
+    "Gemma-2-27B-Instruct",
+    "Gemma-2-2B",
+    "Gemma-2-2B-Instruct",
+    "Gemma-2-9B",
+    "Gemma-2-9B-Instruct",
+    "Gemma-3-12B",
+    "Gemma-3-12B-Instruct",
+    "Gemma-3-1B",
+    "Gemma-3-1B-Instruct",
+    "Gemma-3-27B",
+    "Gemma-3-27B-Instruct",
+    "Gemma-3-4B",
+    "Gemma-3-4B-Instruct",
+    "Gemma-4-26B-A4B-Instruct",
+    "Gemma-4-31B",
+    "Gemma-4-31B-Instruct",
+    "Gemma-4-E4B",
+    "Llama-3.2-1B",
+    "Llama-3.2-1B-Instruct",
+    "Llama-3.2-3B",
+    "Llama-3.2-3B-Instruct",
+    "Qwen2.5-0.5B",
+    "Qwen2.5-0.5B-Instruct",
+    "Qwen2.5-1.5B",
+    "Qwen2.5-1.5B-Instruct",
+    "Qwen2.5-3B",
+    "Qwen2.5-3B-Instruct",
+    "Qwen3-0.6B",
+    "Qwen3-0.6B-Base",
+    "Qwen3-1.7B",
+    "Qwen3-1.7B-Base",
+    "Qwen3-4B",
+    "Qwen3-4B-Base",
+    "Qwen3.5-0.8B-Base",
+    "Qwen3.5-0.8B-Instruct",
+    "Qwen3.5-2B-Base",
+    "Qwen3.5-2B-Instruct",
+    "Qwen3.5-4B-Base",
+    "Qwen3.5-4B-Instruct"
+  ],
+  "untied_models": [
+    "DeepSeek-R1",
+    "DeepSeek-R1-0528",
+    "DeepSeek-R1-Distill-Llama-70B",
+    "DeepSeek-R1-Distill-Llama-8B",
+    "DeepSeek-R1-Distill-Qwen-1.5B",
+    "DeepSeek-R1-Distill-Qwen-14B",
+    "DeepSeek-R1-Distill-Qwen-32B",
+    "DeepSeek-R1-Distill-Qwen-7B",
+    "DeepSeek-V2-Lite",
+    "DeepSeek-V2-Lite-Chat",
+    "DeepSeek-V3",
+    "DeepSeek-V3-Base",
+    "DeepSeek-V3.1",
+    "DeepSeek-V3.1-Base",
+    "DeepSeek-V3.2",
+    "DeepSeek-V3.2-Speciale",
+    "DeepSeek-V4-Flash",
+    "DeepSeek-V4-Pro",
+    "GLM-5-744B",
+    "GLM-5.1",
+    "Llama-3.1-70B-Base",
+    "Llama-3.1-70B-Instruct",
+    "Llama-3.1-8B",
+    "Llama-3.1-8B-Instruct",
+    "MiniMax-M2.5-Chat",
+    "MiniMax-M2.7",
+    "Qwen2.5-14B",
+    "Qwen2.5-14B-Instruct",
+    "Qwen2.5-32B",
+    "Qwen2.5-32B-Instruct",
+    "Qwen2.5-72B-Base",
+    "Qwen2.5-72B-Instruct",
+    "Qwen2.5-7B",
+    "Qwen2.5-7B-Instruct",
+    "Qwen3-14B",
+    "Qwen3-14B-Base",
+    "Qwen3-235B-A22B",
+    "Qwen3-30B-A3B",
+    "Qwen3-30B-A3B-Base",
+    "Qwen3-32B",
+    "Qwen3-8B",
+    "Qwen3-8B-Base",
+    "Qwen3.5-122B-A10B-Instruct",
+    "Qwen3.5-27B-Instruct",
+    "Qwen3.5-35B-A3B-Base",
+    "Qwen3.5-35B-A3B-Instruct",
+    "Qwen3.5-397B-A17B-Instruct",
+    "Qwen3.5-9B-Base",
+    "Qwen3.5-9B-Instruct",
+    "Qwen3.6-35B-A3B"
+  ],
+  "physical_three_models": [
+    {
+      "model": "DeepSeek-R1",
+      "status": "untied",
+      "embed_dim": "129280x7168",
+      "lm_head_dim": "129280x7168",
+      "size": "5.18 GiB",
+      "raw_embed_keys": [
+        "model.layers.61.embed_tokens.weight",
+        "model.embed_tokens.weight"
+      ],
+      "raw_lm_head_keys": [
+        "lm_head.weight"
+      ],
+      "standardized_sources": {
+        "embed": "model.embed_tokens.weight",
+        "lm_head": "lm_head.weight"
+      },
+      "note": "3 physical tensors were extracted: true input embedding, lm_head, and an extra embedding-like tensor from an auxiliary/layer module."
+    },
+    {
+      "model": "DeepSeek-R1-0528",
+      "status": "untied",
+      "embed_dim": "129280x7168",
+      "lm_head_dim": "129280x7168",
+      "size": "5.18 GiB",
+      "raw_embed_keys": [
+        "model.layers.61.embed_tokens.weight",
+        "model.embed_tokens.weight"
+      ],
+      "raw_lm_head_keys": [
+        "lm_head.weight"
+      ],
+      "standardized_sources": {
+        "embed": "model.embed_tokens.weight",
+        "lm_head": "lm_head.weight"
+      },
+      "note": "3 physical tensors were extracted: true input embedding, lm_head, and an extra embedding-like tensor from an auxiliary/layer module."
+    },
+    {
+      "model": "DeepSeek-V3",
+      "status": "untied",
+      "embed_dim": "129280x7168",
+      "lm_head_dim": "129280x7168",
+      "size": "5.18 GiB",
+      "raw_embed_keys": [
+        "model.layers.61.embed_tokens.weight",
+        "model.embed_tokens.weight"
+      ],
+      "raw_lm_head_keys": [
+        "lm_head.weight"
+      ],
+      "standardized_sources": {
+        "embed": "model.embed_tokens.weight",
+        "lm_head": "lm_head.weight"
+      },
+      "note": "3 physical tensors were extracted: true input embedding, lm_head, and an extra embedding-like tensor from an auxiliary/layer module."
+    },
+    {
+      "model": "DeepSeek-V3-Base",
+      "status": "untied",
+      "embed_dim": "129280x7168",
+      "lm_head_dim": "129280x7168",
+      "size": "5.18 GiB",
+      "raw_embed_keys": [
+        "model.layers.61.embed_tokens.weight",
+        "model.embed_tokens.weight"
+      ],
+      "raw_lm_head_keys": [
+        "lm_head.weight"
+      ],
+      "standardized_sources": {
+        "embed": "model.embed_tokens.weight",
+        "lm_head": "lm_head.weight"
+      },
+      "note": "3 physical tensors were extracted: true input embedding, lm_head, and an extra embedding-like tensor from an auxiliary/layer module."
+    },
+    {
+      "model": "DeepSeek-V3.1",
+      "status": "untied",
+      "embed_dim": "129280x7168",
+      "lm_head_dim": "129280x7168",
+      "size": "5.18 GiB",
+      "raw_embed_keys": [
+        "model.layers.61.embed_tokens.weight",
+        "model.embed_tokens.weight"
+      ],
+      "raw_lm_head_keys": [
+        "lm_head.weight"
+      ],
+      "standardized_sources": {
+        "embed": "model.embed_tokens.weight",
+        "lm_head": "lm_head.weight"
+      },
+      "note": "3 physical tensors were extracted: true input embedding, lm_head, and an extra embedding-like tensor from an auxiliary/layer module."
+    },
+    {
+      "model": "DeepSeek-V3.1-Base",
+      "status": "untied",
+      "embed_dim": "129280x7168",
+      "lm_head_dim": "129280x7168",
+      "size": "5.18 GiB",
+      "raw_embed_keys": [
+        "model.layers.61.embed_tokens.weight",
+        "model.embed_tokens.weight"
+      ],
+      "raw_lm_head_keys": [
+        "lm_head.weight"
+      ],
+      "standardized_sources": {
+        "embed": "model.embed_tokens.weight",
+        "lm_head": "lm_head.weight"
+      },
+      "note": "3 physical tensors were extracted: true input embedding, lm_head, and an extra embedding-like tensor from an auxiliary/layer module."
+    },
+    {
+      "model": "DeepSeek-V3.2",
+      "status": "untied",
+      "embed_dim": "129280x7168",
+      "lm_head_dim": "129280x7168",
+      "size": "5.18 GiB",
+      "raw_embed_keys": [
+        "model.layers.61.embed_tokens.weight",
+        "model.embed_tokens.weight"
+      ],
+      "raw_lm_head_keys": [
+        "lm_head.weight"
+      ],
+      "standardized_sources": {
+        "embed": "model.embed_tokens.weight",
+        "lm_head": "lm_head.weight"
+      },
+      "note": "3 physical tensors were extracted: true input embedding, lm_head, and an extra embedding-like tensor from an auxiliary/layer module."
+    },
+    {
+      "model": "DeepSeek-V3.2-Speciale",
+      "status": "untied",
+      "embed_dim": "129280x7168",
+      "lm_head_dim": "129280x7168",
+      "size": "5.18 GiB",
+      "raw_embed_keys": [
+        "model.layers.61.embed_tokens.weight",
+        "model.embed_tokens.weight"
+      ],
+      "raw_lm_head_keys": [
+        "lm_head.weight"
+      ],
+      "standardized_sources": {
+        "embed": "model.embed_tokens.weight",
+        "lm_head": "lm_head.weight"
+      },
+      "note": "3 physical tensors were extracted: true input embedding, lm_head, and an extra embedding-like tensor from an auxiliary/layer module."
+    }
+  ]
+}

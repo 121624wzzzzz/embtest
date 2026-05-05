@@ -1,0 +1,9 @@
+metric,value,note
+total_model_pairs,297,rows in exp1_global_v4_complete.csv
+base_instruct_pairs,19,from design and rows with n_bootstrap=10
+intra_family_pairs,189,"main four families, pairwise including cross-size"
+cross_family_pairs,108,cross-family same-scale/MoE groups
+bootstrap_10_rows,19,Base-Instruct rows
+bootstrap_100_rows,278,remaining rows
+n_pairs,5000000,sampled token pairs per bootstrap
+n_tokens_default,20000,cap; cross-tokenizer can be smaller

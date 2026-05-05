@@ -1,0 +1,17 @@
+[project]
+name = "get-useful-emb-analysis"
+version = "0.1.0"
+description = "Download/extract embedding matrices and IJCAI-style geometry analysis on extracts/"
+readme = "ijcai_clean/README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "torch",
+  "transformers",
+  "safetensors",
+  "numpy",
+  "pandas",
+  "scipy",
+  "pyyaml",
+  "tqdm",
+  "modelscope",
+]

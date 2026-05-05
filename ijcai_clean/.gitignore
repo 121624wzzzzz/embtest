@@ -1,0 +1,15 @@
+# Heavy artifacts intentionally excluded
+*.pt
+*.bin
+*.safetensors
+checkpoints*/
+**/checkpoints*/
+data*/
+**/.ipynb_checkpoints/
+*.log
+*.out
+__pycache__/
+*.pyc
+.torch_cache/
+.triton_cache/
+.hf_cache/

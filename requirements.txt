@@ -1,0 +1,10 @@
+# 分析 + 下载（按需安装）
+torch
+transformers
+safetensors
+numpy
+pandas
+scipy
+pyyaml
+tqdm
+modelscope
