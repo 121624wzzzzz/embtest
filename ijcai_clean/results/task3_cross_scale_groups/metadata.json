@@ -1,0 +1,36 @@
+{
+  "pairs_file": "ijcai_clean/results/task3_cross_scale_groups/generated_pairs.yaml",
+  "n_pairs_config": 176,
+  "n_tokens": 20000,
+  "n_pairs": 5000000,
+  "n_bootstrap": 100,
+  "seed": 42,
+  "devices": [
+    "cuda:0",
+    "cuda:1",
+    "cuda:2",
+    "cuda:3",
+    "cuda:4",
+    "cuda:5",
+    "cuda:6",
+    "cuda:7"
+  ],
+  "extracts_dir": "extracts",
+  "models_yaml": "models.yaml",
+  "resume_mode": "computed_missing_then_csv_summary",
+  "git_commit": "bc11913dfcc3e7c6e8cd455cf8f566b5939e70e0",
+  "task": "task3_cross_scale_groups",
+  "scale_groups_file": "ijcai_clean/configs/cross_scale_groups.yaml",
+  "series_file": "ijcai_clean/configs/model_series.yaml",
+  "generated_pairs_file": "ijcai_clean/results/task3_cross_scale_groups/generated_pairs.yaml",
+  "pair_plan_csv": "ijcai_clean/results/task3_cross_scale_groups/pair_plan.csv",
+  "skipped_models_csv": "ijcai_clean/results/task3_cross_scale_groups/skipped_models.csv",
+  "skipped_models": [],
+  "selection_rule": "if base/instruct candidates both exist, use the instruct-side model",
+  "dedupe_rule": "skip pairs whose selected models belong to the same series",
+  "scale_pair_counts": {
+    "le_4b": 108,
+    "gt_4b_lt_27b": 34,
+    "ge_27b": 34
+  }
+}

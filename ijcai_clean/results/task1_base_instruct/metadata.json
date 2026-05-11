@@ -1,6 +1,6 @@
 {
   "pairs_file": "ijcai_clean/configs/base_instruct_pairs.yaml",
-  "n_pairs_config": 28,
+  "n_pairs_config": 31,
   "n_tokens": 20000,
   "n_pairs": 5000000,
   "n_bootstrap": 100,
@@ -18,5 +18,5 @@
   "extracts_dir": "extracts",
   "models_yaml": "models.yaml",
   "resume_mode": "computed_missing_then_csv_summary",
-  "git_commit": "265bf5d08150eca7c3d0dbec87a17268381a5c36"
+  "git_commit": "bc11913dfcc3e7c6e8cd455cf8f566b5939e70e0"
 }

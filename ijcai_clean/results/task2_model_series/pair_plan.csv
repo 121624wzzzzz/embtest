@@ -76,6 +76,11 @@ gemma3,Gemma-3-1B-Instruct,Gemma-3-27B-Instruct,Gemma-3-1B,Gemma-3-27B,Gemma-3-1
 gemma3,Gemma-3-4B-Instruct,Gemma-3-12B-Instruct,Gemma-3-4B,Gemma-3-12B,Gemma-3-4B-Instruct,Gemma-3-12B-Instruct
 gemma3,Gemma-3-4B-Instruct,Gemma-3-27B-Instruct,Gemma-3-4B,Gemma-3-27B,Gemma-3-4B-Instruct,Gemma-3-27B-Instruct
 gemma3,Gemma-3-12B-Instruct,Gemma-3-27B-Instruct,Gemma-3-12B,Gemma-3-27B,Gemma-3-12B-Instruct,Gemma-3-27B-Instruct
+gemma4,Gemma-4-E2B-Instruct,Gemma-4-E4B-Instruct,Gemma-4-E2B,Gemma-4-E4B,Gemma-4-E2B-Instruct,Gemma-4-E4B-Instruct
+gemma4,Gemma-4-E2B-Instruct,Gemma-4-26B-A4B-Instruct,Gemma-4-E2B,Gemma-4-26B-A4B,Gemma-4-E2B-Instruct,Gemma-4-26B-A4B-Instruct
+gemma4,Gemma-4-E2B-Instruct,Gemma-4-31B-Instruct,Gemma-4-E2B,Gemma-4-31B,Gemma-4-E2B-Instruct,Gemma-4-31B-Instruct
+gemma4,Gemma-4-E4B-Instruct,Gemma-4-26B-A4B-Instruct,Gemma-4-E4B,Gemma-4-26B-A4B,Gemma-4-E4B-Instruct,Gemma-4-26B-A4B-Instruct
+gemma4,Gemma-4-E4B-Instruct,Gemma-4-31B-Instruct,Gemma-4-E4B,Gemma-4-31B,Gemma-4-E4B-Instruct,Gemma-4-31B-Instruct
 gemma4,Gemma-4-26B-A4B-Instruct,Gemma-4-31B-Instruct,Gemma-4-26B-A4B,Gemma-4-31B,Gemma-4-26B-A4B-Instruct,Gemma-4-31B-Instruct
 minimax_m2,MiniMax-M2.5-Chat,MiniMax-M2.7,MiniMax-M2.5-Chat,MiniMax-M2.7,MiniMax-M2.5-Chat,MiniMax-M2.7
 glm5,GLM-5-744B,GLM-5.1,GLM-5-744B,GLM-5.1,GLM-5-744B,GLM-5.1

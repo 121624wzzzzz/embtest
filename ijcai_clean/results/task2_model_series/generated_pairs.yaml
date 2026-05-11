@@ -154,6 +154,16 @@ pairs:
   - Gemma-3-27B-Instruct
 - - Gemma-3-12B-Instruct
   - Gemma-3-27B-Instruct
+- - Gemma-4-E2B-Instruct
+  - Gemma-4-E4B-Instruct
+- - Gemma-4-E2B-Instruct
+  - Gemma-4-26B-A4B-Instruct
+- - Gemma-4-E2B-Instruct
+  - Gemma-4-31B-Instruct
+- - Gemma-4-E4B-Instruct
+  - Gemma-4-26B-A4B-Instruct
+- - Gemma-4-E4B-Instruct
+  - Gemma-4-31B-Instruct
 - - Gemma-4-26B-A4B-Instruct
   - Gemma-4-31B-Instruct
 - - MiniMax-M2.5-Chat

@@ -20,6 +20,9 @@ def default_extracts_dir(root: Path | None = None) -> Path:
 
 def default_models_yaml(root: Path | None = None) -> Path:
     r = root or repo_root()
+    current = r / "configs" / "models.yaml"
+    if current.is_file():
+        return current
     return r / "models.yaml"
 
 

@@ -13,6 +13,7 @@
 downloaded_models/
 extracts/
 logs/
+archive/
 __pycache__/
 *.pyc
 .vscode/

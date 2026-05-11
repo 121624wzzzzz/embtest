@@ -1,17 +1,27 @@
 """
 GPU 流式 GCorr（与 legacy run_exp1_v4.compute_gcorr_gpu_streaming_v4 数值路径一致）。
+
+实现优化：
+- 单次流式累加可控显存预算（默认 32GB）；
+- 单 GPU 内 E 与 U 双 CUDA stream 并行执行（仅当 device 当前空闲显存够 2 倍预算时启用）；
+- 当并行启用时每个 stream 自动按一半预算划分 batch，叠加峰值仍接近原 32GB；
+- 数值语义与原实现一致：仅累加分块和 stream 调度顺序变化，对 fp64 累加器的最终
+  Pearson 结果只有可忽略的 ulp-level 差异。
 """
 
 from __future__ import annotations
 
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 import numpy as np
 import torch
 
-# 与 V4 实验一致
 torch.backends.cuda.matmul.allow_tf32 = True
 torch.backends.cudnn.allow_tf32 = True
+
+DEFAULT_TARGET_MEMORY_BYTES = 32 * 1024**3
+MAX_BATCH_SIZE = 2_000_000
+MIN_BATCH_SIZE = 50_000
 
 
 def _generate_pairs_gpu(
@@ -94,54 +104,66 @@ def _compute_batch_stats(
     )
 
 
-def compute_gcorr_gpu_streaming_v4(
+_SUM_KEYS = (
+    "cos_sum_x",
+    "cos_sum_y",
+    "cos_sum_x2",
+    "cos_sum_y2",
+    "cos_sum_xy",
+    "euc_sum_x",
+    "euc_sum_y",
+    "euc_sum_x2",
+    "euc_sum_y2",
+    "euc_sum_xy",
+    "euc2_sum_x",
+    "euc2_sum_y",
+    "euc2_sum_x2",
+    "euc2_sum_y2",
+    "euc2_sum_xy",
+)
+
+
+def _gcorr_streaming_accumulate(
     X: np.ndarray,
     Y: np.ndarray,
     n_pairs: int,
-    seed: int | None = None,
-    batch_size: int | None = None,
-    device: torch.device | None = None,
-) -> Dict[str, float]:
-    if device is None:
-        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    seed: int,
+    device: torch.device,
+    target_memory_bytes: int,
+    batch_size: Optional[int] = None,
+) -> Dict[str, "torch.Tensor"]:
+    """计算并返回 GPU 上的累加和（不调用 .item()，便于跨 stream 并行）。
+
+    调用方需要保证当前线程的 CUDA stream 已经设置为期望的 stream，本函数内
+    所有 kernel 启动都会落到该 stream 上。
+    """
 
     n, d_x = X.shape
     _, d_y = Y.shape
-
     if batch_size is None:
-        target_memory = 4 * 1024**3
         bytes_per_sample = 4 * d_x * 4 + 4 * d_y * 4
-        batch_size = max(50_000, min(500_000, target_memory // max(bytes_per_sample, 1)))
+        batch_size = max(
+            MIN_BATCH_SIZE,
+            min(MAX_BATCH_SIZE, target_memory_bytes // max(bytes_per_sample, 1)),
+        )
 
     with torch.inference_mode():
-        X_t = torch.from_numpy(X).float().to(device)
-        Y_t = torch.from_numpy(Y).float().to(device)
+        X_t = torch.from_numpy(X).float().to(device, non_blocking=True)
+        Y_t = torch.from_numpy(Y).float().to(device, non_blocking=True)
 
         X_norm2 = (X_t * X_t).sum(dim=1)
         Y_norm2 = (Y_t * Y_t).sum(dim=1)
         X_norm = torch.sqrt(X_norm2.clamp(min=1e-20))
         Y_norm = torch.sqrt(Y_norm2.clamp(min=1e-20))
 
-        i_indices, j_indices = _generate_pairs_gpu(n, n_pairs, seed if seed is not None else 42, device)
+        i_indices, j_indices = _generate_pairs_gpu(
+            n, n_pairs, seed if seed is not None else 42, device
+        )
         num_pairs = len(i_indices)
 
-        cos_sum_x = torch.tensor(0.0, dtype=torch.float64, device=device)
-        cos_sum_y = torch.tensor(0.0, dtype=torch.float64, device=device)
-        cos_sum_x2 = torch.tensor(0.0, dtype=torch.float64, device=device)
-        cos_sum_y2 = torch.tensor(0.0, dtype=torch.float64, device=device)
-        cos_sum_xy = torch.tensor(0.0, dtype=torch.float64, device=device)
-
-        euc_sum_x = torch.tensor(0.0, dtype=torch.float64, device=device)
-        euc_sum_y = torch.tensor(0.0, dtype=torch.float64, device=device)
-        euc_sum_x2 = torch.tensor(0.0, dtype=torch.float64, device=device)
-        euc_sum_y2 = torch.tensor(0.0, dtype=torch.float64, device=device)
-        euc_sum_xy = torch.tensor(0.0, dtype=torch.float64, device=device)
-
-        euc2_sum_x = torch.tensor(0.0, dtype=torch.float64, device=device)
-        euc2_sum_y = torch.tensor(0.0, dtype=torch.float64, device=device)
-        euc2_sum_x2 = torch.tensor(0.0, dtype=torch.float64, device=device)
-        euc2_sum_y2 = torch.tensor(0.0, dtype=torch.float64, device=device)
-        euc2_sum_xy = torch.tensor(0.0, dtype=torch.float64, device=device)
+        sums: Dict[str, torch.Tensor] = {
+            k: torch.tensor(0.0, dtype=torch.float64, device=device) for k in _SUM_KEYS
+        }
 
         for start in range(0, num_pairs, batch_size):
             end = min(start + batch_size, num_pairs)
@@ -171,36 +193,86 @@ def compute_gcorr_gpu_streaming_v4(
                 yj_norm2,
             )
 
-            cos_sum_x += stats[0]
-            cos_sum_y += stats[1]
-            cos_sum_x2 += stats[2]
-            cos_sum_y2 += stats[3]
-            cos_sum_xy += stats[4]
-            euc_sum_x += stats[5]
-            euc_sum_y += stats[6]
-            euc_sum_x2 += stats[7]
-            euc_sum_y2 += stats[8]
-            euc_sum_xy += stats[9]
-            euc2_sum_x += stats[10]
-            euc2_sum_y += stats[11]
-            euc2_sum_x2 += stats[12]
-            euc2_sum_y2 += stats[13]
-            euc2_sum_xy += stats[14]
+            for key, value in zip(_SUM_KEYS, stats):
+                sums[key] += value
 
-        n_total = float(num_pairs)
+        sums["n_total"] = torch.tensor(float(num_pairs), dtype=torch.float64, device=device)
+        del X_t, Y_t, X_norm, Y_norm, X_norm2, Y_norm2, i_indices, j_indices
 
-        def pearson_from_sums(sum_x, sum_y, sum_x2, sum_y2, sum_xy, n):
-            numerator = n * sum_xy - sum_x * sum_y
-            denominator = torch.sqrt((n * sum_x2 - sum_x * sum_x) * (n * sum_y2 - sum_y * sum_y))
-            return (numerator / denominator.clamp(min=1e-10)).item()
+    return sums
 
-        gcorr_cos = pearson_from_sums(cos_sum_x, cos_sum_y, cos_sum_x2, cos_sum_y2, cos_sum_xy, n_total)
-        gcorr_euc = pearson_from_sums(euc_sum_x, euc_sum_y, euc_sum_x2, euc_sum_y2, euc_sum_xy, n_total)
-        gcorr_euc2 = pearson_from_sums(euc2_sum_x, euc2_sum_y, euc2_sum_x2, euc2_sum_y2, euc2_sum_xy, n_total)
 
-    del X_t, Y_t, X_norm, Y_norm, X_norm2, Y_norm2, i_indices, j_indices
+def _pearson_from_sums(sums: Dict[str, "torch.Tensor"]) -> Dict[str, float]:
+    n = sums["n_total"]
 
-    return {"gcorr_cos": gcorr_cos, "gcorr_euc": gcorr_euc, "gcorr_euc2": gcorr_euc2}
+    def pearson(sum_x, sum_y, sum_x2, sum_y2, sum_xy) -> float:
+        numerator = n * sum_xy - sum_x * sum_y
+        denominator = torch.sqrt(
+            (n * sum_x2 - sum_x * sum_x) * (n * sum_y2 - sum_y * sum_y)
+        )
+        return (numerator / denominator.clamp(min=1e-10)).item()
+
+    return {
+        "gcorr_cos": pearson(
+            sums["cos_sum_x"],
+            sums["cos_sum_y"],
+            sums["cos_sum_x2"],
+            sums["cos_sum_y2"],
+            sums["cos_sum_xy"],
+        ),
+        "gcorr_euc": pearson(
+            sums["euc_sum_x"],
+            sums["euc_sum_y"],
+            sums["euc_sum_x2"],
+            sums["euc_sum_y2"],
+            sums["euc_sum_xy"],
+        ),
+        "gcorr_euc2": pearson(
+            sums["euc2_sum_x"],
+            sums["euc2_sum_y"],
+            sums["euc2_sum_x2"],
+            sums["euc2_sum_y2"],
+            sums["euc2_sum_xy"],
+        ),
+    }
+
+
+def compute_gcorr_gpu_streaming_v4(
+    X: np.ndarray,
+    Y: np.ndarray,
+    n_pairs: int,
+    seed: Optional[int] = None,
+    batch_size: Optional[int] = None,
+    device: Optional[torch.device] = None,
+    target_memory_bytes: int = DEFAULT_TARGET_MEMORY_BYTES,
+) -> Dict[str, float]:
+    if device is None:
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    sums = _gcorr_streaming_accumulate(
+        X,
+        Y,
+        n_pairs,
+        seed if seed is not None else 42,
+        device,
+        target_memory_bytes=target_memory_bytes,
+        batch_size=batch_size,
+    )
+    return _pearson_from_sums(sums)
+
+
+def can_use_parallel_streams(
+    device: torch.device, target_memory_bytes: int = DEFAULT_TARGET_MEMORY_BYTES
+) -> bool:
+    """检查 device 当前空闲显存能否同时驻留两路 GCorr 流（每路按 target/2 预算）。"""
+
+    if device.type != "cuda":
+        return False
+    try:
+        free_bytes, _ = torch.cuda.mem_get_info(device)
+    except Exception:
+        return False
+    return free_bytes >= 2 * target_memory_bytes + 1024**3
 
 
 def compute_single_pair_bootstrap(
@@ -211,9 +283,59 @@ def compute_single_pair_bootstrap(
     n_pairs: int,
     seed: int,
     device: torch.device,
+    target_memory_bytes: int = DEFAULT_TARGET_MEMORY_BYTES,
+    parallel_streams: Optional[bool] = None,
 ) -> Dict[str, float]:
-    gcorr_E = compute_gcorr_gpu_streaming_v4(E_a, E_b, n_pairs, seed * 1000, device=device)
-    gcorr_U = compute_gcorr_gpu_streaming_v4(U_a, U_b, n_pairs, seed * 1000 + 1, device=device)
+    if parallel_streams is None:
+        parallel_streams = can_use_parallel_streams(device, target_memory_bytes)
+
+    if device.type == "cuda" and parallel_streams:
+        per_stream_target = target_memory_bytes // 2
+        stream_E = torch.cuda.Stream(device=device)
+        stream_U = torch.cuda.Stream(device=device)
+
+        with torch.cuda.stream(stream_E):
+            sums_E = _gcorr_streaming_accumulate(
+                E_a,
+                E_b,
+                n_pairs,
+                seed * 1000,
+                device,
+                target_memory_bytes=per_stream_target,
+            )
+        with torch.cuda.stream(stream_U):
+            sums_U = _gcorr_streaming_accumulate(
+                U_a,
+                U_b,
+                n_pairs,
+                seed * 1000 + 1,
+                device,
+                target_memory_bytes=per_stream_target,
+            )
+
+        stream_E.synchronize()
+        stream_U.synchronize()
+
+        gcorr_E = _pearson_from_sums(sums_E)
+        gcorr_U = _pearson_from_sums(sums_U)
+    else:
+        gcorr_E = compute_gcorr_gpu_streaming_v4(
+            E_a,
+            E_b,
+            n_pairs,
+            seed * 1000,
+            device=device,
+            target_memory_bytes=target_memory_bytes,
+        )
+        gcorr_U = compute_gcorr_gpu_streaming_v4(
+            U_a,
+            U_b,
+            n_pairs,
+            seed * 1000 + 1,
+            device=device,
+            target_memory_bytes=target_memory_bytes,
+        )
+
     return {
         "gcorr_E_cos": gcorr_E["gcorr_cos"],
         "gcorr_E_euc": gcorr_E["gcorr_euc"],

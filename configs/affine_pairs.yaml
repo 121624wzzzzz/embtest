@@ -1,0 +1,17 @@
+task: task5_affine_relations
+reference_models_yaml: models.yaml
+
+# 实验五：复用 task1..4 的 pair 集合做 E↔E / U↔U 仿射 R² 拟合，并附 intra E→U。
+# - sources 列出每个来源任务的 pairs YAML（路径相对仓库根目录）；
+# - task5 会读全部并按 (model_a, model_b) 字典序去重，附 source_tasks 字段标注每对来源；
+# - intra E→U 拟合则覆盖所有出现过的模型并集。
+
+sources:
+  - name: task1_base_instruct
+    pairs_yaml: configs/base_instruct_pairs.yaml
+  - name: task2_model_series
+    pairs_yaml: ijcai_clean/results/task2_model_series/generated_pairs.yaml
+  - name: task3_cross_scale_groups
+    pairs_yaml: ijcai_clean/results/task3_cross_scale_groups/generated_pairs.yaml
+  - name: task4_moe_cross_family
+    pairs_yaml: ijcai_clean/results/task4_moe_cross_family/generated_pairs.yaml

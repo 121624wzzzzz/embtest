@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-任务一：Base–Instruct GCorr（基于 extracts/ 与 ijcai_clean 包）。
+任务四：MoE-only 跨族 GCorr（基于 extracts/ 与 ijcai_clean 包）。
 
 用法:
   export PYTHONPATH=ijcai_clean/src
-  python ijcai_clean/scripts/run_task1_base_instruct.py --devices auto
+  python ijcai_clean/scripts/run_task4_moe_cross_family.py --devices auto
 
 或在仓库根目录:
-  python ijcai_clean/scripts/run_task1_base_instruct.py --devices auto
+  python ijcai_clean/scripts/run_task4_moe_cross_family.py --devices auto
 """
 from __future__ import annotations
 
@@ -18,17 +18,23 @@ from _cli import add_gcorr_args, bootstrap_repo, resolve_devices
 
 _REPO_ROOT = bootstrap_repo(__file__)
 
-from ijcai_clean.experiments.task1 import run_task1_base_instruct  # noqa: E402
+from ijcai_clean.experiments.task4 import run_task4_moe_cross_family  # noqa: E402
 from ijcai_clean.paths import default_extracts_dir, default_models_yaml  # noqa: E402
 
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="Task1 Base-Instruct GCorr (extracts/)")
+    p = argparse.ArgumentParser(description="Task4 MoE-only Cross-Family GCorr (extracts/)")
     p.add_argument(
-        "--pairs",
+        "--scale-groups",
         type=Path,
-        default=_REPO_ROOT / "configs" / "base_instruct_pairs.yaml",
-        help="pair 配置 YAML",
+        default=_REPO_ROOT / "configs" / "moe_cross_family.yaml",
+        help="MoE 跨族桶配置 YAML",
+    )
+    p.add_argument(
+        "--series",
+        type=Path,
+        default=_REPO_ROOT / "configs" / "model_series.yaml",
+        help="系列配置 YAML，用于排除同系列 pair",
     )
     p.add_argument(
         "--extracts",
@@ -45,15 +51,16 @@ def main() -> None:
     p.add_argument(
         "--out",
         type=Path,
-        default=_REPO_ROOT / "ijcai_clean" / "results" / "task1_base_instruct",
+        default=_REPO_ROOT / "ijcai_clean" / "results" / "task4_moe_cross_family",
         help="输出目录",
     )
     add_gcorr_args(p)
     args = p.parse_args()
 
-    run_task1_base_instruct(
+    run_task4_moe_cross_family(
         repo_root=_REPO_ROOT,
-        pairs_file=args.pairs,
+        scale_groups_file=args.scale_groups,
+        series_file=args.series,
         extracts_dir=args.extracts,
         models_yaml=args.models_yaml,
         out_dir=args.out,

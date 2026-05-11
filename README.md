@@ -4,19 +4,19 @@
 
 | 位置 | 说明 |
 |------|------|
-| [`models.yaml`](models.yaml) | 魔搭 `repo_id`、缓存与 `extracts` 路径 |
+| [`configs/`](configs) | 全局模型配置 `models.yaml` 与任务配置 YAML |
 | [`downloaded_models/`](downloaded_models) | 下载缓存 |
 | [`extracts/`](extracts) | 每模型 `*.safetensors` + `*.info.json` |
-| [`tools/`](tools) | 下载、审计、清理（根目录同名 `.py` 为薄包装，兼容旧命令） |
-| [`ijcai_clean/`](ijcai_clean) | 当前分析子项目：配置、包 `ijcai_clean`、脚本、结果、**`legacy/` 旧实验** |
+| [`tools/`](tools) | 下载、审计、清理 |
+| [`ijcai_clean/`](ijcai_clean) | 当前分析子项目：包 `ijcai_clean`、脚本、结果、**`legacy/` 旧实验** |
 
 ## 快速命令
 
 ```bash
 conda activate wzall
 
-# 下载/抽取（与根目录 get_model_useful.py 相同）
-python get_model_useful.py
+# 下载/抽取
+python tools/get_model_useful.py
 
 # 任务一：Base–Instruct GCorr
 PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task1_base_instruct.py --devices auto

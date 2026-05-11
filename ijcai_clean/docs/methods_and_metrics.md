@@ -1,3 +1,231 @@
+# 实验主方法与指标定义
+
+本文档记录当前 `ijcai_clean` 主线实验的方法、数据接口、指标定义与运行口径。后续新增任务、指标或采样策略时，应优先更新本文档。
+
+## 维护记录
+
+- 2026-05-04：建立当前版本，覆盖 Task 1 Base/Instruct GCorr、`extracts/` 数据接口、bootstrap 统计、validate/csv-only 运行模式。
+- 2026-05-10：清理重复段落，补充 Task 2-5 当前口径与主线入口。
+
+## 当前任务
+
+| 任务 | 配置 | 入口 | 主要输出 |
+|---|---|---|---|
+| Task 1 Base/Instruct GCorr | `configs/base_instruct_pairs.yaml` | `ijcai_clean/scripts/run_task1_base_instruct.py` | `ijcai_clean/results/task1_base_instruct/summary.csv` |
+| Task 2 Model-Series GCorr | `configs/model_series.yaml` | `ijcai_clean/scripts/run_task2_model_series.py` | `ijcai_clean/results/task2_model_series/summary.csv` |
+| Task 3 Cross-Scale GCorr | `configs/cross_scale_groups.yaml` + `configs/model_series.yaml` | `ijcai_clean/scripts/run_task3_cross_scale_groups.py` | `ijcai_clean/results/task3_cross_scale_groups/summary.csv` |
+| Task 4 MoE Cross-Family GCorr | `configs/moe_cross_family.yaml` + `configs/model_series.yaml` | `ijcai_clean/scripts/run_task4_moe_cross_family.py` | `ijcai_clean/results/task4_moe_cross_family/summary.csv` |
+| Task 5 Affine Relations | `configs/affine_pairs.yaml` | `ijcai_clean/scripts/run_task5_affine_relations.py` | `ijcai_clean/results/task5_affine_relations/summary_pair.csv` |
+
+Task 2-4 会先生成 `generated_pairs.yaml` 和 `pair_plan.csv`，再复用 Task 1 的 GCorr runner。Task 5 读取 Task 1-4 的 pair 集合并做仿射拟合。
+
+## 数据接口
+
+当前主线不直接读取完整 HuggingFace / ModelScope 权重目录，而是读取标准化抽取后的 E/U 矩阵：
+
+- `extracts/<model_name>.safetensors`
+- `extracts/<model_name>.info.json`
+
+其中 `model_name` 必须与 `configs/models.yaml` 中的简称一致。`*.info.json` 中的核心字段包括：
+
+- `standardized_dims.embed`：标准化 E 形状。
+- `standardized_dims.lm_head`：标准化 U 形状。
+- `standardized_sources.embed`：E 在 safetensors 中的真实 key。
+- `standardized_sources.lm_head`：U 在 safetensors 中的真实 key。
+- `tie_word_embeddings`：模型配置声明的 tied 状态。
+
+读取逻辑位于 `ijcai_clean/src/ijcai_clean/data.py`。
+
+## 矩阵对象
+
+| 符号 | 名称 | 形状 | 含义 |
+|---|---|---|---|
+| `E` | Embedding matrix | `vocab_size x hidden_dim` | 输入嵌入矩阵，将 token 映射到 hidden vector。 |
+| `U` | Unembedding matrix / LM head | `vocab_size x hidden_dim` | 输出解嵌矩阵，用于将 hidden vector 映射回 token logits。 |
+
+代码统一将 E/U 标准化为同一行口径：`[vocab_size, hidden_dim]`。
+
+## Token 对齐
+
+GCorr 与仿射拟合都要求两个矩阵的行具有可比较的 token 语义，因此先进行 token 对齐。
+
+| 情况 | 对齐方式 |
+|---|---|
+| 两个模型 vocab size 相同 | 按 token id 对齐，即第 `i` 行对第 `i` 行。 |
+| 两个模型 vocab size 不同 | 按 token string 求交集后对齐。 |
+| 特殊 token | 排除 `bos/eos/pad/unk` 和 tokenizer 的 `all_special_ids`。 |
+| 共同 token 过少 | GCorr 少于 1000 时跳过；Task 5 默认少于 5000 时跳过。 |
+
+相关逻辑位于 `ijcai_clean/src/ijcai_clean/alignment.py`。
+
+## GCorr 方法
+
+GCorr（Global Correlation）衡量两个矩阵在 token 空间中诱导出的几何结构是否相似。它不直接比较单个 token 向量是否逐元素相等，而是比较 token-token 关系是否相似。
+
+给定两个对齐后的矩阵：
+
+- `X = E_a` 或 `U_a`
+- `Y = E_b` 或 `U_b`
+
+先采样一批 token pair：
+
+```text
+(i_1, j_1), (i_2, j_2), ..., (i_m, j_m), 其中 i_k < j_k
+```
+
+对每个 token pair，在 `X` 和 `Y` 中分别计算距离或相似度，形成两个长度为 `m` 的向量：
+
+```text
+d_X = [metric(X[i_1], X[j_1]), ..., metric(X[i_m], X[j_m])]
+d_Y = [metric(Y[i_1], Y[j_1]), ..., metric(Y[i_m], Y[j_m])]
+```
+
+GCorr 定义为这两个向量的 Pearson correlation：
+
+```text
+GCorr_metric(X, Y) = PearsonCorr(d_X, d_Y)
+```
+
+当前实现计算三种 metric：
+
+| 指标 | 定义 | 解释 |
+|---|---|---|
+| `cos` | `dot(x_i, x_j) / (||x_i|| * ||x_j||)` | 关注向量方向相似性，对向量长度较不敏感。 |
+| `euc` | `||x_i - x_j||` | 欧氏距离，关注向量在空间中的绝对距离。 |
+| `euc2` | `||x_i - x_j||^2` | 平方欧氏距离，放大较大的距离差异。 |
+
+平方欧氏距离使用等价形式：
+
+```text
+||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2 * dot(x_i, x_j)
+```
+
+这样可以避免显式构造大规模差分张量，提高 GPU 计算效率。实现位于 `ijcai_clean/src/ijcai_clean/metrics.py`。
+
+## Pearson 相关系数
+
+对两个长度为 `m` 的数值向量 `a` 和 `b`：
+
+```text
+Pearson(a, b) =
+  (m * sum(a*b) - sum(a) * sum(b))
+  /
+  sqrt((m * sum(a^2) - sum(a)^2) * (m * sum(b^2) - sum(b)^2))
+```
+
+当前实现用流式累加的方式统计：
+
+- `sum_x`
+- `sum_y`
+- `sum_x2`
+- `sum_y2`
+- `sum_xy`
+
+这样不需要保存所有 token-pair 的距离向量，适合 `n_pairs = 5000000` 的设置。
+
+## 输出指标字段
+
+每次 bootstrap 会输出以下 6 个核心 GCorr 指标：
+
+| 字段 | 比较对象 | metric |
+|---|---|---|
+| `gcorr_E_cos` | `E_a` vs `E_b` | cosine similarity |
+| `gcorr_E_euc` | `E_a` vs `E_b` | Euclidean distance |
+| `gcorr_E_euc2` | `E_a` vs `E_b` | squared Euclidean distance |
+| `gcorr_U_cos` | `U_a` vs `U_b` | cosine similarity |
+| `gcorr_U_euc` | `U_a` vs `U_b` | Euclidean distance |
+| `gcorr_U_euc2` | `U_a` vs `U_b` | squared Euclidean distance |
+
+`summary.csv` 对每个指标输出：
+
+- `mean`
+- `std`
+- `se`
+- `ci95_low`
+- `ci95_high`
+- `median`
+
+## Bootstrap 与断点续跑
+
+默认 GCorr 参数：
+
+| 参数 | 当前值 | 说明 |
+|---|---:|---|
+| `n_tokens` | `20000` | 每次 bootstrap 采样 token 数。 |
+| `n_pairs` | `5000000` | 每次 bootstrap 采样 token pair 数。 |
+| `n_bootstrap` | `100` | 每组模型 pair 的 bootstrap 次数。 |
+| `seed` | `42` | 基础随机种子；第 `b` 次 bootstrap 使用 `seed + b`。 |
+| `devices` | `auto` | 自动使用可见 GPU；可通过 `--exclude-gpus` 排除指定卡。 |
+| `complete_mode` | `validate` | 结果完整时仍做小规模矩阵计算校验。 |
+| `validation_n_tokens` | `1024` | validate 模式下的校验 token 数。 |
+| `validation_n_pairs` | `10000` | validate 模式下的校验 token pair 数。 |
+
+`bootstrap_results.csv` 是断点文件。脚本启动后会读取已完成的 `(model_a, model_b, bootstrap)` 三元组：
+
+- 已存在的 bootstrap 不重复计算。
+- 缺失的 bootstrap 会继续补齐。
+- 完整时可用 `--complete-mode csv-only` 只重建 summary/metadata。
+
+为了避免同时缓存多个大模型导致内存膨胀，当前实现按 pair 执行：加载当前 pair 的两个模型矩阵，补齐缺失 bootstrap，写 CSV，释放矩阵，再进入下一个 pair。
+
+## Task 5 仿射关系
+
+Task 5 对 Task 1-4 的 pair 并集做跨模型仿射拟合：
+
+```text
+Y ≈ X · A + b
+```
+
+分别报告 E↔E 与 U↔U 的：
+
+- `R2`
+- `rel_err`
+- `norm_A`
+- `norm_b`
+
+同时对所有出现过的模型做模型内部 E→U 仿射拟合，用于判断该模型 E 与 U 是否近似仿射相关。默认最多采样 `max_fit_rows = 24000` 行，公共 token 下限为 `min_common_tokens = 5000`。
+
+## Tied / Untied 定义
+
+文档和结果中存在两类 tied 口径：
+
+- `is_tied`：模型配置中的 `tie_word_embeddings` 声明。
+- `actual_tied`：实际矩阵比较结果，即 `np.allclose(E, U, rtol=1e-5, atol=1e-5)`。
+
+论文或报告分析时，优先使用 `actual_tied`，因为它来自真实 E/U 矩阵。
+
+## 当前结果规模
+
+截至 2026-05-10 当前结果目录：
+
+| 任务 | pair/model 数 | 主结果规模 |
+|---|---:|---|
+| Task 1 | 31 pairs | `summary.csv` 31 行，`bootstrap_results.csv` 3100 行 |
+| Task 2 | 110 pairs | `summary.csv` 110 行，`bootstrap_results.csv` 11000 行 |
+| Task 3 | 176 pairs | `summary.csv` 176 行，`bootstrap_results.csv` 17600 行 |
+| Task 4 | 21 pairs | `summary.csv` 21 行，`bootstrap_results.csv` 2100 行 |
+| Task 5 | 338 unique pairs / 92 models | `summary_pair.csv` 338 行，`summary_intra_EU.csv` 92 行 |
+
+## 结果解读建议
+
+| 对比 | 解读重点 |
+|---|---|
+| `gcorr_E_*` 高 | 两个模型的输入词向量几何保持一致。 |
+| `gcorr_U_*` 高 | 两个模型的输出词向量几何保持一致。 |
+| `gcorr_U_*` 明显低于 `gcorr_E_*` | 训练或指令微调可能更多改变输出层几何。 |
+| `cos` 高但 `euc` 较低 | 向量方向较一致，但长度或尺度结构发生变化。 |
+| `euc` 和 `euc2` 都高 | 绝对距离结构也较稳定。 |
+| Task 5 `R2` 高 | 一个模型空间可被另一个模型空间的线性/仿射变换较好解释。 |
+
+## 后续更新约定
+
+新增实验、指标或默认参数变化时，请同步更新：
+
+1. “维护记录”
+2. “当前任务”
+3. “输出指标字段”
+4. “当前结果规模”
+5. 对新增指标补充数学定义和解读方式
 # 实验方法与指标定义
 
 本文档用于持续记录当前实验的核心方法、指标含义和参数设置。重点是解释 GCorr 方法本身，而不是代码结构。
@@ -17,7 +245,7 @@
 | 任务名称 | Task 1 Base/Instruct GCorr |
 | 实验对象 | Base 模型与对应 Instruct 模型 |
 | 当前 pair 数 | 28 |
-| 配置文件 | `ijcai_clean/configs/base_instruct_pairs.yaml` |
+| 配置文件 | `configs/base_instruct_pairs.yaml` |
 | 主要结果 | `ijcai_clean/results/task1_base_instruct/summary.csv` |
 | bootstrap 明细 | `ijcai_clean/results/task1_base_instruct/bootstrap_results.csv` |
 
@@ -216,7 +444,7 @@ Pearson(a, b) =
 
 任务一比较同一模型家族内的 Base 模型与 Instruct 模型，例如 `Qwen3-0.6B-Base -> Qwen3-0.6B`。配置文件为：
 
-- `ijcai_clean/configs/base_instruct_pairs.yaml`
+- `configs/base_instruct_pairs.yaml`
 
 运行入口为：
 
@@ -246,7 +474,7 @@ PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task1_base_instruct.py
 - `extracts/<model_name>.safetensors`
 - `extracts/<model_name>.info.json`
 
-其中 `model_name` 必须与仓库根目录 `models.yaml` 里的简称一致。
+其中 `model_name` 必须与仓库 `configs/models.yaml` 里的简称一致。
 
 ### E 与 U
 

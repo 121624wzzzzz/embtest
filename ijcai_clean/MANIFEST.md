@@ -2,17 +2,18 @@
 
 ## 当前主代码（extracts 流程）
 
-- `src/ijcai_clean/`：从 `extracts/*.safetensors` 与 `*.info.json` 加载 E/U、GCorr、任务一/二。
+- `src/ijcai_clean/`：从 `extracts/*.safetensors` 与 `*.info.json` 加载 E/U、GCorr、任务一/二/三。
 - `scripts/run_task1_base_instruct.py`：任务一入口（需 `PYTHONPATH=ijcai_clean/src`）。
 - `scripts/run_task2_model_series.py`：任务二入口，按系列组内生成 pair 后复用 GCorr runner。
-- `configs/base_instruct_pairs.yaml`、`configs/model_series.yaml`：任务配置（任务一/二）。
+- `scripts/run_task3_cross_scale_groups.py`：任务三入口，按三档规模桶生成跨系列 pair 后复用 GCorr runner。
+- `../configs/`：全局模型配置与任务配置（`models.yaml`、`base_instruct_pairs.yaml`、`model_series.yaml`、`cross_scale_groups.yaml` 等）。
 
 ## 数据与下载工具（仓库根目录）
 
-- `models.yaml`：模型列表、`repo_id`、缓存路径。
+- `../configs/models.yaml`：模型列表、`repo_id`、缓存路径。
 - `downloaded_models/`：下载缓存。
 - `extracts/`：标准化抽取矩阵。
-- `tools/download/`、`tools/audit/`、`tools/cleanup/`：下载与审计脚本；根目录同名脚本为兼容包装。
+- `tools/get_model_useful.py`、`tools/audit.py`、`tools/cleanup_redundant.py`：下载、审计与清理脚本。
 
 ## Legacy（参考 / 历史复现）
 
