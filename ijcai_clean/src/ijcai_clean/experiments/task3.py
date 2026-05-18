@@ -8,14 +8,18 @@ from typing import TYPE_CHECKING, Any, Dict, List, Sequence, Tuple
 
 import yaml
 
-from ijcai_clean.experiments.task2 import _filter_pairs_with_extracts, _select_representative, write_skipped_models_csv
+from ijcai_clean.experiments.pair_planning import (
+    Pair,
+    PairRecord,
+    filter_pairs_with_extracts,
+    select_representative,
+    write_skipped_models_csv,
+)
 from ijcai_clean.paths import rel_to_repo
 
 if TYPE_CHECKING:
     import torch
 
-Pair = Tuple[str, str]
-PairRecord = Dict[str, Any]
 SeriesIndex = Dict[str, str]
 
 
@@ -30,7 +34,7 @@ def _series_index_from_yaml(path: Path) -> SeriesIndex:
         if not isinstance(items, list):
             raise ValueError(f"{path}: series.{series_name} 必须是 list")
         for item in items:
-            selected, source = _select_representative(item)
+            selected, source = select_representative(item)
             index[selected] = str(series_name)
             if source:
                 index[source] = str(series_name)
@@ -50,7 +54,7 @@ def load_scale_groups_yaml(path: Path, series_file: Path) -> Tuple[Dict[str, Lis
     for group_name, items in groups_raw.items():
         if not isinstance(items, list):
             raise ValueError(f"{path}: scale_groups.{group_name} 必须是 list")
-        groups[str(group_name)] = [_select_representative(item) for item in items]
+        groups[str(group_name)] = [select_representative(item) for item in items]
     return groups, _series_index_from_yaml(series_file)
 
 
@@ -138,13 +142,14 @@ def _augment_metadata(
     records: Sequence[PairRecord],
     skipped_models_csv: Path,
     skipped_models: Sequence[Dict[str, Any]],
+    task_name: str = "task3_cross_scale_groups",
 ) -> None:
     if not meta_json.is_file():
         return
     meta = json.loads(meta_json.read_text(encoding="utf-8"))
     meta.update(
         {
-            "task": "task3_cross_scale_groups",
+            "task": task_name,
             "scale_groups_file": rel_to_repo(scale_groups_file, repo_root),
             "series_file": rel_to_repo(series_file, repo_root),
             "generated_pairs_file": rel_to_repo(generated_pairs_file, repo_root),
@@ -175,12 +180,13 @@ def run_task3_cross_scale_groups(
     complete_mode: str = "validate",
     validation_n_tokens: int = 1024,
     validation_n_pairs: int = 10000,
+    task_name: str = "task3_cross_scale_groups",
 ) -> None:
     from ijcai_clean.experiments.task1 import run_task1_base_instruct
 
     pairs, records = build_task3_pairs(scale_groups_file, series_file)
     out_dir.mkdir(parents=True, exist_ok=True)
-    pairs, records, skipped_models = _filter_pairs_with_extracts(
+    pairs, records, skipped_models = filter_pairs_with_extracts(
         pairs=pairs,
         records=records,
         extracts_dir=extracts_dir,
@@ -228,4 +234,5 @@ def run_task3_cross_scale_groups(
         records=records,
         skipped_models_csv=skipped_models_csv,
         skipped_models=skipped_models,
+        task_name=task_name,
     )

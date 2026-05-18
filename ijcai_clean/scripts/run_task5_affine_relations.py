@@ -49,7 +49,7 @@ def main() -> None:
     p.add_argument(
         "--out",
         type=Path,
-        default=_REPO_ROOT / "ijcai_clean" / "results" / "task5_affine_relations",
+        default=_REPO_ROOT / "ijcai_clean" / "results" / "task5_affine_subsampled",
         help="输出目录",
     )
     p.add_argument(

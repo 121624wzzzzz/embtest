@@ -8,27 +8,17 @@ from typing import TYPE_CHECKING, Any, Dict, List, Sequence, Tuple
 
 import yaml
 
+from ijcai_clean.experiments.pair_planning import (
+    Pair,
+    PairRecord,
+    filter_pairs_with_extracts,
+    select_representative,
+    write_skipped_models_csv,
+)
 from ijcai_clean.paths import rel_to_repo
 
 if TYPE_CHECKING:
     import torch
-
-Pair = Tuple[str, str]
-PairRecord = Dict[str, Any]
-
-
-def _select_representative(item: Any) -> Tuple[str, str | None]:
-    """
-    model_series.yaml 中的列表项表示同一模型的 base/instruct 候选。
-    若二者同时存在，任务二按需求使用 instruct 侧与其他模型比较。
-    """
-    if isinstance(item, str):
-        return item.strip(), None
-    if isinstance(item, (list, tuple)) and item:
-        selected = str(item[-1]).strip()
-        base = str(item[0]).strip() if len(item) > 1 else None
-        return selected, base
-    raise ValueError(f"无效的 series 条目: {item!r}")
 
 
 def load_series_yaml(path: Path) -> Dict[str, List[Tuple[str, str | None]]]:
@@ -41,7 +31,7 @@ def load_series_yaml(path: Path) -> Dict[str, List[Tuple[str, str | None]]]:
     for series_name, items in series_raw.items():
         if not isinstance(items, list):
             raise ValueError(f"{path}: series.{series_name} 必须是 list")
-        selected = [_select_representative(item) for item in items]
+        selected = [select_representative(item) for item in items]
         series[str(series_name)] = selected
     return series
 
@@ -86,91 +76,6 @@ def write_pair_plan_csv(path: Path, records: Sequence[PairRecord]) -> None:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for row in records:
-            writer.writerow(row)
-
-
-def _model_extract_status(extracts_dir: Path, model_name: str) -> Dict[str, Any]:
-    info_path = extracts_dir / f"{model_name}.info.json"
-    matrix_path = extracts_dir / f"{model_name}.safetensors"
-    info_has_embed = False
-    info_has_lm_head = False
-    reason = ""
-    if info_path.is_file():
-        try:
-            info = json.loads(info_path.read_text(encoding="utf-8"))
-            dims = info.get("standardized_dims") or {}
-            sources = info.get("standardized_sources") or {}
-            info_has_embed = bool(dims.get("embed") and sources.get("embed"))
-            info_has_lm_head = bool(dims.get("lm_head") and sources.get("lm_head"))
-            if not info_has_embed:
-                reason = "missing standardized embed"
-            elif not info_has_lm_head:
-                reason = "missing standardized lm_head"
-        except json.JSONDecodeError as exc:
-            reason = f"invalid info json: {exc}"
-    elif not matrix_path.is_file():
-        reason = "missing info and matrix files"
-    else:
-        reason = "missing info file"
-    if info_path.is_file() and not matrix_path.is_file():
-        reason = "missing matrix file"
-    return {
-        "model": model_name,
-        "info_exists": info_path.is_file(),
-        "matrix_exists": matrix_path.is_file(),
-        "info_has_embed": info_has_embed,
-        "info_has_lm_head": info_has_lm_head,
-        "reason": reason,
-        "info_path": str(info_path),
-        "matrix_path": str(matrix_path),
-    }
-
-
-def _filter_pairs_with_extracts(
-    *,
-    pairs: Sequence[Pair],
-    records: Sequence[PairRecord],
-    extracts_dir: Path,
-) -> Tuple[List[Pair], List[PairRecord], List[Dict[str, Any]]]:
-    model_names = sorted({name for pair in pairs for name in pair})
-    status_by_model = {name: _model_extract_status(extracts_dir, name) for name in model_names}
-    skipped_models = [
-        status
-        for status in status_by_model.values()
-        if not status["info_exists"]
-        or not status["matrix_exists"]
-        or not status["info_has_embed"]
-        or not status["info_has_lm_head"]
-    ]
-    missing = {status["model"] for status in skipped_models}
-    if not missing:
-        return list(pairs), list(records), []
-
-    filtered_pairs: List[Pair] = []
-    filtered_records: List[PairRecord] = []
-    for pair, record in zip(pairs, records):
-        if pair[0] in missing or pair[1] in missing:
-            continue
-        filtered_pairs.append(pair)
-        filtered_records.append(record)
-    return filtered_pairs, filtered_records, skipped_models
-
-
-def write_skipped_models_csv(path: Path, rows: Sequence[Dict[str, Any]]) -> None:
-    fieldnames = [
-        "model",
-        "info_exists",
-        "matrix_exists",
-        "info_has_embed",
-        "info_has_lm_head",
-        "reason",
-        "info_path",
-        "matrix_path",
-    ]
-    with path.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        for row in rows:
             writer.writerow(row)
 
 
@@ -231,7 +136,7 @@ def run_task2_model_series(
 
     pairs, records = build_task2_pairs(series_file)
     out_dir.mkdir(parents=True, exist_ok=True)
-    pairs, records, skipped_models = _filter_pairs_with_extracts(
+    pairs, records, skipped_models = filter_pairs_with_extracts(
         pairs=pairs,
         records=records,
         extracts_dir=extracts_dir,

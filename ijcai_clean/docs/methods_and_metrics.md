@@ -16,10 +16,133 @@
 | Task2 Model-Series GCorr | `configs/model_series.yaml` | `ijcai_clean/scripts/run_task2_model_series.py` | `ijcai_clean/results/task2_model_series/summary.csv` |
 | Task3 Cross-Scale GCorr | `configs/cross_scale_groups.yaml` + `configs/model_series.yaml` | `ijcai_clean/scripts/run_task3_cross_scale_groups.py` | `ijcai_clean/results/task3_cross_scale_groups/summary.csv` |
 | Task4 MoE Cross-Family GCorr | `configs/moe_cross_family.yaml` + `configs/model_series.yaml` | `ijcai_clean/scripts/run_task4_moe_cross_family.py` | `ijcai_clean/results/task4_moe_cross_family/summary.csv` |
-| Task5 Affine Relations | `configs/affine_pairs.yaml` | `ijcai_clean/scripts/run_task5_affine_relations.py` | `ijcai_clean/results/task5_affine_relations/summary_pair.csv` |
-| Base-Instruct full-vocab affine / SVD | Task1 Base-Instruct pair | `ijcai_clean/scripts/run_base_instruct_full_vocab_affine.py` | `ijcai_clean/results/task5_affine_relations/summary_pair_base_instruct_full_vocab.csv` |
+| Task5 Affine Relations (子采样) | `configs/affine_pairs.yaml` | `ijcai_clean/scripts/run_task5_affine_relations.py` | `ijcai_clean/results/task5_affine_subsampled/summary_pair.csv` |
+| Task6 Base-Instruct full-vocab affine / SVD | Task1 Base-Instruct pair | `ijcai_clean/scripts/run_base_instruct_full_vocab_affine.py` | `ijcai_clean/results/task6_base_instruct_full_vocab/summary_pair_base_instruct_full_vocab.csv` |
 
 Task2-4 会先生成 `generated_pairs.yaml` 和 `pair_plan.csv`，再复用 Task1 的 GCorr runner。Task5 读取 Task1-4 的 pair 集合并做仿射拟合。full-vocab 诊断只分析 Task1 Base-Instruct pair，按完整词表 id 对齐，不采样 token 行。
+
+## 实验设置与产物总览
+
+这一节按实验说明“输入是什么、怎么跑、输出什么、看哪个文件”。除特别说明外，所有任务都从 `extracts/` 读取标准化 E/U 矩阵。
+
+### Task1 Base/Instruct GCorr
+
+| 项目 | 设置 |
+|---|---|
+| 目标 | 比较同一模型 Base 与 Instruct 版本的 E/U 几何结构是否保持。 |
+| pair 来源 | `configs/base_instruct_pairs.yaml`。 |
+| 对齐方式 | 通常同 vocab，按 token id 对齐；仍会走通用 token 对齐与特殊 token 排除逻辑。 |
+| 核心方法 | GCorr，分别计算 E-E 与 U-U 的 `cos`、`euc`、`euc2` 几何相关。 |
+| 默认采样 | `n_tokens=20000`，`n_pairs=5000000`，`n_bootstrap=100`。 |
+| 入口 | `PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task1_base_instruct.py --devices auto`。 |
+| 输出目录 | `ijcai_clean/results/task1_base_instruct/`。 |
+
+主要产物：
+
+- `summary.csv`：每个 Base/Instruct pair 的 GCorr 均值、标准差、标准误、95% CI 和 median；日常看结果优先读这个。
+- `bootstrap_results.csv`：每次 bootstrap 的原始结果；用于断点续跑、误差条和复核。
+- `metadata.json`：运行参数、pair 数、设备等元信息。
+
+### Task2 Model-Series GCorr
+
+| 项目 | 设置 |
+|---|---|
+| 目标 | 比较同一模型系列内部不同规模 / 版本之间的几何相似性。 |
+| pair 来源 | `configs/model_series.yaml`，每个系列内部生成 `C(n,2)` pair；同条目同时有 base/instruct 候选时优先使用 instruct 侧代表。 |
+| 对齐方式 | 同 vocab 用 token id；不同 vocab 用 token string 交集。 |
+| 核心方法 | 与 Task1 相同的 GCorr runner。 |
+| 默认采样 | 与 Task1 相同。 |
+| 入口 | `PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task2_model_series.py --devices auto`。 |
+| 输出目录 | `ijcai_clean/results/task2_model_series/`。 |
+
+主要产物：
+
+- `pair_plan.csv`：从配置展开后的 pair 计划，适合检查实际跑了哪些模型对。
+- `generated_pairs.yaml`：脚本生成的 pair 配置，供 GCorr runner 复用。
+- `summary.csv`：系列内 pair 的 GCorr 汇总。
+- `bootstrap_results.csv`：bootstrap 明细。
+- `metadata.json`：运行元信息。
+
+### Task3 Cross-Scale GCorr
+
+| 项目 | 设置 |
+|---|---|
+| 目标 | 比较不同模型系列、不同规模桶之间的几何相似性。 |
+| pair 来源 | `configs/cross_scale_groups.yaml` + `configs/model_series.yaml`。 |
+| 规模桶 | `le_4b`、`gt_4b_lt_27b`、`ge_27b`。 |
+| pair 规则 | 跨系列生成 pair，跳过同系列 pair，避免重复 Task2。 |
+| 核心方法 | 与 Task1 相同的 GCorr runner。 |
+| 默认采样 | 与 Task1 相同。 |
+| 入口 | `PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task3_cross_scale_groups.py --devices auto`。 |
+| 输出目录 | `ijcai_clean/results/task3_cross_scale_groups/`。 |
+
+主要产物：
+
+- `pair_plan.csv`：跨系列、跨规模桶 pair 计划。
+- `generated_pairs.yaml`：生成后的 GCorr pair 配置。
+- `summary.csv`：跨规模桶 GCorr 汇总。
+- `bootstrap_results.csv`：bootstrap 明细。
+- `metadata.json`：运行元信息。
+
+### Task4 MoE Cross-Family GCorr
+
+| 项目 | 设置 |
+|---|---|
+| 目标 | 专门比较 MoE 模型与 dense 模型、不同系列代表模型之间的几何关系。 |
+| pair 来源 | `configs/moe_cross_family.yaml` + `configs/model_series.yaml`。 |
+| pair 规则 | 由 MoE 配置指定核心 MoE / dense 代表，再展开跨 family pair。 |
+| 核心方法 | 与 Task1 相同的 GCorr runner。 |
+| 默认采样 | 与 Task1 相同。 |
+| 入口 | `PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task4_moe_cross_family.py --devices auto`。 |
+| 输出目录 | `ijcai_clean/results/task4_moe_cross_family/`。 |
+
+主要产物：
+
+- `pair_plan.csv`：MoE 跨系列 pair 计划。
+- `generated_pairs.yaml`：生成后的 GCorr pair 配置。
+- `summary.csv`：MoE 跨 family GCorr 汇总。
+- `bootstrap_results.csv`：bootstrap 明细。
+- `metadata.json`：运行元信息。
+
+### Task5 Affine Relations
+
+| 项目 | 设置 |
+|---|---|
+| 目标 | 检查两个模型空间是否可由全局仿射变换 `Y ~= X A + b` 解释。 |
+| pair 来源 | `configs/affine_pairs.yaml` 指定要复用的任务来源，当前主要读取 Task1-4 pair 并集。 |
+| 对齐方式 | 同 vocab 用 token id；不同 vocab 用 token string 交集。 |
+| 拟合对象 | 跨模型 E-E、U-U；另对每个模型做内部 E→U。 |
+| 默认采样 | `max_fit_rows=24000`，`min_common_tokens=5000`；Task5 是采样行拟合，不是 full-vocab。 |
+| 核心指标 | `R2`、`rel_err`、`norm_A`、`norm_b`。 |
+| 入口 | `PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task5_affine_relations.py --devices auto`。 |
+| 输出目录 | `ijcai_clean/results/task5_affine_subsampled/`。 |
+
+主要产物：
+
+- `summary_pair.csv`：跨模型 pair 的 E-E / U-U 仿射结果，是 Task5 主结果。
+- `summary_intra_EU.csv`：每个模型内部 E→U 仿射结果，用于检查 E/U 是否近似仿射相关。
+- `metadata.json`：运行配置、pair 来源和设备等元信息。
+- `base_instruct_affine_tied_report.md`：从 Task5 结果中抽取 Base/Instruct pair，按 tied/untied 口径整理的轻量报告。
+
+### Task6 Base-Instruct Full-Vocab Affine / A-I / SVD
+
+| 项目 | 设置 |
+|---|---|
+| 目标 | 对 Base/Instruct pair 做完整词表仿射拟合，并分析 `A-I` 与 `E_instruct - E_base` 的低秩结构。 |
+| pair 来源 | Task1 Base-Instruct pair。 |
+| 对齐方式 | 完整 token id 对齐；要求 base/instruct vocab size 和 hidden dim 一致。 |
+| 拟合对象 | `E_base -> E_instruct`；若 E/U 实际 tied，则 U 结果复用 E，否则另跑 U。 |
+| 计算方式 | 流式 centered normal equations，避免一次性物化完整大矩阵到 GPU。 |
+| 核心指标 | full-vocab `R2/rel_err`、`A` 诊断、`E_delta` SVD、`A_delta=A-I` SVD。 |
+| 相对能量 | `energy_at_1pct_h / 5pct_h / 10pct_h`，用于跨 hidden dim 公平比较谱集中程度。 |
+| 入口 | `PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_base_instruct_full_vocab_affine.py`。 |
+| 输出目录 | `ijcai_clean/results/task6_base_instruct_full_vocab/`。 |
+
+主要产物：
+
+- `summary_pair_base_instruct_full_vocab.csv`：完整 CSV，包含 full-vocab 仿射、`A` 诊断、SVD rank/effective rank/energy 指标；后续统计分析优先读这个。
+- `base_instruct_full_vocab_affine_report.md`：人类可读报告，列出各组均值、逐模型结果和关键 `energy@5%h`。
+- `base_instruct_full_vocab_metadata.json`：运行参数、设备、batch size、输出路径等元信息。
 
 ## 数据接口
 

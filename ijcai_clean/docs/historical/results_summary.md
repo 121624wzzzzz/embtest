@@ -1,6 +1,6 @@
 # IJCAI 代码功能与实验结果摘要（历史归档）
 
-> 归档说明：本文档记录的是迁移到当前 Task1-5 / `extracts/` 主线之前的旧实验摘要，入口和结果路径多为 legacy / `results_summary/` 口径。日常分析请优先看 `../methods_and_metrics.md`、`../../analysis.md` 和当前 `results/task*/`。
+> 归档说明：本文档记录的是迁移到当前 Task1-5 / `extracts/` 主线之前的旧实验摘要，入口为已归档的 V4 代码（仓库根 `archive/ijcai_cleanup_2026-05-10/legacy/`），输出 CSV 已迁至 `legacy_results_summary/`。日常分析请优先看 `../methods_and_metrics.md`、`../../analysis.md` 和当前 `results/task*/`。
 
 ## 实验 1：全局几何相似性
 
@@ -34,7 +34,7 @@ tied/untied 分组显示：untied 模型内 E->U 平均 R2 约 0.2922，而 tied
 
 ## 模型情况
 
-实验 1 覆盖 Qwen3、Qwen2.5、Llama、Gemma2、Mistral、Yi、DeepSeek、Qwen3-MoE。实验 2 主分析聚焦 Qwen3、Qwen2.5、Llama、Gemma2 四个系列。逐模型 hidden dim、vocab、声明 tied、实测 tied 和最终标签见 `results_summary/exp1_model_tag_audit.csv`。
+实验 1 覆盖 Qwen3、Qwen2.5、Llama、Gemma2、Mistral、Yi、DeepSeek、Qwen3-MoE。实验 2 主分析聚焦 Qwen3、Qwen2.5、Llama、Gemma2 四个系列。逐模型 hidden dim、vocab、声明 tied、实测 tied 和最终标签见 `legacy_results_summary/exp1_model_tag_audit.csv`。
 
 ## 可疑点与注意事项
 
@@ -44,8 +44,8 @@ tied/untied 分组显示：untied 模型内 E->U 平均 R2 约 0.2922，而 tied
 
 ## 关键结果文件
 
-- `results_summary/exp1_global_summary.csv`
-- `results_summary/exp1_model_tag_audit.csv`
-- `results_summary/affine_cross_model_summary.csv`
-- `results_summary/affine_intra_model_EU_summary.csv`
-- `results_summary/untied_comparison_summary.csv`
+- `legacy_results_summary/exp1_global_summary.csv`
+- `legacy_results_summary/exp1_model_tag_audit.csv`
+- `legacy_results_summary/affine_cross_model_summary.csv`
+- `legacy_results_summary/affine_intra_model_EU_summary.csv`
+- `legacy_results_summary/untied_comparison_summary.csv`

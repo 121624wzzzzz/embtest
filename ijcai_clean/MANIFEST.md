@@ -1,41 +1,41 @@
 # IJCAI Clean Manifest
 
-## 当前主代码（extracts 流程）
+入口与目录详解见 [`README.md`](README.md)；本文件只列出版本控制 / 发布相关的产物清单。
 
-- `src/ijcai_clean/`：从 `extracts/*.safetensors` 与 `*.info.json` 加载 E/U，支持 GCorr、Task1-5 任务实现。
-- `scripts/run_task1_base_instruct.py`：任务一入口（需 `PYTHONPATH=ijcai_clean/src`）。
-- `scripts/run_task2_model_series.py`：任务二入口，按系列组内生成 pair 后复用 GCorr runner。
-- `scripts/run_task3_cross_scale_groups.py`：任务三入口，按三档规模桶生成跨系列 pair 后复用 GCorr runner。
-- `scripts/run_task4_moe_cross_family.py`：任务四入口，生成 MoE 跨系列 pair 后复用 GCorr runner。
-- `scripts/run_task5_affine_relations.py`：任务五入口，对 Task1-4 pair 并集做仿射关系分析。
-- `scripts/run_base_instruct_full_vocab_affine.py`：Base-Instruct full-vocab 仿射、`A-I` 诊断和 SVD 能量分析入口。
-- `../configs/`：全局模型配置与任务配置（`models.yaml`、`base_instruct_pairs.yaml`、`model_series.yaml`、`cross_scale_groups.yaml` 等）。
+## 纳入版本库的源码
 
-## 数据与下载工具（仓库根目录）
+- `src/ijcai_clean/`：分析包（`data.py`、`alignment.py`、`metrics.py`、`paths.py`、`experiments/`）。
+- `scripts/`：CLI 入口（`run_task1..5_*.py`、`run_base_instruct_full_vocab_affine.py`、`_cli.py`）。
+- 仓库根 `configs/`：模型与任务配置（`models.yaml`、`base_instruct_pairs.yaml`、`model_series.yaml`、`cross_scale_groups.yaml`、`moe_cross_family.yaml`、`affine_pairs.yaml`）。
 
-- `../configs/models.yaml`：模型列表、`repo_id`、缓存路径。
+## 数据与工具（仓库根）
+
+- `configs/models.yaml`：模型列表、`repo_id`、缓存路径。
 - `downloaded_models/`：下载缓存。
-- `extracts/`：标准化抽取矩阵。
+- `extracts/`：标准化抽取矩阵（`*.safetensors` + `*.info.json`）。
 - `tools/get_model_useful.py`、`tools/audit.py`、`tools/cleanup_redundant.py`：下载、审计与清理脚本。
 
-## Legacy（参考 / 历史复现）
+## 当前结果产物
 
-- `legacy/exp1_global_geometry/`：实验 1 V4 主入口与提取脚本（旧路径与整仓加载）。
-- `legacy/exp2_affine_cross_model/`：实验 2 仿射与 tied/untied 分析。
-- `legacy/matrix_comparison/`：E/U 矩阵对比脚本。
+- `results/task{1,2,3,4,5}_*/`：各任务 `bootstrap_results.csv`（量大）、`summary.csv`、`metadata.json`、`generated_pairs.yaml`、`pair_plan.csv` 等。
+- `results/task5_affine_subsampled/`：Task5 跨模型子采样仿射（`summary_pair.csv`、`summary_intra_EU.csv`、`metadata.json`、`base_instruct_affine_tied_report.md`）。
+- `results/task6_base_instruct_full_vocab/`：Base-Instruct full-vocab 仿射 / `A-I` / SVD 诊断（`summary_pair_base_instruct_full_vocab.csv`、`base_instruct_full_vocab_affine_report.md`、`base_instruct_full_vocab_metadata.json`）。
+- `audits/`：`tools/get_model_useful.py` 持续写入的模型审计 JSON。
 
-## 文档与摘要
+## 文档
 
-- `docs/README.md`：文档索引，区分当前主线、研究分析和历史归档。
-- `docs/current_state.md`：仓库与实验接口说明。
-- `docs/methods_and_metrics.md`：当前方法、指标和运行口径。
+- `README.md`：入口与子目录功能。
+- `docs/README.md`：文档索引。
+- `docs/methods_and_metrics.md`：方法学与指标定义。
 - `docs/model_tag_audit.md`：tied / untied 标签审计口径。
-- `analysis.md`：当前研究结论备忘，包含 Base-Instruct full-vocab、Gemma 异常和 SVD 低秩分析。
-- `docs/historical/`：历史结果摘要与 cleanup 清单。
-- `results_summary/`：从历史 CSV 抽取的轻量摘要，仅用于追溯旧实验。
+- `analysis.md`：阶段性研究结论。
+- `docs/historical/`：旧实验摘要 (`results_summary.md`)、cleanup 记录 (`cleanup_inventory.md`)、被替代的旧 CSV 汇总 (`legacy_results_summary/`)。
+
+## 归档（不在本目录）
+
+- 仓库根 `archive/ijcai_cleanup_2026-05-10/`：旧 V4 实验代码、`source_notes/`、结果快照 bundle。
 
 ## 已排除（体积或临时）
 
-- `archive/v1_preliminary/`：旧探索代码（若存在）不在主路径。
 - 完整权重分片、HF 全缓存：体积大，默认不纳入本目录文档关注点。
-- `.ipynb_checkpoints`、临时日志等。
+- `__pycache__/`、`*.log`、`.ipynb_checkpoints/` 等：见 `.gitignore`。

@@ -18,14 +18,14 @@ from ijcai_clean.data import (
     load_E_U_matrices,
     load_info_json,
 )
-from ijcai_clean.experiments.task1_io import (
+from ijcai_clean.experiments.gcorr_io import (
     BOOTSTRAP_CSV_FIELDS,
     load_pairs_yaml,
     read_existing_bootstrap_rows,
     write_metadata,
     write_summary_from_bootstrap_csv,
 )
-from ijcai_clean.experiments.task1_validation import validate_completed_pairs_compute
+from ijcai_clean.experiments.gcorr_validation import validate_completed_pairs_compute
 from ijcai_clean.metrics import compute_single_pair_bootstrap
 
 

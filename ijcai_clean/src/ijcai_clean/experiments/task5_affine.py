@@ -40,7 +40,7 @@ from ijcai_clean.data import (
     load_E_U_matrices,
     load_info_json,
 )
-from ijcai_clean.experiments.task1_io import load_pairs_yaml, try_git_commit
+from ijcai_clean.experiments.gcorr_io import load_pairs_yaml, try_git_commit
 from ijcai_clean.paths import rel_to_repo
 
 DEFAULT_MAX_FIT_ROWS = 24_000
@@ -560,7 +560,7 @@ def run_task5_affine_relations(
 
     # ---------------- metadata ----------------
     meta = {
-        "task": "task5_affine_relations",
+        "task": "task5_affine_subsampled",
         "sources_file": rel_to_repo(sources_file, repo_root),
         "extracts_dir": rel_to_repo(extracts_dir, repo_root),
         "models_yaml": rel_to_repo(models_yaml, repo_root),

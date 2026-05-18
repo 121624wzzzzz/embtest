@@ -1,0 +1,11 @@
+{
+  "task": "task6_base_instruct_full_vocab",
+  "source_csv": "ijcai_clean/results/task5_affine_subsampled/summary_pair.csv",
+  "out_csv": "ijcai_clean/results/task6_base_instruct_full_vocab/summary_pair_base_instruct_full_vocab.csv",
+  "out_md": "ijcai_clean/results/task6_base_instruct_full_vocab/base_instruct_full_vocab_affine_report.md",
+  "n_pairs": 31,
+  "device": "cuda:0",
+  "batch_rows": 8192,
+  "dtype": "torch.float32",
+  "method": "full id-aligned vocabulary, centered normal equations, no row sampling, A diagnostics and SVD energy included"
+}

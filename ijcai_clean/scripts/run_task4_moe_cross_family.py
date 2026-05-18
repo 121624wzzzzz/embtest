@@ -18,7 +18,7 @@ from _cli import add_gcorr_args, bootstrap_repo, resolve_devices
 
 _REPO_ROOT = bootstrap_repo(__file__)
 
-from ijcai_clean.experiments.task4 import run_task4_moe_cross_family  # noqa: E402
+from ijcai_clean.experiments.task3 import run_task3_cross_scale_groups  # noqa: E402
 from ijcai_clean.paths import default_extracts_dir, default_models_yaml  # noqa: E402
 
 
@@ -57,7 +57,7 @@ def main() -> None:
     add_gcorr_args(p)
     args = p.parse_args()
 
-    run_task4_moe_cross_family(
+    run_task3_cross_scale_groups(
         repo_root=_REPO_ROOT,
         scale_groups_file=args.scale_groups,
         series_file=args.series,
@@ -72,6 +72,7 @@ def main() -> None:
         complete_mode=args.complete_mode,
         validation_n_tokens=args.validation_n_tokens,
         validation_n_pairs=args.validation_n_pairs,
+        task_name="task4_moe_cross_family",
     )
 
 

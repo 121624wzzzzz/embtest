@@ -1,6 +1,6 @@
 # IJCAI tied / untied 标签审计
 
-本文档保留 tied / untied 标签的判定口径。底层审计 CSV 来自历史 `results_summary/`，但“优先使用 `actual_tied` 而不是模型名或声明值”的规则仍适用于当前 Task1-5 和 Base-Instruct full-vocab 结果。
+本文档保留 tied / untied 标签的判定口径。底层审计 CSV 来自旧实验，已下沉到 `docs/historical/legacy_results_summary/`，但“优先使用 `actual_tied` 而不是模型名或声明值”的规则仍适用于当前 Task1-5 和 Base-Instruct full-vocab 结果。
 
 ## 判定规则
 
@@ -12,12 +12,13 @@
 
 当前主线代码位于 `ijcai_clean/src/ijcai_clean/data.py`，读取 `extracts/<model>.safetensors` 中标准化后的 E/U 矩阵，并使用 `actual_tied(E, U)` 判断实际 tied 状态。
 
-历史审计代码位于 `legacy/exp1_global_geometry/run_exp1_v4.py`：加载 `model.embed_tokens.weight` / `transformer.wte.weight` 作为 E，加载 `lm_head.weight` / `output.weight` 作为 U；如果找不到 U 则使用 `U = E.copy()`，随后计算 `np.allclose(E, U)`。
+历史审计代码已归档至仓库根 `archive/ijcai_cleanup_2026-05-10/legacy/exp1_global_geometry/run_exp1_v4.py`：加载 `model.embed_tokens.weight` / `transformer.wte.weight` 作为 E，加载 `lm_head.weight` / `output.weight` 作为 U；如果找不到 U 则使用 `U = E.copy()`，随后计算 `np.allclose(E, U)`。
 
 ## 审计输出
 
-- `results_summary/exp1_model_tag_audit.csv`：逐模型列出 family、hidden dim、vocab、声明 tied、实测 tied、最终标签和异常说明。
-- `results_summary/untied_comparison_summary.csv`：实验 2 中 tied/untied 分组的 R² 汇总。
+- `docs/historical/legacy_results_summary/exp1_model_tag_audit.csv`：逐模型列出 family、hidden dim、vocab、声明 tied、实测 tied、最终标签和异常说明。
+- `docs/historical/legacy_results_summary/untied_comparison_summary.csv`：实验 2 中 tied/untied 分组的 R² 汇总。
+- `audits/`：`tools/get_model_useful.py` 持续写入的当前模型审计 JSON。
 
 ## 主要结论
 
@@ -29,4 +30,4 @@
 
 - 当前结果 CSV 中若同时有 `actual_tied_a/b` 和 `is_tied_a/b`，优先按 `actual_tied_a/b` 分组。
 - Base-Instruct full-vocab 诊断中 tied pair 的 U 结果可能直接复用 E 结果；解释时应说明这是因为实际 E/U tied。
-- 历史 `results_summary/` 只用于追溯旧实验，不代表当前 Task1-5 的完整模型覆盖范围。
+- `docs/historical/legacy_results_summary/` 只用于追溯旧实验，不代表当前 Task1-5 的完整模型覆盖范围。

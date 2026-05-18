@@ -1,5 +1,5 @@
 {
-  "task": "task5_affine_relations",
+  "task": "task5_affine_subsampled",
   "sources_file": "ijcai_clean/configs/affine_pairs.yaml",
   "extracts_dir": "extracts",
   "models_yaml": "models.yaml",

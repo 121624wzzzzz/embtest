@@ -26,8 +26,8 @@ Y ~= X A + b
 
 对 Base-Instruct 这类同 tokenizer、同 hidden dimension 的 pair，更适合使用完整词表 id 对齐，而不是采样 token 行。当前专门脚本 `scripts/run_base_instruct_full_vocab_affine.py` 已经按这个方式重算，并输出到：
 
-- `results/task5_affine_relations/summary_pair_base_instruct_full_vocab.csv`
-- `results/task5_affine_relations/base_instruct_full_vocab_affine_report.md`
+- `results/task6_base_instruct_full_vocab/summary_pair_base_instruct_full_vocab.csv`
+- `results/task6_base_instruct_full_vocab/base_instruct_full_vocab_affine_report.md`
 
 ## Base-Instruct full-vocab 主要结果
 
@@ -285,4 +285,4 @@ A-I     median ~= 0.715
 - 画 `top p% hidden dim -> cumulative energy` 曲线，比较 `E_delta` 和 `A-I`。
 - 对每个模型族分别拟合 `effective_rank / h` 的线性关系，避免跨 family 混合造成解释偏差。
 - 对 Gemma 异常组单独写一节架构解释，避免污染主规律。
-- 如需保存可视化，建议在 `results/task5_affine_relations/` 下新增图表或轻量 CSV，而把主观解释继续沉淀在本文档。
+- 如需保存可视化，建议在 `results/task5_affine_subsampled/` 或 `results/task6_base_instruct_full_vocab/` 下新增图表或轻量 CSV，而把主观解释继续沉淀在本文档。

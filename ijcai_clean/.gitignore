@@ -13,3 +13,6 @@ __pycache__/
 .torch_cache/
 .triton_cache/
 .hf_cache/
+
+# 仅跟踪 summary / metadata / pair_plan 等小文件，bootstrap 明细体量大且可重生成
+results/**/bootstrap_results.csv
