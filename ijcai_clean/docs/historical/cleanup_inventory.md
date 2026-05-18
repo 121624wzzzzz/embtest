@@ -1,4 +1,6 @@
-# IJCAI Clean 整理清单
+# IJCAI Clean 整理清单（历史归档）
+
+> 归档说明：本文档记录 2026-05-10 第一轮 cleanup 的新旧文件关系和归档决策。日常实验和当前项目状态请看 `../README.md`、`../current_state.md` 与 `../../README.md`。
 
 本文档用于在归档旧版本代码前确认 `ijcai_clean` 的新旧文件关系。
 

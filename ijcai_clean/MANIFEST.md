@@ -2,10 +2,13 @@
 
 ## 当前主代码（extracts 流程）
 
-- `src/ijcai_clean/`：从 `extracts/*.safetensors` 与 `*.info.json` 加载 E/U、GCorr、任务一/二/三。
+- `src/ijcai_clean/`：从 `extracts/*.safetensors` 与 `*.info.json` 加载 E/U，支持 GCorr、Task1-5 任务实现。
 - `scripts/run_task1_base_instruct.py`：任务一入口（需 `PYTHONPATH=ijcai_clean/src`）。
 - `scripts/run_task2_model_series.py`：任务二入口，按系列组内生成 pair 后复用 GCorr runner。
 - `scripts/run_task3_cross_scale_groups.py`：任务三入口，按三档规模桶生成跨系列 pair 后复用 GCorr runner。
+- `scripts/run_task4_moe_cross_family.py`：任务四入口，生成 MoE 跨系列 pair 后复用 GCorr runner。
+- `scripts/run_task5_affine_relations.py`：任务五入口，对 Task1-4 pair 并集做仿射关系分析。
+- `scripts/run_base_instruct_full_vocab_affine.py`：Base-Instruct full-vocab 仿射、`A-I` 诊断和 SVD 能量分析入口。
 - `../configs/`：全局模型配置与任务配置（`models.yaml`、`base_instruct_pairs.yaml`、`model_series.yaml`、`cross_scale_groups.yaml` 等）。
 
 ## 数据与下载工具（仓库根目录）
@@ -23,9 +26,13 @@
 
 ## 文档与摘要
 
-- `docs/source_notes/`：原始实验设计与结果解释副本。
-- `results_summary/`：从历史 CSV 抽取的轻量摘要。
+- `docs/README.md`：文档索引，区分当前主线、研究分析和历史归档。
 - `docs/current_state.md`：仓库与实验接口说明。
+- `docs/methods_and_metrics.md`：当前方法、指标和运行口径。
+- `docs/model_tag_audit.md`：tied / untied 标签审计口径。
+- `analysis.md`：当前研究结论备忘，包含 Base-Instruct full-vocab、Gemma 异常和 SVD 低秩分析。
+- `docs/historical/`：历史结果摘要与 cleanup 清单。
+- `results_summary/`：从历史 CSV 抽取的轻量摘要，仅用于追溯旧实验。
 
 ## 已排除（体积或临时）
 

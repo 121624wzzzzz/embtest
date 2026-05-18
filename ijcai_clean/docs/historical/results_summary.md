@@ -1,4 +1,6 @@
-# IJCAI 代码功能与实验结果摘要
+# IJCAI 代码功能与实验结果摘要（历史归档）
+
+> 归档说明：本文档记录的是迁移到当前 Task1-5 / `extracts/` 主线之前的旧实验摘要，入口和结果路径多为 legacy / `results_summary/` 口径。日常分析请优先看 `../methods_and_metrics.md`、`../../analysis.md` 和当前 `results/task*/`。
 
 ## 实验 1：全局几何相似性
 
