@@ -40,7 +40,7 @@ tied/untied 分组显示：untied 模型内 E->U 平均 R2 约 0.2922，而 tied
 
 - tied/untied 不能按模型名字推断，必须使用 `actual_tied`。
 - 若模型没有显式 U，代码会使用 `U=E.copy()`，这会导致 `actual_tied=True`；报告中应说明这是按权重可见性得到的实测标签。
-- `docs/source_notes/` 中保留了原始分析草稿，其中可能有“待确认”表述；clean 仓的正式结论以本文件和 `docs/model_tag_audit.md` 为准。
+- `docs/source_notes/` 已随旧代码归档；clean 仓的正式方法与 tied / untied 口径以 `../methods_and_metrics.md` 为准。
 
 ## 关键结果文件
 
