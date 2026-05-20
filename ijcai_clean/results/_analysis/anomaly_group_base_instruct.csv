@@ -1,0 +1,6 @@
+model_a,model_b,tied,hidden,gcorr_E_euc,E_R2,E_d_rank95_h,AI_rank95_h,E_e5,AI_e5
+Gemma-3-1B,Gemma-3-1B-Instruct,True,1152,0.7098,0.3751,0.865,0.808,0.194,0.132
+Gemma-4-E2B,Gemma-4-E2B-Instruct,True,1536,0.6756,0.6682,0.893,0.542,0.328,0.528
+Gemma-4-E4B,Gemma-4-E4B-Instruct,True,2560,0.5308,0.7247,0.915,0.547,0.202,0.378
+Gemma-4-26B-A4B,Gemma-4-26B-A4B-Instruct,True,2816,0.4405,0.7071,0.908,0.699,0.203,0.285
+Gemma-4-31B,Gemma-4-31B-Instruct,True,5376,0.5712,0.7759,0.903,0.383,0.208,0.726

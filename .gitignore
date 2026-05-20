@@ -17,3 +17,6 @@ archive/
 __pycache__/
 *.pyc
 .vscode/
+
+# 本地实验分析产出，不入库
+__tep/
