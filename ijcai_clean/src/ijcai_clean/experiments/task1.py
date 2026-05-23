@@ -1,3 +1,9 @@
+"""GCorr bootstrap runner shared by Task1-4.
+
+The public function keeps the historical ``run_task1_base_instruct`` name because
+Task1 was the first caller, but Task2-4 reuse the same model loading, token
+alignment, bootstrap resume, validation, and summary-writing logic.
+"""
 from __future__ import annotations
 
 import csv

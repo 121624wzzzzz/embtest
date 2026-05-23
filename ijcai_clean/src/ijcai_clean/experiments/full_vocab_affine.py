@@ -15,7 +15,8 @@
 - ``write_markdown_report(rows, out_md)`` 把行集合渲染成人类可读 Markdown
   报告。
 
-CLI 入口位于 ``scripts/run_base_instruct_full_vocab_affine.py``。
+Pair 来源为 ``configs/base_instruct_pairs.yaml``，CLI 入口位于
+``scripts/run_base_instruct_full_vocab_affine.py``。
 """
 from __future__ import annotations
 
@@ -28,6 +29,7 @@ from typing import Any, Dict, Iterable, List
 
 import numpy as np
 import torch
+import yaml
 
 from ijcai_clean.data import actual_tied, load_E_U_matrices, load_info_json
 
@@ -262,10 +264,14 @@ def full_affine_stream(
 # ---------------------------------------------------------------------------
 
 
-def load_base_instruct_pairs(source_csv: Path) -> List[Dict[str, str]]:
-    """从 Task5 子采样 ``summary_pair.csv`` 中取出 task1_base_instruct 来源的 pair。"""
-    with source_csv.open(newline="", encoding="utf-8") as f:
-        return [r for r in csv.DictReader(f) if r["source_tasks"] == SOURCE_TASK]
+def load_base_instruct_pairs(source_yaml: Path) -> List[Dict[str, str]]:
+    """从 ``configs/base_instruct_pairs.yaml`` 读取 Task6 的 Base-Instruct pair。"""
+    data = yaml.safe_load(source_yaml.read_text(encoding="utf-8"))
+    pairs = data.get("pairs") or []
+    return [
+        {"model_a": str(model_a), "model_b": str(model_b), "source_tasks": SOURCE_TASK}
+        for model_a, model_b in pairs
+    ]
 
 
 def prefixed(prefix: str, values: Dict[str, Any]) -> Dict[str, Any]:
@@ -444,7 +450,7 @@ def write_markdown_report(rows: List[Dict[str, Any]], out_md: Path) -> None:
     lines = [
         "# Base-Instruct Full-Vocabulary Affine Results",
         "",
-        "Source: `task5_affine_subsampled/summary_pair.csv`, filtered to `task1_base_instruct` and recomputed with every vocabulary row (`0..vocab_size-1`) for each Base-Instruct pair.",
+        "Source: `configs/base_instruct_pairs.yaml`, recomputed with every vocabulary row (`0..vocab_size-1`) for each Base-Instruct pair.",
         "",
         "This run does not sample token rows. It fits the same centered affine relation `Y ~= X * A + b`, but computes it through streaming centered normal equations so full vocabularies can be handled without materializing one huge design matrix on GPU. It also records compact diagnostics for `A` instead of saving the full matrices.",
         "",

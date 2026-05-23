@@ -11,8 +11,9 @@
 - Task1：Base-Instruct pair 的 GCorr 几何相关性。
 - Task2：同一模型系列内部的 GCorr。
 - Task3：跨模型系列、跨规模桶的 GCorr。
+- Task4：MoE / 跨 family 的 GCorr。
 - Task5：对 Task1-4 pair 并集做仿射关系分析，拟合 `Y ~= X A + b`。
-- Base-Instruct full-vocab 诊断：对 Base-Instruct pair 使用完整词表 id 对齐，进一步分析仿射矩阵 `A`、`A-I` 和 `E_instruct - E_base` 的 SVD 低秩结构。
+- Task6 / Base-Instruct full-vocab 诊断：对 `configs/base_instruct_pairs.yaml` 中的 Base-Instruct pair 使用完整词表 id 对齐，进一步分析仿射矩阵 `A`、`A-I` 和 `E_instruct - E_base` 的 SVD 低秩结构。
 
 ## Task5 仿射关系的理解
 
@@ -24,7 +25,7 @@ Y ~= X A + b
 
 其中 `A` 是线性变换矩阵，`b` 是平移项。主要用 `R2` 和 `rel_err` 衡量拟合效果。`R2` 越接近 1，说明两个空间之间越接近一个全局仿射关系。
 
-对 Base-Instruct 这类同 tokenizer、同 hidden dimension 的 pair，更适合使用完整词表 id 对齐，而不是采样 token 行。当前专门脚本 `scripts/run_base_instruct_full_vocab_affine.py` 已经按这个方式重算，并输出到：
+对 Base-Instruct 这类同 tokenizer、同 hidden dimension 的 pair，更适合使用完整词表 id 对齐，而不是采样 token 行。当前 Task6 脚本 `scripts/run_base_instruct_full_vocab_affine.py` 已经按这个方式重算，并输出到：
 
 - `results/task6_base_instruct_full_vocab/summary_pair_base_instruct_full_vocab.csv`
 - `results/task6_base_instruct_full_vocab/base_instruct_full_vocab_affine_report.md`
@@ -34,13 +35,14 @@ Y ~= X A + b
 完整词表分析显示，大部分 Base-Instruct pair 的 embedding 空间之间存在很强的仿射关系：
 
 ```text
-all Base-Instruct: R2_E mean ~= 0.9364
-Qwen only:         R2_E mean ~= 0.9964
+all Base-Instruct: R2_E mean ~= 0.9434
+Qwen only:         R2_E mean ~= 0.9963
 Llama only:        R2_E mean ~= 0.9880
 Gemma only:        R2_E mean ~= 0.8305
+DeepSeek only:     R2_E mean ~= 1.0000
 ```
 
-Qwen 和 Llama 的 Base-Instruct 变化基本可以被一个全局仿射变换很好解释。Gemma 组均值明显偏低，主要来自 Gemma-3-1B 和 Gemma 4 系列的异常表现。
+全体 35 组的 `R2_E` 均值约为 `0.9434`。Qwen、Llama 和 DeepSeek V3/V3.1 的 Base-Instruct 变化基本可以被一个全局仿射变换很好解释。Gemma 组均值明显偏低，主要来自 Gemma-3-1B 和 Gemma 4 系列的异常表现。
 
 ## Gemma 异常判断
 
@@ -168,30 +170,30 @@ effective_rank / hidden_dim
 energy@相对 hidden dimension
 ```
 
-全体 31 组中：
+全体 35 组中：
 
 ```text
-E_delta rank95 mean ~= 2613, 约 0.789 * hidden_dim
-A-I     rank95 mean ~= 1493, 约 0.454 * hidden_dim
+E_delta rank95 mean ~= 2780, 约 0.800 * hidden_dim
+A-I     rank95 mean ~= 1626, 约 0.473 * hidden_dim
 
-E_delta rank99 mean ~= 3171, 约 0.947 * hidden_dim
-A-I     rank99 mean ~= 2187, 约 0.676 * hidden_dim
+E_delta rank99 mean ~= 3321, 约 0.950 * hidden_dim
+A-I     rank99 mean ~= 2333, 约 0.690 * hidden_dim
 
-E_delta effective_rank mean ~= 1624, 约 0.443 * hidden_dim
-A-I     effective_rank mean ~= 885, 约 0.231 * hidden_dim
+E_delta effective_rank mean ~= 1868, 约 0.486 * hidden_dim
+A-I     effective_rank mean ~= 1060, 约 0.271 * hidden_dim
 ```
 
 排除 `Gemma-3-1B` 和 Gemma 4 后：
 
 ```text
-E_delta rank95 / hidden_dim mean ~= 0.769
-A-I     rank95 / hidden_dim mean ~= 0.426
+E_delta rank95 / hidden_dim mean ~= 0.784
+A-I     rank95 / hidden_dim mean ~= 0.453
 
-E_delta rank99 / hidden_dim mean ~= 0.942
-A-I     rank99 / hidden_dim mean ~= 0.656
+E_delta rank99 / hidden_dim mean ~= 0.946
+A-I     rank99 / hidden_dim mean ~= 0.675
 
-E_delta effective_rank / hidden_dim mean ~= 0.418
-A-I     effective_rank / hidden_dim mean ~= 0.203
+E_delta effective_rank / hidden_dim mean ~= 0.472
+A-I     effective_rank / hidden_dim mean ~= 0.254
 ```
 
 结论：
@@ -241,21 +243,21 @@ energy_at_10pct_h
 
 ```text
 energy@1%h:
-E_delta median ~= 0.144
-A-I     median ~= 0.396
+E_delta median ~= 0.141
+A-I     median ~= 0.329
 
 energy@5%h:
-E_delta median ~= 0.397
-A-I     median ~= 0.628
+E_delta median ~= 0.352
+A-I     median ~= 0.544
 
 energy@10%h:
-E_delta median ~= 0.492
-A-I     median ~= 0.715
+E_delta median ~= 0.464
+A-I     median ~= 0.696
 ```
 
 这个结果很关键：
 
-> 在相同的相对维度预算下，`A-I` 的能量明显比 `E_delta` 更集中。比如只使用 top `5%` hidden dimensions，`A-I` 中位数已经解释约 `62.8%` 能量，而 `E_delta` 只有约 `39.7%`。
+> 在相同的相对维度预算下，`A-I` 的能量明显比 `E_delta` 更集中。比如只使用 top `5%` hidden dimensions，`A-I` 中位数已经解释约 `54.4%` 能量，而 `E_delta` 约为 `35.2%`。
 
 这比固定 `energy@100 / 500 / 1000` 更适合跨 hidden dimension 比较。
 

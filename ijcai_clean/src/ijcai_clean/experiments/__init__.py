@@ -1,1 +1,1 @@
-"""实验入口逻辑（任务一、后续任务二可扩展）。"""
+"""Task1-6 experiment runners and shared planning / result I/O helpers."""

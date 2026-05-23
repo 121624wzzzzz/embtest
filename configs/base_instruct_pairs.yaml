@@ -8,12 +8,14 @@ pairs:
   - [Qwen3-4B-Base, Qwen3-4B]
   - [Qwen3-8B-Base, Qwen3-8B]
   - [Qwen3-14B-Base, Qwen3-14B]
+  - [Qwen3-30B-A3B-Base, Qwen3-30B-A3B]  # MoE；Qwen3-235B-A22B 无官方 Base 版，暂不纳入
 
   # Qwen3.5
   - [Qwen3.5-0.8B-Base, Qwen3.5-0.8B-Instruct]
   - [Qwen3.5-2B-Base, Qwen3.5-2B-Instruct]
   - [Qwen3.5-4B-Base, Qwen3.5-4B-Instruct]
   - [Qwen3.5-9B-Base, Qwen3.5-9B-Instruct]
+  - [Qwen3.5-35B-A3B-Base, Qwen3.5-35B-A3B-Instruct]  # MoE；122B/397B 当前无官方 Base 版，暂不纳入
 
   # Qwen2.5
   - [Qwen2.5-0.5B, Qwen2.5-0.5B-Instruct]
@@ -44,5 +46,9 @@ pairs:
   # Gemma4
   - [Gemma-4-E2B, Gemma-4-E2B-Instruct]
   - [Gemma-4-E4B, Gemma-4-E4B-Instruct]
-  - [Gemma-4-26B-A4B, Gemma-4-26B-A4B-Instruct]
+  - [Gemma-4-26B-A4B, Gemma-4-26B-A4B-Instruct]  # MoE / active 4B
   - [Gemma-4-31B, Gemma-4-31B-Instruct]
+
+  # DeepSeek MoE
+  - [DeepSeek-V3-Base, DeepSeek-V3]        # MoE
+  - [DeepSeek-V3.1-Base, DeepSeek-V3.1]    # MoE

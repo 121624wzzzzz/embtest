@@ -1,10 +1,10 @@
 {
   "task": "task5_affine_subsampled",
-  "sources_file": "ijcai_clean/configs/affine_pairs.yaml",
+  "sources_file": "configs/affine_pairs.yaml",
   "extracts_dir": "extracts",
-  "models_yaml": "models.yaml",
-  "n_pairs_unique": 338,
-  "n_models_intra": 92,
+  "models_yaml": "configs/models.yaml",
+  "n_pairs_unique": 340,
+  "n_models_intra": 94,
   "max_fit_rows": 24000,
   "min_common_tokens": 5000,
   "devices": [
@@ -17,6 +17,6 @@
     "cuda:6",
     "cuda:7"
   ],
-  "git_commit": "bc11913dfcc3e7c6e8cd455cf8f566b5939e70e0",
+  "git_commit": "045cf14b08de156fdfdde621975d91538f176942",
   "fit_method": "centered lstsq (Y - mY) ≈ (X - mX) · A; b = mY - mX · A"
 }

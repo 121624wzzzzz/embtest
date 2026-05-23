@@ -1,6 +1,6 @@
 {
-  "pairs_file": "ijcai_clean/configs/base_instruct_pairs.yaml",
-  "n_pairs_config": 31,
+  "pairs_file": "configs/base_instruct_pairs.yaml",
+  "n_pairs_config": 35,
   "n_tokens": 20000,
   "n_pairs": 5000000,
   "n_bootstrap": 100,
@@ -16,7 +16,7 @@
     "cuda:7"
   ],
   "extracts_dir": "extracts",
-  "models_yaml": "models.yaml",
+  "models_yaml": "configs/models.yaml",
   "resume_mode": "computed_missing_then_csv_summary",
-  "git_commit": "bc11913dfcc3e7c6e8cd455cf8f566b5939e70e0"
+  "git_commit": "045cf14b08de156fdfdde621975d91538f176942"
 }

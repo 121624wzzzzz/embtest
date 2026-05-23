@@ -99,8 +99,8 @@ model_groups:
   gemma4:
     - Gemma-4-E2B
     - Gemma-4-E4B
-    - Gemma-4-26B-A4B
-    - Gemma-4-26B-A4B-Instruct
+    - Gemma-4-26B-A4B           # MoE / active 4B
+    - Gemma-4-26B-A4B-Instruct  # MoE / active 4B
     - Gemma-4-31B
     - Gemma-4-E2B-Instruct
     - Gemma-4-E4B-Instruct
@@ -237,8 +237,8 @@ model_repo_ids:
   # Gemma4
   Gemma-4-E2B: google/gemma-4-E2B
   Gemma-4-E4B: google/gemma-4-E4B
-  Gemma-4-26B-A4B: google/gemma-4-26B-A4B
-  Gemma-4-26B-A4B-Instruct: google/gemma-4-26B-A4B-it
+  Gemma-4-26B-A4B: google/gemma-4-26B-A4B              # MoE / active 4B
+  Gemma-4-26B-A4B-Instruct: google/gemma-4-26B-A4B-it  # MoE / active 4B
   Gemma-4-31B: google/gemma-4-31B
   Gemma-4-E2B-Instruct: google/gemma-4-E2B-it
   Gemma-4-E4B-Instruct: google/gemma-4-E4B-it
@@ -259,10 +259,10 @@ model_repo_ids:
   # DeepSeek
   DeepSeek-V2-Lite: deepseek-ai/DeepSeek-V2-Lite
   DeepSeek-V2-Lite-Chat: deepseek-ai/DeepSeek-V2-Lite-Chat
-  DeepSeek-V3-Base: deepseek-ai/DeepSeek-V3-Base
-  DeepSeek-V3: deepseek-ai/DeepSeek-V3
-  DeepSeek-V3.1-Base: deepseek-ai/DeepSeek-V3.1-Base
-  DeepSeek-V3.1: deepseek-ai/DeepSeek-V3.1
+  DeepSeek-V3-Base: deepseek-ai/DeepSeek-V3-Base      # MoE
+  DeepSeek-V3: deepseek-ai/DeepSeek-V3                # MoE
+  DeepSeek-V3.1-Base: deepseek-ai/DeepSeek-V3.1-Base  # MoE
+  DeepSeek-V3.1: deepseek-ai/DeepSeek-V3.1            # MoE
   DeepSeek-V3.2: deepseek-ai/DeepSeek-V3.2
   DeepSeek-V3.2-Speciale: deepseek-ai/DeepSeek-V3.2-Speciale
   DeepSeek-V4-Flash: deepseek-ai/DeepSeek-V4-Flash

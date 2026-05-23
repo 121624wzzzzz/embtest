@@ -1,5 +1,0 @@
-generation,ScaledWordEmbedding,sqrt_hidden_in_file
-gemma,False,True
-gemma2,False,True
-gemma3,True,True
-gemma3n,True,True

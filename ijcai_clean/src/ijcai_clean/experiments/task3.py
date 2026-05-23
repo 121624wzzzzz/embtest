@@ -1,3 +1,9 @@
+"""Cross-group GCorr pair planning for Task3 and Task4.
+
+Task3 uses cross-scale groups, while Task4 uses the same runner shape for
+MoE / cross-family groups. The task name and output directory are supplied by
+the script layer.
+"""
 from __future__ import annotations
 
 import csv
