@@ -1,0 +1,22 @@
+{
+  "pairs_file": "configs/base_instruct_pairs.yaml",
+  "n_pairs_config": 35,
+  "n_tokens": 20000,
+  "n_pairs": 5000000,
+  "n_bootstrap": 100,
+  "seed": 42,
+  "devices": [
+    "cuda:0",
+    "cuda:1",
+    "cuda:2",
+    "cuda:3",
+    "cuda:4",
+    "cuda:5",
+    "cuda:6",
+    "cuda:7"
+  ],
+  "extracts_dir": "extracts",
+  "models_yaml": "configs/models.yaml",
+  "resume_mode": "computed_missing_then_csv_summary",
+  "git_commit": "045cf14b08de156fdfdde621975d91538f176942"
+}

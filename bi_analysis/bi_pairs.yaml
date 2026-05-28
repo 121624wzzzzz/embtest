@@ -1,0 +1,258 @@
+# BI Analysis：纳入分析的 Base→Instruct 配对
+#
+# 与 configs/base_instruct_pairs.yaml（全库 35 对）对齐。
+# 模型简称与 configs/models.yaml 中 model_repo_ids 一致。
+#
+# analysis_tier:
+#   main     — 早期 __tep/affine aff/LoRA budget 默认组（n=26）
+#   extended — MoE / DeepSeek V3 等（n=4）；有效子空间 / DPR 谱已并入 30 对主叙事
+#   excluded — 不纳入主叙事（n=5，见 notes/01_excluded_models_gemma4_dsv4.md）
+#
+# 当前 BI 叙事默认 non-excluded 30 对 = main 26 + extended 4
+#
+# tied: embed 与 lm_head 是否同一矩阵（actual_tied，来自 checkpoint 审计）
+
+schema_version: 1
+updated: 2026-05-24
+
+summary:
+  full_registry: 35
+  non_excluded_analysis: 30
+  main_analysis: 26
+  extended: 4
+  excluded: 5
+  analysis_tied: 17
+  analysis_untied: 13
+  main_tied: 17
+  main_untied: 9
+
+families:
+
+  Qwen3:
+    pairs:
+      - base: Qwen3-0.6B-Base
+        instruct: Qwen3-0.6B
+        tied: true
+        hidden_dim: 1024
+        analysis_tier: main
+      - base: Qwen3-1.7B-Base
+        instruct: Qwen3-1.7B
+        tied: true
+        hidden_dim: 2048
+        analysis_tier: main
+      - base: Qwen3-4B-Base
+        instruct: Qwen3-4B
+        tied: true
+        hidden_dim: 2560
+        analysis_tier: main
+      - base: Qwen3-8B-Base
+        instruct: Qwen3-8B
+        tied: false
+        hidden_dim: 4096
+        analysis_tier: main
+        note: untied；E/U 分列分析
+      - base: Qwen3-14B-Base
+        instruct: Qwen3-14B
+        tied: false
+        hidden_dim: 5120
+        analysis_tier: main
+        note: untied
+      - base: Qwen3-30B-A3B-Base
+        instruct: Qwen3-30B-A3B
+        tied: false
+        hidden_dim: 2048
+        analysis_tier: extended
+        note: MoE active 3B；Aff/LoRA budget 已并入 bi_analysis 30 行主表
+
+  Qwen3.5:
+    pairs:
+      - base: Qwen3.5-0.8B-Base
+        instruct: Qwen3.5-0.8B-Instruct
+        tied: true
+        hidden_dim: 1024
+        analysis_tier: main
+      - base: Qwen3.5-2B-Base
+        instruct: Qwen3.5-2B-Instruct
+        tied: true
+        hidden_dim: 2048
+        analysis_tier: main
+      - base: Qwen3.5-4B-Base
+        instruct: Qwen3.5-4B-Instruct
+        tied: true
+        hidden_dim: 2560
+        analysis_tier: main
+      - base: Qwen3.5-9B-Base
+        instruct: Qwen3.5-9B-Instruct
+        tied: false
+        hidden_dim: 4096
+        analysis_tier: main
+        note: untied
+      - base: Qwen3.5-35B-A3B-Base
+        instruct: Qwen3.5-35B-A3B-Instruct
+        tied: false
+        hidden_dim: 2048
+        analysis_tier: extended
+        note: MoE active 3B；Aff/LoRA budget 已并入 bi_analysis 30 行主表
+
+  Qwen2.5:
+    pairs:
+      - base: Qwen2.5-0.5B
+        instruct: Qwen2.5-0.5B-Instruct
+        tied: true
+        hidden_dim: 896
+        analysis_tier: main
+      - base: Qwen2.5-1.5B
+        instruct: Qwen2.5-1.5B-Instruct
+        tied: true
+        hidden_dim: 1536
+        analysis_tier: main
+        note: tied 特例；高 P/D 但 W-rank 常胜 affine（见 bi_analysis 笔记）
+      - base: Qwen2.5-3B
+        instruct: Qwen2.5-3B-Instruct
+        tied: true
+        hidden_dim: 2048
+        analysis_tier: main
+        note: 同 Qwen2.5-1.5B 特例
+      - base: Qwen2.5-7B
+        instruct: Qwen2.5-7B-Instruct
+        tied: false
+        hidden_dim: 3584
+        analysis_tier: main
+        note: untied；U 侧 affine 显著强于 E
+      - base: Qwen2.5-14B
+        instruct: Qwen2.5-14B-Instruct
+        tied: false
+        hidden_dim: 5120
+        analysis_tier: main
+        note: untied
+      - base: Qwen2.5-32B
+        instruct: Qwen2.5-32B-Instruct
+        tied: false
+        hidden_dim: 5120
+        analysis_tier: main
+        note: untied
+      - base: Qwen2.5-72B-Base
+        instruct: Qwen2.5-72B-Instruct
+        tied: false
+        hidden_dim: 8192
+        analysis_tier: main
+        note: untied
+
+  Llama:
+    pairs:
+      - base: Llama-3.2-1B
+        instruct: Llama-3.2-1B-Instruct
+        tied: true
+        hidden_dim: 2048
+        analysis_tier: main
+      - base: Llama-3.2-3B
+        instruct: Llama-3.2-3B-Instruct
+        tied: true
+        hidden_dim: 3072
+        analysis_tier: main
+      - base: Llama-3.1-8B
+        instruct: Llama-3.1-8B-Instruct
+        tied: false
+        hidden_dim: 4096
+        analysis_tier: main
+        note: untied
+      - base: Llama-3.1-70B-Base
+        instruct: Llama-3.1-70B-Instruct
+        tied: false
+        hidden_dim: 8192
+        analysis_tier: main
+        note: untied
+
+  Gemma-2:
+    pairs:
+      - base: Gemma-2-2B
+        instruct: Gemma-2-2B-Instruct
+        tied: true
+        hidden_dim: 2304
+        analysis_tier: main
+      - base: Gemma-2-9B
+        instruct: Gemma-2-9B-Instruct
+        tied: true
+        hidden_dim: 3584
+        analysis_tier: main
+      - base: Gemma-2-27B
+        instruct: Gemma-2-27B-Instruct
+        tied: true
+        hidden_dim: 4608
+        analysis_tier: main
+
+  Gemma-3:
+    pairs:
+      - base: Gemma-3-4B
+        instruct: Gemma-3-4B-Instruct
+        tied: true
+        hidden_dim: 2560
+        analysis_tier: main
+      - base: Gemma-3-12B
+        instruct: Gemma-3-12B-Instruct
+        tied: true
+        hidden_dim: 3840
+        analysis_tier: main
+      - base: Gemma-3-27B
+        instruct: Gemma-3-27B-Instruct
+        tied: true
+        hidden_dim: 5376
+        analysis_tier: main
+      - base: Gemma-3-1B
+        instruct: Gemma-3-1B-Instruct
+        tied: true
+        hidden_dim: 1152
+        analysis_tier: excluded
+        exclude_reason: gemma3_1b_anomaly
+        note: full-vocab E_R2≈0.38；小模型后训练改写过大
+
+  Gemma-4:
+    pairs:
+      - base: Gemma-4-E2B
+        instruct: Gemma-4-E2B-Instruct
+        tied: true
+        hidden_dim: 1536
+        analysis_tier: excluded
+        exclude_reason: gemma4_architecture_gauge
+        note: PLE；Base E near-unit-sphere gauge
+      - base: Gemma-4-E4B
+        instruct: Gemma-4-E4B-Instruct
+        tied: true
+        hidden_dim: 2560
+        analysis_tier: excluded
+        exclude_reason: gemma4_architecture_gauge
+      - base: Gemma-4-26B-A4B
+        instruct: Gemma-4-26B-A4B-Instruct
+        tied: true
+        hidden_dim: 2816
+        analysis_tier: excluded
+        exclude_reason: gemma4_architecture_gauge
+        note: MoE active 4B
+      - base: Gemma-4-31B
+        instruct: Gemma-4-31B-Instruct
+        tied: true
+        hidden_dim: 5376
+        analysis_tier: excluded
+        exclude_reason: gemma4_architecture_gauge
+
+  DeepSeek:
+    pairs:
+      - base: DeepSeek-V3-Base
+        instruct: DeepSeek-V3
+        tied: false
+        hidden_dim: 7168
+        analysis_tier: extended
+        note: MoE；Aff/LoRA budget 已并入 bi_analysis 30 行主表
+      - base: DeepSeek-V3.1-Base
+        instruct: DeepSeek-V3.1
+        tied: false
+        hidden_dim: 7168
+        analysis_tier: extended
+        note: MoE；Aff/LoRA budget 已并入 bi_analysis 30 行主表
+
+# 不在 BI 注册表内、但相关
+not_in_bi_registry:
+  - model: DeepSeek-V4-Flash
+    note: 无 Base–Instruct pair；裸 U 非完整 lm_head（hc_head 架构），见 notes/01_excluded_models_gemma4_dsv4.md
+  - model: DeepSeek-V4-Pro
+    note: 同上

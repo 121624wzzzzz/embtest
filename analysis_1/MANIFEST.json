@@ -1,0 +1,71 @@
+{
+  "bundled_at": "2026-05-26",
+  "total_bytes": 1114553,
+  "task1_git_commit": "045cf14b08de156fdfdde621975d91538f176942",
+  "task2_git_commit": "bc11913dfcc3e7c6e8cd455cf8f566b5939e70e0",
+  "files": {
+    "DATA.md": {
+      "bytes": 7233
+    },
+    "MANIFEST.json": {
+      "bytes": 1100
+    },
+    "README.md": {
+      "bytes": 3067
+    },
+    "configs/analysis_subsets.yaml": {
+      "bytes": 9332
+    },
+    "configs/base_instruct_pairs.yaml": {
+      "bytes": 1785
+    },
+    "configs/bi_pairs.yaml": {
+      "bytes": 7213
+    },
+    "configs/model_series.yaml": {
+      "bytes": 2654
+    },
+    "data/static/all_models_eu_features.csv": {
+      "bytes": 109771
+    },
+    "data/static/layer3_spectral.csv": {
+      "bytes": 75855
+    },
+    "data/task1_base_instruct/bootstrap_results.csv": {
+      "bytes": 707516
+    },
+    "data/task1_base_instruct/metadata.json": {
+      "bytes": 473
+    },
+    "data/task1_base_instruct/summary.csv": {
+      "bytes": 29136
+    },
+    "data/task2_model_series/metadata.json": {
+      "bytes": 1335
+    },
+    "data/task2_model_series/pair_plan.csv": {
+      "bytes": 12835
+    },
+    "data/task2_model_series/summary.csv": {
+      "bytes": 90240
+    },
+    "data/task2_model_series/tied_x_untied_pairs.csv": {
+      "bytes": 30842
+    },
+    "docs/SPECIAL_CASES.md": {
+      "bytes": 5059
+    },
+    "notes/01_untied_u_vs_e_static_spectrum.md": {
+      "bytes": 4547
+    },
+    "notes/02_tied_static_spectrum_like_u.md": {
+      "bytes": 3126
+    },
+    "notes/03_gcorr_bi_confidence.md": {
+      "bytes": 6779
+    },
+    "notes/04_insight1_main_evidence.md": {
+      "bytes": 4655
+    }
+  }
+}

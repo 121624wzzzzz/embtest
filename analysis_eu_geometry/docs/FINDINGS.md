@@ -41,6 +41,8 @@ Gemma-4 的 HuggingFace 实现中，text embedding 在 forward 时会再乘 `emb
 - `mu_ratio/`：统计 `||μ|| / mean(row norm)`，衡量行向量公共 mean 方向强度；
 - `spectral/`：用 GPU Gram 做完整 economy SVD，输出 PR/d、rank1、centered rank1 等各向同性/异性指标。
 
+静态 U vs E 谱专题（untied rank1 / tied≈U）见 [`../analysis_1/`](../analysis_1/)。
+
 两个特殊排错案例汇总在 [`SPECIAL_CASES.md`](SPECIAL_CASES.md)：
 
 - **Gemma-4**：Base 存盘 E 是 near-unit-sphere gauge；Instruct 径向漂移导致 raw Euclidean GCorr 误导。
@@ -56,45 +58,44 @@ Gemma-4 的 HuggingFace 实现中，text embedding 在 forward 时会再乘 `emb
 | **tied**（E=U） | 22 | 1.25% | (=ΔE) | 只一条标尺；含 Gemma-3-1B、Llama-3.2 等 outlier |
 | 排除 Gemma-4 全库 | 31 | 0.65% | — | 常态 ±1% 以内；Gemma-4 为 +12%～+52% |
 
-**untied 要点**（详见 `BASE_INSTRUCT_ROW_NORMS_SUMMARY.md` 的 Untied BI 节）：
+**untied 要点**（详见 `BI_ROW_NORMS_SUMMARY.md` 的 Untied BI 节）：
 
 - Qwen3 8B+ / Qwen2.5 7B+：\|ΔE\| ~0.1%–1.2%，\|ΔU\| ~0.3%–2.7%
 - Llama-3.1：\|ΔE\| ~0.4%，\|ΔU\| ~1.4%
 - DeepSeek V3/V3.1：≈ 0%
 
-配对数值列：`base_instruct/base_instruct_row_norms_by_pair.csv` 的 `delta_E_pct` / `delta_U_pct`。
+配对数值列：`results/bi_pair_delta.csv` 的 `delta_E_pct` / `delta_U_pct`。
 
 ## 7. 数据与复现
 
-| 子集 | 模型数 | 结果目录 |
-|------|--------|----------|
-| Base–Instruct | 70 | `results/row_norms/base_instruct/` |
-| 其他（models.yaml 余量） | 24 | `results/row_norms/other_models/` |
-| 合并总表 | 94 | `results/row_norms/all_models/` |
-| μ-ratio | 94 | `results/row_norms/mu_ratio/` |
-| 谱分析 | 94 | `results/row_norms/spectral/` |
+| 文件 | 说明 |
+|------|------|
+| **全库特征总表** | `results/all_models_eu_features.csv`（188 行，三层合一） |
+| BI 配对 Δ | `results/bi_pair_delta.csv` |
+| 层 1 / 2 / 3 | `results/layers/layer1_row_norms.csv`、`layer2_mu_ratio.csv`、`layer3_spectral.csv` |
+| BI / 其他中间表 | `results/bi_row_norms.csv`、`other_models_row_norms.csv` |
 
 ```bash
 conda activate wzall
-python analysis_eu_geometry/scripts/audit_row_norms.py
+python analysis_eu_geometry/scripts/audit_eu_geometry.py
 ```
 
 只合并已有 CSV、不重跑统计：
 
 ```bash
-python analysis_eu_geometry/scripts/audit_row_norms.py --merge-only
+python analysis_eu_geometry/scripts/audit_eu_geometry.py --merge-only
 ```
 
 只跑 μ-ratio：
 
 ```bash
-python analysis_eu_geometry/scripts/audit_row_norms.py --mu-ratio-only --workers 8
+python analysis_eu_geometry/scripts/audit_eu_geometry.py --mu-ratio-only --workers 8
 ```
 
 只跑 GPU 谱分析：
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python analysis_eu_geometry/scripts/audit_row_norms.py --svd-only --device cuda:0
+CUDA_VISIBLE_DEVICES=0 python analysis_eu_geometry/scripts/audit_eu_geometry.py --svd-only --device cuda:0
 ```
 
 ## 8. Gemma-4 速查（E，mean）
@@ -107,4 +108,4 @@ CUDA_VISIBLE_DEVICES=0 python analysis_eu_geometry/scripts/audit_row_norms.py --
 | Gemma-4-26B-A4B Base | 0.999902 (10⁻⁹) |
 | Gemma-4-31B Base | 0.999800 (10⁻⁷) |
 
-完整表格见 `results/row_norms/base_instruct/BASE_INSTRUCT_ROW_NORMS_SUMMARY.md` 的 Gemma4 节。
+完整表格见 `results/BI_ROW_NORMS_SUMMARY.md` 的 Gemma4 节。
