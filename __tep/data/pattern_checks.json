@@ -1,0 +1,240 @@
+{
+  "generated_at": "2026-05-19T14:40:42Z",
+  "verified_by": "python3 csv aggregation",
+  "patterns": [
+    {
+      "id": "L01",
+      "law": "BI主组full-vocab仿射极高",
+      "source_file": "ijcai_clean/results/task6_base_instruct_full_vocab/summary_pair_base_instruct_full_vocab.csv",
+      "filter": "exclude Gemma-3-1B & Gemma-4-* (n=26)",
+      "metric": "E_R2 mean",
+      "value": 0.99145,
+      "note": ""
+    },
+    {
+      "id": "L02",
+      "law": "BI全体E_R2被异常拉低",
+      "source_file": "same",
+      "filter": "all n=31",
+      "metric": "E_R2 mean",
+      "value": 0.936411,
+      "note": ""
+    },
+    {
+      "id": "L03",
+      "law": "GCorr cos与E_R2全体分离相关（慎作预测）",
+      "source_file": "task1+task6",
+      "filter": "n=31 BI",
+      "metric": "pearson(gcorr_E_cos_mean,E_R2)",
+      "value": 0.931608,
+      "note": ""
+    },
+    {
+      "id": "L04",
+      "law": "GCorr euc与E_R2全体相关较弱（慎作预测）",
+      "source_file": "task1+task6",
+      "filter": "n=31 BI",
+      "metric": "pearson(gcorr_E_euc_mean,E_R2)",
+      "value": 0.808363,
+      "note": ""
+    },
+    {
+      "id": "L05",
+      "law": "Task2同hidden GCorr高",
+      "source_file": "ijcai_clean/results/task2_model_series/summary.csv",
+      "filter": "hidden_dim_a==hidden_dim_b n=24",
+      "metric": "gcorr_E_cos_mean mean",
+      "value": 0.873067,
+      "note": ""
+    },
+    {
+      "id": "L06",
+      "law": "Task2异hidden GCorr低",
+      "source_file": "same",
+      "filter": "hidden_dim_a!=hidden_dim_b n=86",
+      "metric": "gcorr_E_cos_mean mean",
+      "value": 0.375936,
+      "note": ""
+    },
+    {
+      "id": "L07",
+      "law": "Task2 hidden不匹配量级差",
+      "source_file": "same",
+      "filter": "same vs diff mean delta",
+      "metric": "delta cos (same-diff)",
+      "value": 0.497131,
+      "note": ""
+    },
+    {
+      "id": "L08",
+      "law": "Task3 le_4b桶GCorr最高",
+      "source_file": "__tep/gcorr/tables/gcorr_task3_scale_group_aggregate.csv",
+      "filter": "scale_group=le_4b",
+      "metric": "gcorr_E_cos_mean",
+      "value": 0.5668,
+      "note": ""
+    },
+    {
+      "id": "L09",
+      "law": "Task3 ge_27b桶GCorr最低",
+      "source_file": "same",
+      "filter": "scale_group=ge_27b",
+      "metric": "gcorr_E_cos_mean",
+      "value": 0.3432,
+      "note": ""
+    },
+    {
+      "id": "L10",
+      "law": "Task3负euc GCorr",
+      "source_file": "ijcai_clean/results/task3_cross_scale_groups/summary.csv",
+      "filter": "gcorr_E_euc_mean<0",
+      "metric": "count",
+      "value": 23,
+      "note": "cos仍为正"
+    },
+    {
+      "id": "L11",
+      "law": "Task5仅task1来源R2高",
+      "source_file": "ijcai_clean/results/task5_affine_subsampled/summary_pair.csv",
+      "filter": "source_tasks contains task1_base_instruct n=31",
+      "metric": "R2_E mean",
+      "value": 0.942362,
+      "note": ""
+    },
+    {
+      "id": "L12",
+      "law": "Task5跨模型来源R2低",
+      "source_file": "same",
+      "filter": "source_tasks=task2",
+      "metric": "R2_E mean",
+      "value": 0.410599,
+      "note": ""
+    },
+    {
+      "id": "L13",
+      "law": "Task5 task3来源R2最低之一",
+      "source_file": "same",
+      "filter": "source_tasks=task3",
+      "metric": "R2_E mean",
+      "value": 0.357699,
+      "note": ""
+    },
+    {
+      "id": "L14",
+      "law": "Task5 vs Task6 R2一致",
+      "source_file": "task5+task6",
+      "filter": "task1 subset n=31",
+      "metric": "pearson(R2_E,E_R2)",
+      "value": 0.99851,
+      "note": ""
+    },
+    {
+      "id": "L15",
+      "law": "A-I rank95/h低于E_delta",
+      "source_file": "task6",
+      "filter": "main n=26",
+      "metric": "E_delta rank95/h mean vs A-I",
+      "value": 0.76874,
+      "note": "A-I=0.426308"
+    },
+    {
+      "id": "L16",
+      "law": "A-I energy@5%h高于E_delta",
+      "source_file": "task6",
+      "filter": "main n=26 median",
+      "metric": "energy_at_5pct_h A-I vs E_delta",
+      "value": 0.627877,
+      "note": "E_delta=0.396961"
+    },
+    {
+      "id": "L17",
+      "law": "Qwen16 E_R2",
+      "source_file": "task6",
+      "filter": "model_a startswith Qwen",
+      "metric": "E_R2 mean",
+      "value": 0.996368,
+      "note": ""
+    },
+    {
+      "id": "L18",
+      "law": "异常组E_R2",
+      "source_file": "task6",
+      "filter": "Gemma-3-1B+Gemma-4 n=5",
+      "metric": "E_R2 mean",
+      "value": 0.650207,
+      "note": ""
+    },
+    {
+      "id": "L19",
+      "law": "E与U GCorr同步",
+      "source_file": "task1",
+      "filter": "all n=31",
+      "metric": "mean(gcorr_E_cos)-mean(gcorr_U_cos)",
+      "value": -0.000317,
+      "note": "max|diff|=0.0043"
+    },
+    {
+      "id": "L20",
+      "law": "Gemma-3-1B双指标崩溃",
+      "source_file": "task1+task6",
+      "filter": "Gemma-3-1B pair",
+      "metric": "gcorr_E_cos & E_R2",
+      "value": 0.777345,
+      "note": "E_R2=0.375075"
+    },
+    {
+      "id": "L25",
+      "law": "族内E_delta与A-I eff/h线性",
+      "source_file": "task6 main",
+      "filter": "Qwen2.5 n=7",
+      "metric": "pearson(eff/h)",
+      "value": 0.956696,
+      "note": ""
+    },
+    {
+      "id": "L26",
+      "law": "族内E_delta与A-I eff/h线性",
+      "source_file": "task6 main",
+      "filter": "Qwen3.5 n=4",
+      "metric": "pearson(eff/h)",
+      "value": 0.980242,
+      "note": ""
+    },
+    {
+      "id": "L21",
+      "law": "Task5 intra tied 完美 E→U",
+      "source_file": "task5_affine_subsampled/summary_intra_EU.csv",
+      "filter": "actual_tied=True n=44",
+      "metric": "R2_EU mean",
+      "value": 1.0,
+      "note": "共享矩阵 E=U"
+    },
+    {
+      "id": "L22",
+      "law": "Task5 intra untied 低 R2",
+      "source_file": "same",
+      "filter": "actual_tied=False n=48",
+      "metric": "R2_EU mean",
+      "value": 0.348,
+      "note": "47/48 R2<0.5"
+    },
+    {
+      "id": "L23",
+      "law": "Task3 Qwen×Gemma 负euc集中",
+      "source_file": "__tep/gcorr/tables/gcorr_task3_series_scale_crosstab.csv",
+      "filter": "ge_27b gemma×qwen families",
+      "metric": "neg_euc per 2-pair cell",
+      "value": 2,
+      "note": "多格 2/2 全负"
+    },
+    {
+      "id": "L24",
+      "law": "Gemma Task1 cos 全体",
+      "source_file": "task1_base_instruct/summary.csv",
+      "filter": "series Gemma n=11",
+      "metric": "gcorr_E_cos_mean mean",
+      "value": 0.920818,
+      "note": "非0.935; Gemma-3子系列0.934"
+    }
+  ]
+}

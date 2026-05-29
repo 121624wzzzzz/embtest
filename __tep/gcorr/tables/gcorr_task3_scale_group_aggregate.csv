@@ -1,0 +1,4 @@
+scale_group,n_pairs,gcorr_E_cos_mean,gcorr_E_cos_median,gcorr_E_cos_min,gcorr_E_cos_max
+ge_27b,34,0.3432,0.3382,0.2088,0.6401
+gt_4b_lt_27b,34,0.3453,0.3109,0.2409,0.605
+le_4b,108,0.5668,0.6229,0.14,0.8982

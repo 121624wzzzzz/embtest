@@ -18,5 +18,6 @@ __pycache__/
 *.pyc
 .vscode/
 
-# 本地实验分析产出，不入库
-__tep/
+# Keep project-level archive/ ignored, but track archived analysis under __tep.
+!__tep/**/archive/
+!__tep/**/archive/**

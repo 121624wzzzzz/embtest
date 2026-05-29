@@ -1,0 +1,439 @@
+\documentclass{article}
+
+% NeurIPS 2026 main-track anonymous submission.
+% Switch to \usepackage[main, final]{neurips_2026} after acceptance.
+\PassOptionsToPackage{numbers,sort&compress}{natbib}
+% Chinese text requires XeLaTeX or LuaLaTeX. Keep NeurIPS in charge of sizes.
+\usepackage[UTF8,zihao=false,linespread=1]{ctex}
+% Template files live under template/. Keep the package name unchanged for NeurIPS compatibility.
+\makeatletter
+\def\input@path{{template/}}
+\makeatother
+\usepackage{neurips_2026}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{}
+\IfFontExistsTF{Arial}{\setsansfont{Arial}}{}
+\IfFontExistsTF{Courier New}{\setmonofont{Courier New}}{}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{flafter}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{nicefrac}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+\graphicspath{{figures/}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命题}
+\newtheorem{lemma}[theorem]{引理}
+\newtheorem{corollary}[theorem]{推论}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定义}
+\newtheorem{assumption}[theorem]{假设}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{备注}
+
+\renewcommand{\refname}{参考文献}
+
+\title{面向语言模型高效权重绑定的非对称几何解耦}
+
+\author{%
+  Zhen Wang \\
+  Tsinghua Shenzhen International Graduate School \\
+  Tsinghua University \\
+  Shenzhen, China \\
+  \texttt{1216249110@qq.com} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  权重绑定因能够显著降低词表层参数量，已成为小尺寸大语言模型中的主流参数效率方案；然而，更大规模或性能优先的模型往往重新采用非绑定结构。
+  为什么模型会在 tied 与 untied 之间分化，以及权重绑定会带来怎样的表征代价，仍缺乏系统解释。
+  本文从训练动力学与嵌入几何两个角度分析这一问题，并在 338 组公开模型比较上发现：tied 共享矩阵在几何上更接近输出反嵌入，untied 模型之间的输出反嵌入也通常比输入嵌入更相似，而输入嵌入空间可能存在被 cosine 口径低估的偏置或尺度路径。
+  这些现象与输入侧稀疏梯度、输出侧全词表稠密梯度之间的不对称更新相一致，说明标准权重绑定会把共享矩阵推向输出目标，从而压制输入侧所需的语义几何并造成输入几何退化。
+  基于这一诊断，我们提出\textbf{非对称几何解耦（Asymmetric Geometric Decoupling, AGD）}：它不是额外模型主干，而是一组作用在 embedding-head 层面的轻量解绑操作，优先为输入嵌入侧补充结构化自由度。
+  在 MiniMind 与 FineWeb-Edu/GPT-2 预训练实验中，输入侧偏置校正以及偏置 + 乘性 LoRA 以极低参数增量稳定优于 tied baseline；相反，输出侧单独改造收益不稳定，并可能出现梯度方向互斥。
+  结果表明，AGD 能在保留权重绑定参数效率的同时恢复输入侧表达能力，为小尺寸语言模型提供一种低成本的 embedding-head 改进路径。
+\end{abstract}
+
+
+\section{引言}
+\label{sec:intro}
+
+\textbf{权重绑定（Weight Tying, WT）}，即在输入嵌入层与输出反嵌入层之间共享参数，是神经语言模型中一项长期存在的架构设计。不同于早期语言模型分别维护输入嵌入矩阵与输出反嵌入矩阵两份独立的矩阵，Press 和 Wolf~\cite{press2017using} 与 Inan 等人~\cite{inan2017tying} 从输出权重的词表示属性、损失函数重表述和词向量语义空间等角度共同奠定了 Weight Tying 的基础：输入嵌入与输出反嵌入可以共享同一词汇表示空间，从而在减少词表层参数的同时保持甚至改善语言建模性能。这一设计也隐含了一项关键结构前提，即输入侧的 token 表征与输出侧的词表预测可以由同一参数矩阵同时承担。
+
+\begin{table}[!ht]
+\centering
+\caption{\textbf{主流模型的 tied/untied 现状} 表中概括 Qwen-2.5/3/3.5、Llama-3.x、Gemma-2/3/4、DeepSeek、GLM、MiniMax 等主流开源模型系列。整体上，tied/untied 选择呈现出规模分层趋势，但不同模型族之间仍存在显著差异，并无完全统一的方案}
+\label{tab:tied_landscape}
+\begin{small}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lll}
+\toprule
+\textbf{模型系列} & \textbf{tied/untied 情况} & \textbf{观察} \\
+\midrule
+Qwen-2.5 & 0.5--3B tied；7--72B untied & 小模型 tied，大模型 untied \\
+Qwen-3 & 0.6--4B tied；8B 及以上/MoE untied & 小模型 tied，大模型与 MoE untied \\
+Qwen-3.5 & 0.8--4B tied；9B/27B 及 MoE untied & 小模型 tied，中大模型与 MoE untied \\
+Llama-3.x & Llama-3.2 1--3B tied；Llama-3.1 8--70B untied & 随规模切换 \\
+Gemma-2/3/4 & 1--31B 及部分 MoE 变体均为 tied & 参数效率导向，整体坚持 tied \\
+DeepSeek/GLM/MiniMax & DeepSeek-V2/V3/R1、GLM-5、MiniMax-M2 系列均为 untied & 大模型/MoE 多采用 untied \\
+\bottomrule
+\end{tabular}
+}
+\end{small}
+\vskip -0.1in
+\end{table}
+
+这种兼顾参数效率与词汇语义一致性的设计，随后被早期基于 Transformer 的语言模型自然继承。例如，GPT-2~\cite{radford2019language} 在自回归语言建模中共享输入嵌入与输出反嵌入权重；BERT~\cite{devlin2019bert} 虽然采用 masked language modeling 目标，但其 MLM decoder 也复用了输入 token embedding 权重来进行词表预测。进入现代大语言模型（Large Language Models, LLMs）时代后，随着模型规模、词表大小和部署场景不断变化，是否应当采用 \textbf{tied} 架构开始出现明显分化。我们检查了 Qwen-2.5/3/3.5~\cite{qwen2025qwen25,yang2025qwen3,qwen2026qwen35}、Llama-3.x~\cite{llama2024llama3}、Gemma-2/3/4~\cite{gemma2024gemma2,gemma2025gemma3,google2026gemma4}、DeepSeek~\cite{deepseek2024v2,deepseek2024v3,deepseek2025r1,deepseek2026v4}、GLM~\cite{glm5team2026glm5,zai2026glm51}、MiniMax~\cite{minimax2026m25,minimax2026m27} 等主流开源模型系列的公开配置，发现 tied 与 untied 的选择呈现出较明显的规模分层趋势：小模型倾向于 tied，以降低词表层参数和显存成本；大模型、MoE 模型则更常采用 untied，以换取更高的输入/输出表示自由度。代表性情况见 \cref{tab:tied_landscape}，完整模型清单与词表矩阵配置见 \cref{app:model_inventory}。
+
+这种分化并不意味着 Weight Tying 已经失去价值。相反，小型语言模型，因其参数高效、部署灵活和本地推理友好等优势，已成为现代语言模型生态中的重要组成部分。而在这类模型中，词表相关矩阵往往占据总参数量的较大比例。若输入嵌入矩阵与输出反嵌入矩阵不共享，则仅词表层就需要约 $2Vd$ 个参数；在大词表或小尺寸模型中，这部分开销会显著增加显存占用、优化器状态开销和训练难度。Qwen 系列提供了一个具有代表性的例子：在 Qwen2.5、Qwen3 与 Qwen3.5 中，tied/untied 选择均呈现出较稳定的规模相关模式，即小尺寸模型多采用 tied，而更大尺寸或 MoE 模型多采用 untied。进一步地，Qwen3 dense 模型的参数分布表明，随着模型主体规模增大，单个词表矩阵的相对参数占比快速下降，例如从 Qwen3-0.6B 的 26.10\% 下降至 Qwen3-32B 的 2.37\%（见 \cref{tab:qwen3_emb_ratio}）。这一趋势意味着，tied 架构在小尺寸模型中能够节省相当可观的词表层参数；而在大尺寸模型中，完全解绑输入嵌入与输出反嵌入所需的相对额外参数开销显著降低，从而使 untied 架构在成本上更容易被接受，并可能为二者保留更大的独立建模空间。
+
+\begin{table}[!hb]
+\centering
+\caption{\textbf{Qwen3 dense 模型中单个 embedding 矩阵的参数占比} 单个 Emb 指 $V\times d$。对于 untied 模型，输入嵌入与输出反嵌入各有一份同规模矩阵，因此“实际词表矩阵总占比”为单个 Emb 占比的两倍}
+\label{tab:qwen3_emb_ratio}
+\begin{small}
+\setlength{\tabcolsep}{3pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{模型} & \textbf{tied?} & \textbf{$d$} & \textbf{单个 Emb 参数} & \textbf{总参数量} & \textbf{单个 Emb / 总参} & \textbf{实际词表矩阵 / 总参} \\
+\midrule
+Qwen3-0.6B & tied & 1024 & 155.6M & 596.0M & 26.10\% & 26.10\% \\
+Qwen3-1.7B & tied & 2048 & 311.2M & 1.721B & 18.08\% & 18.08\% \\
+Qwen3-4B & tied & 2560 & 389.0M & 4.022B & 9.67\% & 9.67\% \\
+Qwen3-8B & untied & 4096 & 622.3M & 8.191B & 7.60\% & 15.20\% \\
+Qwen3-14B & untied & 5120 & 777.9M & 14.768B & 5.27\% & 10.53\% \\
+Qwen3-32B & untied & 5120 & 777.9M & 32.762B & 2.37\% & 4.75\% \\
+\bottomrule
+\end{tabular}
+}
+\end{small}
+\vskip -0.1in
+\end{table}
+
+上述关于小模型中词表层参数开销更为突出的观察，也与 MobileLLM~\cite{liu2024mobilellm} 等端侧小模型研究中的设计取舍相吻合：在 DRAM、延迟和能耗受限的场景下，embedding sharing 可以将有限参数预算从词表层转移到模型深度或主体结构中，因此仍是提高参数利用效率的重要折中。由此，现代模型中的 tied/untied 分化提出了一个更深层的问题：我们是否能够在保留 Weight Tying 参数效率的同时，避免其对输入和输出的表示空间施加过强的几何约束？
+
+本文认为，权重绑定的代价并不止于模型容量。通过对 Qwen-2.5/3/3.5/3.6、Llama-3.x、Gemma-2/3/4、DeepSeek、GLM、MiniMax 等系列中可获取完整词表矩阵的代表性模型构成的 338 组模型比较进行严格的几何分析，我们发现输入嵌入与输出反嵌入会自然趋向于\textbf{本质不同的几何流形}，当二者被强行绑定时便会产生内在的优化冲突。
+
+具体而言，我们识别出由非对称更新动态驱动的两种相互对立的力量。
+首先，\textbf{输入空间}表现出内在的欧氏刚性。我们的分析显示，在仿射不变的度量下，非绑定模型中的输入嵌入在微调过程中几乎保持不变（$E_{\mathrm{euc}} \approx 1.0$），充当语义组合的稳定锚点。
+相反，\textbf{输出空间}则像一个占主导地位的“吸引子”。在稠密的全词表梯度更新驱动下，输出流形会收敛到一种在不同模型族之间高度相关的通用几何结构。
+
+当这两个空间被强制共享同一个矩阵（Tying）时，优化动态会变得不平衡。我们验证了，来自输出目标的更强梯度信号会迫使共享权重向输出流形对齐。由此，输入嵌入所需的欧氏语义结构会受到压缩，最终得到的是一个更贴近输出反嵌入目标、但作为语义锚点并不理想的共享空间。
+
+为在不承担完全非绑定参数成本的情况下解决这一冲突，我们将\textbf{非对称几何解耦（Asymmetric Geometric Decoupling, AGD）}作为一类 embedding-head 层面的轻量解绑操作来研究。AGD 指代的是一种解绑视角和操作族，而非额外的 Transformer 主干；它保留共享 token 矩阵带来的参数效率，同时通过可学习偏置校正与 LoRA 式低秩重参数化，优先为输入嵌入侧提供少量结构化自由度，从而将输入几何从共享的、输出主导的嵌入矩阵中解耦出来。通过尊重输入与输出模态各自不同的几何需求，这类解绑操作能够在几乎不改变训练参数规模的情况下恢复输入表达能力。
+
+本文的主要贡献总结如下：
+\begin{itemize}
+    \item \textbf{诊断性发现：} 我们围绕 Qwen-2.5/3/3.5/3.6、Llama-3.x、Gemma-2/3/4、DeepSeek、GLM、MiniMax 等系列中可获取完整词表矩阵的代表性模型，开展了覆盖 338 组模型比较的大规模几何审计。结果显示，tied 共享矩阵更像输出反嵌入；即便在 untied 模型之间，输出反嵌入也通常更相似；输入嵌入则可能存在偏置或尺度路径，使 cosine 口径低估其欧氏结构。
+    \item \textbf{输入几何退化：} 我们通过几何诊断与梯度分析说明，标准权重绑定为了满足输出目标会压缩输入侧几何，使 tied 共享矩阵更接近输出反嵌入而非理想输入嵌入。
+    \item \textbf{轻量解绑操作：} 我们将\textbf{非对称几何解耦（AGD）}形式化为一组输入侧优先的 embedding-head 解绑操作，包括偏置校正、加性 LoRA 与乘性 LoRA。MiniMind 与 FineWeb-Edu/GPT-2 预训练实验表明，输入侧偏置和偏置 + 乘性 LoRA 能以极低参数增量稳定提升 tied baseline；输出侧单独改造收益不稳定，梯度分析也显示其可能引入更新方向互斥。
+\end{itemize}
+
+
+
+
+\section{相关工作}
+
+权重绑定的相关研究最早源于神经语言模型中输入嵌入与输出反嵌入的参数冗余问题。在标准神经语言模型中，输入词嵌入矩阵 $E\in\mathbb{R}^{V\times d}$ 将离散 token 映射为连续表示，而输出反嵌入矩阵 $W\in\mathbb{R}^{V\times d}$ 则将隐藏状态投影回词表分布；二者分别服务于词表示编码与词表预测，因而在未绑定参数化中通常各自维护一份 $V\times d$ 规模的参数。Press 和 Wolf~\cite{press2017using} 首先指出，输出反嵌入权重本身也可以被视为有效的词表示，并系统比较了绑定与非绑定设置下输入嵌入、输出侧词表示和共享嵌入的更新动态。他们的分析表明，权重绑定不仅能够减少词表层参数、降低困惑度（\textit{perplexity}），还会使共享矩阵的演化更接近未绑定模型中的输出侧词表示，这一点也为本文后续关注输出侧主导性提供了早期线索。几乎同时，Inan 等人~\cite{inan2017tying} 从损失函数角度进一步理论化了这一做法：他们将语言模型的输出预测重新表述为词嵌入空间中的分类问题，并通过增强损失与基于嵌入相似度的软目标解释了复用输入嵌入作为输出反嵌入的合理性。自此，Weight Tying 不再只是一个减少参数量的实现技巧，而逐渐成为一种兼具参数效率、性能收益和结构含义的建模选择；围绕输入嵌入、输出反嵌入及其共享机制的讨论也由此延续下来。
+
+\paragraph{权重绑定带来的几何约束}
+尽管 Weight Tying 能显著减少词表层参数，其理论假设和任务目标冲突也逐渐显露。Bertolotti 和 Cazzola~\cite{bertolotti2024dh}指出，输入嵌入更倾向于捕捉语义相似性，而输出侧词表示更侧重上下文共现；将二者强制绑定，相当于假设由语义相似性诱导的输入空间与由上下文分布诱导的输出空间可以由同一组向量同时刻画。Machina 和 Mercer~\cite{machina2024anisotropy}则从各向同性角度挑战了“Transformer 表示天然各向异性”的常见假设：他们观察到，最各向同性的模型（包括大规模 Pythia 和 GPT-NeoX-20B）均采用 untied embedding/unembedding weights，并据此提出一种可能解释：不共享输入/输出词表矩阵或许与这些大模型的 isotropy 有关；但作者也明确指出，这仍是相关性观察，尚未通过真正的 ablation study 证明因果。该结果提示，Tying 与 Untying 不只是参数效率选择，也可能影响输入/输出空间的几何质量。
+
+\paragraph{放松权重绑定与解耦嵌入的相关尝试}
+为了缓解 hard tying 对输入/输出词汇空间施加的刚性约束，已有研究在不同模型和任务中提出了多种放松或解耦策略。在神经机器翻译场景中，Pappas 等人~\cite{pappas2018beyond}针对 encoder-decoder NMT 的目标端词预测层，提出超越等号级 hard tying 的 structure-aware output layer。其核心并非简单令目标端输入嵌入与输出反嵌入共享同一矩阵，而是在 joint input-output embedding 中建模二者之间的结构化共享关系，从而允许输出层在保留部分词汇表示共享的同时拥有独立的可学习自由度。在语言模型中，Gulordava 等人~\cite{gulordava2018improving}关注的是另一类解耦：即在保留输入/输出权重绑定的前提下，解耦循环语言模型中的隐藏状态空间与词嵌入预测空间。具体而言，他们在隐藏状态到词表预测之间引入额外的变换/预测层，使模型不必直接用隐藏状态去匹配共享词嵌入矩阵中的词向量，从而缓解 tied 架构下隐藏状态表示与输出词向量空间之间的过强耦合。随着预训练模型规模扩大，Chung 等人~\cite{chung2021reembedding}则从多语 masked language modeling 的大词表问题出发，在 \textsc{RemBERT} 中提出 re-embedding 机制，对输入嵌入与输出侧词表表示进行容量层面的解耦。具体来说，RemBERT 不再要求输入 embedding 与输出 softmax embedding 具有相同维度或参数规模，而是降低输入侧嵌入容量、保留或提高输出侧词表预测容量，并将由输入嵌入节省出的参数重新分配给 Transformer 主干。上述工作表明，输入表示、隐藏状态和输出词表预测之间的耦合方式并非固定不变，而是会随着模型结构、任务目标和参数预算发生调整；但它们大多通过引入额外映射、改变输出层结构或重新分配输入/输出容量来获得自由度，与在小型自回归语言模型中严格保留 weight tying 参数效率的目标仍有所不同。
+
+\paragraph{训练动态与梯度更新视角}
+除参数量和损失函数解释外，权重绑定还可以从训练动态角度理解。Press 和 Wolf~\cite{press2017using} 对输入嵌入、输出侧词表示以及绑定后共享嵌入的逐行更新规则进行了分析：在未绑定模型中，输入嵌入每一步只更新当前输入 token 对应的一行，而输出反嵌入由于 softmax 分类目标会在每一步对词表中所有行产生更新。令输入嵌入与输出反嵌入共享为同一矩阵后，共享矩阵的更新等于其输入角色与输出角色两部分更新之和；除当前输入 token 所在行外，大多数行在该步并不接收输入侧更新，而主要按照输出侧更新形式演化。因此，绑定后的共享嵌入整体上更接近未绑定模型中的输出侧词表示，而非输入嵌入。这一观察对本文尤为重要，因为它暗示了输入侧与输出侧虽然共享同一参数矩阵，但二者对该矩阵的优化影响并不对称。本文的 dense--sparse 更新不对称分析可以看作对这一训练动态线索的进一步展开：输出侧梯度在每一步作用于全词表，而输入侧梯度只作用于当前出现的 token，因此共享矩阵更容易被输出目标主导。
+
+\paragraph{现代大模型时代的权衡：参数约束与几何结构}
+上述工作共同表明，Tying 与 Untying 并非单纯的参数量开关，而是同时牵涉输入表示、隐藏状态和输出分类空间之间的结构关系。一方面，hard tying 通过共享词表矩阵获得参数效率，却会把输入和输出强制放入同一几何约束中；另一方面，完全 untied 虽然释放了二者的自由度，却额外引入一整张词表矩阵。
+
+\paragraph{嵌入与解嵌空间特征及其利用}
+Lee 等人~\cite{lee2025shared}从跨模型几何角度系统比较了语言模型的 token embedding、unembedding 和隐藏表示，发现不同模型的反嵌入空间在全局相对方向与局部内在维度上存在可观的共享结构。基于这种几何相似性，他们进一步提出 EMB2EMB，通过学习模型间嵌入空间的线性映射，将在小模型中得到的 steering vector 转移到更大模型中，说明不同模型的输出相关表示并非完全孤立。
+
+这些发现为本文的问题设定提供了直接动机：既然输入/输出相关空间存在可对齐的共享几何，而标准权重绑定又会把这种共享推向过强的等号约束，那么更合理的方向是在保留 tied 参数效率的基础上，为输入侧和输出侧提供少量结构化自由度。本文提出的非对称几何解耦正是沿着这一思路，将 hard tying 放松为轻量、低成本的 embedding-head 解耦。
+
+
+
+
+
+\section{诊断分析：权重绑定的几何结构}
+\label{sec:Diagnostic}
+
+\subsection{实验设置}
+\label{sec:diag_exp_setup}
+
+我们围绕 Qwen-2.5/3/3.5/3.6~\cite{qwen2025qwen25,yang2025qwen3,qwen2026qwen35,qwen2026qwen36_35b}、Llama-3.x~\cite{llama2024llama3}、Gemma-2/3/4~\cite{gemma2024gemma2,gemma2025gemma3,google2026gemma4}、DeepSeek~\cite{deepseek2024v2,deepseek2024v3,deepseek2025r1,deepseek2026v4}、GLM~\cite{glm5team2026glm5,zai2026glm51}、MiniMax~\cite{minimax2026m25,minimax2026m27} 等主流模型系列的 tied/untied 设计差异展开实证分析，并在其中可获取完整输入嵌入/输出反嵌入权重的代表性模型上构造比较，参数规模覆盖 \textbf{0.5B 到 397B}。我们的研究采用双协议方法，同时考察全局几何性质与局部仿射连通性：其中几何分析共涉及 \textbf{338 组模型比较}，仿射映射测试共涉及 \textbf{189 组模型比较}。被分析模型的详细配置总结于 \cref{tab:model_zoo}。
+
+% --- Table: Model Zoo ---
+\begin{table}[h]
+\centering
+\caption{实证分析中使用的模型。我们将最新 embedding 分析划分为四个任务：Base vs.\ Instruct 对齐、系列内部缩放规律、跨规模/跨系列比较，以及 MoE 跨家族比较。表中数量为四个任务中实际参与 338 组比较的唯一模型数。}
+\label{tab:model_zoo}
+\begin{small}
+\begin{sc}
+\resizebox{\columnwidth}{!}{% 自适应宽度
+\begin{tabular}{lllc}
+\toprule
+\textbf{模型族} & \textbf{覆盖范围（参数量）} & \textbf{架构} & \textbf{数量} \\
+\midrule
+Qwen-2.5 & 0.5--72B & Dense & 14 \\
+Qwen-3/3.5/3.6 & 0.6B--397B & Dense / MoE & 26 \\
+Llama-3.x & 1--70B & Dense & 8 \\
+Gemma-2/3/4 & 1--31B 及 MoE 变体 & Dense / MoE & 22 \\
+DeepSeek & V2/V3/V4/R1 及 Distill & Dense / MoE & 18 \\
+GLM & GLM-5/5.1 & MoE & 2 \\
+MiniMax & M2.5/M2.7 & MoE & 2 \\
+\midrule
+合计 & 0.5B--397B & Dense / MoE & 92 \\
+\bottomrule
+\end{tabular}
+}
+\end{sc}
+\end{small}
+\vskip -0.1in
+\end{table}
+
+\paragraph{诊断协议}
+令输入嵌入矩阵为 $E\in\mathbb{R}^{V\times d}$，输出反嵌入矩阵为 $U\in\mathbb{R}^{V\times d}$；在 tied 参数化中二者退化为同一共享矩阵 $W$。本文统一使用“输出反嵌入”指代将 hidden state 映射回词表 logits 的矩阵，代码或文献中的 LM head、output projection、output classifier 在本文语境中均对应这一对象。我们使用 GCorr（Global Correlation）比较两张词表矩阵诱导出的 token--token 几何关系，而不是直接比较同一个 token 向量的逐元素数值。对每组模型，我们分别计算输入嵌入 $E$ 和输出反嵌入 $U$ 的 cosine GCorr 与 Euclidean GCorr；token 对齐、采样规模、bootstrap 以及仿射映射测试的完整设置见 \cref{app:lm_notation_bias,app:geometry_metrics,app:hyperparams}。全部 338 组模型比较见 \cref{app:full_list}。
+
+\subsection{几何差异与权重绑定的冲突}
+\label{sec:results_analysis}
+
+我们将最新四个任务中的结果归纳为三个互相支撑的诊断结论：第一，tied 共享矩阵在几何上更像输出反嵌入；第二，即便在 untied 模型之间，输出反嵌入空间也通常比输入嵌入空间更相似；第三，输入嵌入空间并非没有稳定结构，而是可能存在明显的偏置、尺度或方向分布路径，使 cosine 口径低估其欧氏结构。
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{diagnostic_gcorr_summary.pdf}
+    \caption{\textbf{权重绑定几何诊断的三条核心证据}
+    \textbf{(a)} Base $\to$ Instruct 比较中，untied 模型的输入欧氏几何几乎保持不变（9/9 组 $E_{\mathrm{euc}}\ge0.999$），而 tied 组平均稳定性明显更低。
+    \textbf{(b)} 在同系列 tied--untied 比较中，tied 共享矩阵与 untied 模型的输出反嵌入更相似；这一点不仅体现在均值上，也在 37/37 组 pair 中同时满足 $U_{\mathrm{cos}}>E_{\mathrm{cos}}$ 和 $U_{\mathrm{euc}}>E_{\mathrm{euc}}$。
+    \textbf{(c)} 在 $>4$B 的跨规模 untied--untied 比较中，输出反嵌入在 cosine 口径上 26/26 组均强于输入嵌入；同时输入嵌入的 Euclidean GCorr 多数高于 cosine GCorr（17/26，且同系列 untied--untied 中为 48/48），提示输入空间可能存在偏置、尺度或方向分布路径。}
+    \label{fig:diagnostic_gcorr_summary}
+\end{figure*}
+
+\paragraph{洞见 1：tied 共享矩阵更像输出反嵌入}
+在同系列 tied--untied 比较中，输入侧和输出侧的几何相似性出现强烈不对称。37 组 tied--untied pair 的平均结果显示，输出反嵌入侧相似性显著高于输入嵌入侧：$U_{\mathrm{cos}}=0.8114$、$U_{\mathrm{euc}}=0.8169$，而 $E_{\mathrm{cos}}=0.1395$、$E_{\mathrm{euc}}=0.5553$。逐 pair 检查中，37/37 组同时满足 $U_{\mathrm{cos}}>E_{\mathrm{cos}}$ 和 $U_{\mathrm{euc}}>E_{\mathrm{euc}}$。这说明当一个 tied 模型与同系列 untied 模型比较时，tied 共享矩阵更接近 untied 模型中的输出反嵌入，而不是输入嵌入。
+
+Base $\to$ Instruct 结果也与这一判断一致。Untied 模型中，9/9 组的输入欧氏 GCorr 均不低于 0.999，组均值接近 1.000；而 tied 组的输入欧氏 GCorr 平均只有 0.8925。需要强调的是，tied 组内部并非每个 pair 都显著下降，但平均层面的退化表明，绑定后的共享词表矩阵更容易受输出目标牵引，从而削弱输入几何的稳定性。
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{fineedu-tied-vs-untied-gradients-paper-final.png}
+    \caption{\textbf{FineWeb-Edu/GPT-2 预训练中的输入侧与输出侧梯度范数} 曲线为 seed=42,123,2026 三次实验的平均值。左图为 S1 tied baseline，共享词表矩阵同时接收输入嵌入路径梯度与输出反嵌入路径梯度；右图为 S2 untied baseline，输入嵌入与输出反嵌入独立更新。可以看到，未绑定时输入嵌入梯度远小于输出反嵌入梯度；绑定后共享矩阵的总梯度主要由输出侧稠密梯度抬高。这从训练动力学上解释了为什么 tied 矩阵更容易演化为输出反嵌入式几何。}
+    \label{fig:fineedu_tied_untied_gradients}
+\end{figure*}
+
+梯度层面的观察为上述几何结果提供了机制解释。输出反嵌入在每个位置都通过 softmax 分类目标接收全词表稠密更新，而输入嵌入只通过当前出现 token 的查表路径接收稀疏更新；在 tied 设置下，两路梯度被合并到同一个 $W$ 上，因而共享矩阵既承担输入角色，又长期沿输出反嵌入目标演化。完整 dense--sparse 推导见 \cref{app:gradient_derivation}。
+
+\paragraph{洞见 2：untied 模型之间输出反嵌入也更相似}
+输出侧主导性并不只出现在 tied--untied 对照中。即便只考察 untied--untied 模型，输出反嵌入空间仍表现出更强的跨模型一致性。在同系列内部 48 组 untied--untied 比较中，$U_{\mathrm{cos}}=0.8907$，明显高于 $E_{\mathrm{cos}}=0.6095$；$U_{\mathrm{euc}}=0.9208$，也保持在很高水平。进一步在 $>4$B 的跨规模/跨系列 untied--untied 比较中，输出侧优势更加清晰：26 组 pair 的组均值为 $U_{\mathrm{cos}}=0.6690$、$U_{\mathrm{euc}}=0.7596$，而输入侧为 $E_{\mathrm{cos}}=0.3095$、$E_{\mathrm{euc}}=0.6103$。
+
+逐 pair 统计进一步约束了结论范围：在两个较大规模组中，untied--untied 的 $U_{\mathrm{cos}}>E_{\mathrm{cos}}$ 均为 13/13 成立；Euclidean 口径则不是每一组都成立，但组均值仍支持输出反嵌入空间更相似。因此，本文将“输出空间更普适”表述为组均值稳定、cosine 口径逐 pair 稳定支持的趋势，而不是声称所有指标在所有 pair 上都严格成立。
+
+
+\paragraph{洞见 3：输入嵌入空间可能存在偏置路径}
+输入嵌入空间并不是没有稳定结构。相反，untied--untied 结果显示，输入嵌入的 Euclidean GCorr 往往显著高于 cosine GCorr：同系列内部为 $E_{\mathrm{euc}}=0.9446$ 对 $E_{\mathrm{cos}}=0.6095$，且 48/48 组满足 $E_{\mathrm{euc}}>E_{\mathrm{cos}}$；在两个较大规模跨系列组中，组均值也呈现同样趋势（$0.6103$ 对 $0.3095$），但逐 pair 只在多数而非全部样本中成立。
+
+这一现象提示，输入嵌入空间的相对欧氏结构可能较稳定，但其方向分布、尺度或整体偏置会削弱 cosine 口径下的一致性。换言之，输入空间的“低 cosine 相似”不应被简单解释为语义结构完全不稳定；它更可能反映了一条仿射偏置或尺度路径。这一点直接动机化了后文 AGD 中的输入侧偏置校正：在保留共享词表矩阵的同时，用极少量自由度吸收输入几何中的全局偏移。
+
+这一解释也与各向同性/各向异性的视角相容：当向量集中到少数公共方向或存在全局中心偏移时，cosine geometry 会更容易退化，而 Euclidean 距离仍可能保留相对稳定的 token--token 结构。Machina 和 Mercer~\cite{machina2024anisotropy} 对 Pythia 与 GPT-NeoX 的观察说明，各向异性并不是 Transformer 表示的必然属性；因此，本文将输入侧偏置路径视为一种需要被建模和校正的几何现象，而不是把低 cosine GCorr 直接等同于输入语义结构崩坏。更完整的概念说明见 \cref{app:geometry_concepts}。
+
+\paragraph{小结}
+上述三点共同说明，标准权重绑定不是输入嵌入与输出反嵌入的对称折中。共享矩阵长期更接近输出反嵌入，而输入嵌入侧的欧氏结构和偏置路径被压缩在同一参数中。为解决这一问题，我们需要在保留 tied 参数效率的同时，把有限的额外自由度优先补给输入侧，这正是下一节非对称几何解耦的出发点。
+
+
+
+\section{方法：非对称几何解耦}
+\label{sec:method}
+
+受 \cref{sec:results_analysis} 中分析的几何差异和优化冲突启发，我们研究\textbf{非对称几何解耦（Asymmetric Geometric Decoupling, AGD）}，即一组作用在 embedding-head 层面的轻量解绑操作，旨在不承担完全非绑定参数成本的前提下释放绑定嵌入的潜力。
+
+\subsection{问题形式化}
+我们考虑一个词表大小为 $V$、隐藏维度为 $d$ 的因果语言模型。标准权重绑定用单个矩阵 $W\in\mathbb{R}^{V\times d}$ 同时承担输入嵌入和输出反嵌入两个角色：
+\begin{equation}
+    e_t = W[x_t],\qquad z_t = W h_t + b ,
+\end{equation}
+其中 $h_t$ 是 Transformer 最后一层 hidden state，$b$ 是输出偏置。该形式把有效输入矩阵和有效输出矩阵都固定为 $W$，相当于施加硬约束
+\begin{equation}
+    E_{\mathrm{eff}} = U_{\mathrm{eff}} = W .
+\end{equation}
+如 \cref{sec:results_analysis} 所示，这一约束并非中性共享：由于输出反嵌入在每个训练位置接收全词表稠密分类梯度，而输入嵌入只接收当前出现 token 的稀疏查表梯度，共享矩阵的长期演化更容易靠近输出反嵌入几何。完整梯度推导见 \cref{app:gradient_derivation}。
+
+\subsection{为什么要非对称}
+
+AGD 的“非对称”不是指完全禁止输出侧自由度，而是指\textbf{优先把有限的额外自由度放在输入嵌入侧}。直觉上，标准 tied 矩阵已经被输出任务充分训练，并在几何上更像一个输出反嵌入；真正被压缩的是输入嵌入所需的欧氏语义结构。因此，如果只允许引入极少量参数，最有价值的方向不是继续增强输出侧，而是给输入侧提供一条从输出主导共享矩阵中偏离出来的低成本通道。
+
+这一观点也可以从梯度利用角度理解。保持 $U_{\mathrm{eff}}=W$ 时，输出反嵌入仍然使用共享矩阵并继续接收强稠密梯度；同时令输入侧使用 $E_{\mathrm{eff}}=\phi_{\mathrm{in}}(W)$，则输入路径的误差信号可以直接更新 $\phi_{\mathrm{in}}$ 中的少量偏置或 LoRA 参数，而不必与输出侧稠密梯度在同一个 $W$ 上竞争。换言之，AGD 并不试图用一张完整的新矩阵替代 weight tying，而是在保留 tied 参数效率和输出侧训练优势的同时，为输入几何补上最缺少的结构化自由度。
+
+\subsection{AGD 操作族}
+\label{sec:proposed_arch}
+
+在本文实验中，我们把 AGD 具体化为作用在有效输入矩阵上的两类轻量操作，并将输出侧对应操作作为对照消融。第一类是\textbf{偏置校正}，它为输入嵌入提供一个共享的 hidden 维平移：
+\begin{equation}
+    E_{\mathrm{eff}} = W - \mathbf{1}\beta^\top,\qquad U_{\mathrm{eff}}=W,\qquad \beta\in\mathbb{R}^{d}.
+\end{equation}
+该操作只增加 $d$ 个参数，用于吸收输入空间和输出空间之间的全局原点差异。由于所有 token 共享同一个 $\beta$，它不是 token-specific 记忆，而是对输入几何的整体再居中。
+
+第二类是\textbf{LoRA 式低秩松弛}。低秩空间假设提供了一种介于 hard tying 与 full untying 之间的结构化自由度：如果输入嵌入与输出反嵌入之间的关键差异主要落在少数共享方向上，就不必为每个 token 学习完整的独立修正。LoRA 原文正是这一思想在模型适应（adaptation）场景中的应用：它假设特定任务微调所需的权重更新量（change in weights）具有较低的内在秩，因此可以用低秩矩阵近似，从而在冻结原始权重的同时显著降低后训练成本~\cite{hu2022lora}。
+
+本文使用的是同一类低秩参数化工具，但低秩对象不同：我们关注的不是任务适配过程中的权重增量，而是 tied 输入嵌入空间与输出反嵌入空间之间的几何代沟（geometric gap）。换言之，我们假设二者的职能差异可以通过少数共享方向上的低秩修正来补偿，这些低秩自由度让输入嵌入与输出反嵌入在保留权重绑定参数效率的同时拥有各自的表达空间。
+
+具体而言，常规加性 LoRA 在词表矩阵上学习低秩增量：
+\begin{equation}
+    E_{\mathrm{eff}} = W + AB,\qquad
+    A\in\mathbb{R}^{V\times r},\quad B\in\mathbb{R}^{r\times d},
+\end{equation}
+其参数量为 $r(V+d)$。这种形式允许 token 具有不同低秩系数，但成本仍随词表大小 $V$ 增长。
+
+考虑到 embedding-head 层通常满足 $V\gg d$，我们更关注隐藏维度上的\textbf{乘性 LoRA}（相关形式也见 LoRMA~\cite{bihany2025lorma}）：
+\begin{equation}
+    E_{\mathrm{eff}} = W(I_d+PQ),\qquad
+    P\in\mathbb{R}^{d\times r},\quad Q\in\mathbb{R}^{r\times d}.
+\end{equation}
+它只增加 $2dr$ 个参数，不随词表大小增长；几何上相当于在 hidden 语义坐标系中学习一个低秩形变，而不是为每个 token 添加独立校准。需要强调的是，原始 LoRA 的低秩矩阵通常作为后训练适配模块，可在推理前选择挂载或合并；本文中的低秩矩阵则是 embedding-head 参数化的一部分，参与全程优化并始终保留在模型中。该假设及其局限性在 \cref{app:low_rank_parameterizations} 中展开。
+
+最后，我们也考察偏置校正与乘性 LoRA 的组合：
+\begin{equation}
+    E_{\mathrm{eff}} = W(I_d+PQ)-\mathbf{1}\beta^\top,\qquad U_{\mathrm{eff}}=W.
+\end{equation}
+该形式对应正文实验中的 S12，参数量为 $d+2dr$。完整 S1--S12 变体定义、输出侧对照和参数增量见 \cref{app:pretrain_exp_details}。
+
+
+
+
+\section{实验评估}
+\label{sec:experiments}
+
+我们在 MiniMind dense 预训练设置下评估一组 embedding-head 轻量解绑变体，目标是验证：在不引入完整独立词表矩阵成本的情况下，结构化松绑输入嵌入与输出反嵌入能否稳定缓解权重绑定带来的几何约束。实验只覆盖预训练阶段，不包含 SFT、RL、DPO 或其他后训练流程。
+
+\subsection{实验设置}
+\label{sec:eval_exp_setup}
+
+所有变体均采用相同的轻量 dense decoder-only Transformer 主干，隐藏维度为 $d=768$，并开启输出 bias（\texttt{lm\_head\_bias}）。模型架构主线对齐 Qwen3 小尺寸 dense 路线~\cite{yang2025qwen3}；实验实现与第一组预训练数据来自 MiniMind~\cite{gong2025minimind} 这一有良好社区声誉的开源小模型项目，其训练流程复现成本低，并提供了质量较高的小模型预训练数据。低秩相关变体统一使用 rank $r=32$。我们在两组数据设置上进行对照：第一组使用 MiniMind 原始预训练 JSONL 数据，完整训练十二个 embedding-head 变体；第二组将数据与词表迁移到 FineWeb-Edu~\cite{penedo2024fineweb} 数据和 GPT-2 tokenizer~\cite{radford2019language} 设置，在约 60 亿 token 的 packed 语料上训练关键输入侧与输出侧轻量解绑变体。两组实验仅包含预训练阶段，不包含 SFT、RL、DPO 等后训练。实验均使用三个随机种子（42、123、2026）并报告验证交叉熵 loss 与 PPL 的均值；详细数据切分、训练超参数、参数增量、梯度记录与日志路径见 \cref{app:pretrain_exp_details}。
+
+为系统研究 tied 输入嵌入/输出反嵌入矩阵的结构化松绑方式及其对语言模型预训练的影响，本文在相同模型主干上构造一组 embedding-head 变体。它们覆盖输入侧偏置校正、加性 LoRA 与乘性 LoRA，输出侧对应松绑，以及若干完整消融。正文重点报告 tied baseline、输入侧解绑与输出侧解绑之间的对比，以检验 AGD 中“输入侧优先”的不对称设计是否必要；完整变体定义、有效矩阵公式和参数增量见 \cref{app:pretrain_exp_details}。
+
+\subsection{主要结果}
+\label{sec:main_results}
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=\textwidth]{pretrain_delta_ppl.pdf}
+    \caption{\textbf{两组预训练实验中输入侧与输出侧轻量解绑相对 tied baseline 的 PPL 变化} 柱高为三 seed 平均 PPL 相对于 S1 的差值，误差棒为三 seed PPL 标准差；数值越低越好。正文主图聚焦 tied baseline、输入侧解绑（S3 偏置校正，S4 加性 LoRA，S6 乘性 LoRA，S12 偏置 + 乘性 LoRA）与输出侧解绑（S5/S7/S11）的对照，完整消融见附录。}
+    \label{fig:pretrain_delta_ppl}
+\end{figure*}
+
+\begin{table*}[t]
+\centering
+\caption{两组预训练实验的三 seed 验证结果。$\Delta$ PPL 表示相对于 S1 tied baseline 的平均 PPL 变化，数值越低越好。正文保留输入侧与输出侧轻量解绑的主要对照，完整消融见附录。}
+\label{tab:pretrain_main_results}
+\begin{small}
+\setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llcccc}
+\toprule
+数据设置 & 变体 & Mean Val Loss & Loss Std & Mean PPL & $\Delta$ PPL vs S1 \\
+\midrule
+MiniMind & \textbf{S3: 输入侧偏置} & \textbf{1.903291} & 0.005812 & \textbf{6.707934} & \textbf{-0.078747} \\
+MiniMind & S12: 输入侧偏置 + 乘性 LoRA & 1.906849 & 0.003746 & 6.731843 & -0.054838 \\
+MiniMind & S4: 输入侧加性 LoRA & 1.912134 & 0.006488 & 6.767515 & -0.019166 \\
+MiniMind & S6: 输入侧乘性 LoRA & 1.912824 & 0.006534 & 6.772186 & -0.014495 \\
+MiniMind & S11: 输出侧偏置 & 1.915024 & 0.000425 & 6.787102 & +0.000421 \\
+MiniMind & S7: 输出侧乘性 LoRA & 1.916350 & 0.008572 & 6.796107 & +0.009426 \\
+MiniMind & S5: 输出侧加性 LoRA & 1.917078 & 0.011477 & 6.801057 & +0.014376 \\
+MiniMind & S1: tied baseline & 1.914962 & 0.003377 & 6.786681 & 0.000000 \\
+\midrule
+FineWeb-Edu/GPT-2 & \textbf{S12: 输入侧偏置 + 乘性 LoRA} & \textbf{3.230316} & 0.001921 & \textbf{25.287638} & \textbf{-0.192426} \\
+FineWeb-Edu/GPT-2 & S3: 输入侧偏置 & 3.233494 & 0.002372 & 25.368130 & -0.111934 \\
+FineWeb-Edu/GPT-2 & S4: 输入侧加性 LoRA & 3.235201 & 0.000388 & 25.411471 & -0.068593 \\
+FineWeb-Edu/GPT-2 & S6: 输入侧乘性 LoRA & 3.235579 & 0.003159 & 25.421078 & -0.058986 \\
+FineWeb-Edu/GPT-2 & S11: 输出侧偏置 & 3.236952 & 0.004262 & 25.456022 & -0.024042 \\
+FineWeb-Edu/GPT-2 & S7: 输出侧乘性 LoRA & 3.238856 & 0.001304 & 25.504528 & +0.024464 \\
+FineWeb-Edu/GPT-2 & S1: tied baseline & 3.237896 & 0.002574 & 25.480064 & 0.000000 \\
+\bottomrule
+\end{tabular}
+}
+\end{small}
+\end{table*}
+
+\paragraph{输入侧松绑稳定优于 tied baseline}
+两组数据设置给出一致趋势（\cref{fig:pretrain_delta_ppl,tab:pretrain_main_results}）：收益最稳定地来自输入侧修正。MiniMind 原始数据上，S3 取得最低平均 PPL（6.707934），相比 S1 降低 0.078747；S12 排名第二，平均 PPL 为 6.731843，相比 S1 降低 0.054838。在更通用的 FineWeb-Edu/GPT-2 设置中，S12 成为最优方案，平均 PPL 为 25.287638，相比 S1 降低 0.192426，并且三个 seed 均优于 S1；S3 排名第二，平均 PPL 为 25.368130，相比 S1 降低 0.111934。这说明输入侧偏置校正与乘性 LoRA 能够稳定缓解 tied 输入空间受到输出目标牵引的问题。
+
+\paragraph{偏置与乘性 LoRA 的组合具有更好的迁移性}
+S4 和 S6 在两组实验中均略优于 S1，但收益小于 S3/S12。值得注意的是，S12 的参数增量仅为 $d+2dr$，在 $d=768,r=32$ 时为 49,920 个参数，接近单独的输入侧乘性 LoRA，却在 FineWeb-Edu/GPT-2 设置中取得最优结果。相比之下，词表维加性 LoRA 的参数量随 $V$ 线性增长；在 GPT-2 词表下，S4/S5 的新增参数约为 1.63M，而 S12 仍只增加约 0.05M 参数。该结果支持本文的低秩空间假设：重要的输入/输出几何差异可以由少数隐藏维共享方向补偿，而不必为每个 token 学习高成本的独立修正。
+
+\paragraph{输出侧单独改造的收益不稳定}
+相比之下，仅在输出侧加入轻量自由度（S5、S7、S11）未能复制输入侧的稳定增益。完整 MiniMind 数据上，S11 与 S1 的平均验证 loss 几乎持平，S5/S7 均未能稳定优于 S1；在 FineWeb-Edu/GPT-2 设置中，S11 仅略优于 S1，S7 的平均 PPL 仍略高于 S1（\cref{fig:pretrain_delta_ppl,tab:pretrain_main_results}）。这与 \cref{sec:Diagnostic} 中“输出流形占主导、输入侧更易被牵拉”的诊断相一致：如果 tied 矩阵主要被输出侧目标牵引，那么额外自由度优先补给输入侧，往往比继续增强输出侧更有效。附录梯度分析进一步显示，S7 的输入路径与输出路径梯度在共享权重上长期呈负 cosine，提示输出侧乘性 LoRA 可能诱发更新方向互斥，这也解释了其训练效果不如 S1 baseline 的现象（\cref{fig:fineedu_tied_variant_grad_cosine,fig:fineedu_all_variant_grad_norms}）。
+
+\section{结论与未来工作}
+\label{sec:conclusion}
+
+本文从训练动力学与几何结构两个角度重新审视了 tied-vs-untied 争论。
+我们识别出一个根本冲突：输入嵌入需要稳定的欧氏语义结构，而输出反嵌入在稠密全词表梯度更新驱动下更容易形成占主导地位的输出几何。
+338 组模型比较与 FineWeb-Edu/GPT-2 梯度分析共同表明，标准权重绑定并不是输入侧和输出侧的对称折中，而是会让共享矩阵长期更接近输出反嵌入，从而压缩并退化输入侧几何结构。
+
+为解决这一问题，我们提出并比较了一组简单而有效的非对称几何解耦操作。
+这类操作保留 tied 矩阵作为参数高效的共享基底，同时优先为输入嵌入侧提供偏置校正或乘性 LoRA 等少量结构化自由度。
+MiniMind 与 FineWeb-Edu/GPT-2 预训练实验显示，输入侧偏置和偏置 + 乘性 LoRA 能稳定降低 PPL，且 S12 仅增加 $d+2dr$ 个参数；输出侧单独改造则收益不稳定，并在梯度方向上可能出现互斥。
+因此，AGD 为现代参数受限模型提供了一种低成本、输入侧优先的 embedding-head 改进方案。
+
+\paragraph{局限性}
+尽管我们的诊断分析覆盖了最高约 397B 参数的公开模型族，并在 338 组模型比较上观察到一致的几何趋势，但完整预训练消融仍局限在 MiniMind dense 级别的小型因果语言模型上，并主要覆盖预训练阶段。因此，虽然我们已经在 MiniMind 原始数据和 FineWeb-Edu/GPT-2 两种设置上验证了几何原则与效率收益，这些具体解绑操作在更大规模基础模型、长 token 训练以及 SFT/RL/DPO 等后训练流程中的可扩展性仍有待实证验证。
+
+\paragraph{未来工作}
+本研究引出了三个主要方向。
+首先，我们计划研究输入嵌入空间的\textbf{理论不变量}，尤其是解释为什么 Euclidean 结构在跨模型和微调过程中更稳定，而 cosine 口径更容易受到偏置或各向异性的影响。
+其次，我们计划在更大规模模型和更长预训练上系统验证 AGD，考察输入侧偏置、乘性 LoRA 以及 rank 选择是否随模型规模、词表大小和训练 token 数发生变化。
+最后，我们将研究这些轻量解绑操作在 SFT、RL、DPO 等后训练流程中的行为，特别是输出侧梯度更强时，输入侧优先解耦是否仍能保持稳定收益。
+% 总结你的 SOTA 结果。
+
+
+% ▲▲▲ 正文结构结束 ▲▲▲
+
+% ▼▼▼ 下面是必须保留的声明和引用 ▼▼▼
+
+
+
+
+\section*{影响声明}
+本文工作的目标是推动机器学习领域发展。我们的工作可能带来多方面社会影响，但我们认为其中没有必须在此特别强调的具体后果。
+
+
+
+
+
+
+\bibliographystyle{unsrtnat}
+\bibliography{refs/example_paper}
+
+\appendix
+
+\input{sections/appendix_zh}
+
+\newpage
+
+% Completed checklist is kept separate from the official template.
+\input{sections/checklist_zh.tex}
+
+
+\end{document}
