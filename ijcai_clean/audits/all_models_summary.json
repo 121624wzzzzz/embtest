@@ -1,452 +1,14 @@
 {
-    "Qwen3-1.7B": {
+    "Gemma-4-31B-Instruct": {
         "tie_word_embeddings": true,
         "standardized_dims": {
             "embed": [
-                151936,
-                2048
+                262144,
+                5376
             ],
             "lm_head": [
-                151936,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                151936,
-                2048
-            ],
-            "model.embed_tokens.weight": [
-                151936,
-                2048
-            ]
-        }
-    },
-    "Qwen2.5-3B-Instruct": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                2048
-            ],
-            "lm_head": [
-                151936,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                2048
-            ]
-        }
-    },
-    "Qwen3.5-122B-A10B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                3072
-            ],
-            "lm_head": [
-                248320,
-                3072
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.language_model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                248320,
-                3072
-            ],
-            "model.language_model.embed_tokens.weight": [
-                248320,
-                3072
-            ]
-        }
-    },
-    "Qwen2.5-72B-Base": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                8192
-            ],
-            "lm_head": [
-                152064,
-                8192
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                152064,
-                8192
-            ],
-            "lm_head.weight": [
-                152064,
-                8192
-            ]
-        }
-    },
-    "Qwen2.5-0.5B": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                896
-            ],
-            "lm_head": [
-                151936,
-                896
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                896
-            ]
-        }
-    },
-    "Qwen2.5-72B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                8192
-            ],
-            "lm_head": [
-                152064,
-                8192
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                152064,
-                8192
-            ],
-            "lm_head.weight": [
-                152064,
-                8192
-            ]
-        }
-    },
-    "Qwen2.5-32B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                5120
-            ],
-            "lm_head": [
-                152064,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                152064,
-                5120
-            ],
-            "model.embed_tokens.weight": [
-                152064,
-                5120
-            ]
-        }
-    },
-    "Qwen3-30B-A3B-Base": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                2048
-            ],
-            "lm_head": [
-                151936,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                2048
-            ],
-            "lm_head.weight": [
-                151936,
-                2048
-            ]
-        }
-    },
-    "Qwen3.5-27B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                5120
-            ],
-            "lm_head": [
-                248320,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.language_model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                248320,
-                5120
-            ],
-            "model.language_model.embed_tokens.weight": [
-                248320,
-                5120
-            ]
-        }
-    },
-    "Qwen3-1.7B-Base": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                2048
-            ],
-            "lm_head": [
-                151936,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                2048
-            ]
-        }
-    },
-    "Qwen2.5-3B": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                2048
-            ],
-            "lm_head": [
-                151936,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                2048
-            ]
-        }
-    },
-    "Qwen3.6-35B-A3B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                2048
-            ],
-            "lm_head": [
-                248320,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.language_model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                248320,
-                2048
-            ],
-            "model.language_model.embed_tokens.weight": [
-                248320,
-                2048
-            ]
-        }
-    },
-    "Qwen3.5-9B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                4096
-            ],
-            "lm_head": [
-                248320,
-                4096
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.language_model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                248320,
-                4096
-            ],
-            "model.language_model.embed_tokens.weight": [
-                248320,
-                4096
-            ]
-        }
-    },
-    "Qwen2.5-14B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                5120
-            ],
-            "lm_head": [
-                152064,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                152064,
-                5120
-            ],
-            "lm_head.weight": [
-                152064,
-                5120
-            ]
-        }
-    },
-    "Qwen3.5-2B-Base": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                2048
-            ],
-            "lm_head": [
-                248320,
-                2048
+                262144,
+                5376
             ]
         },
         "standardized_sources": {
@@ -459,366 +21,53 @@
         "raw_lm_head_keys": [],
         "raw_tensors_dimensions": {
             "model.language_model.embed_tokens.weight": [
-                248320,
-                2048
+                262144,
+                5376
             ]
         }
     },
-    "Qwen2.5-7B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                3584
-            ],
-            "lm_head": [
-                152064,
-                3584
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                152064,
-                3584
-            ],
-            "model.embed_tokens.weight": [
-                152064,
-                3584
-            ]
-        }
-    },
-    "Qwen3-8B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                4096
-            ],
-            "lm_head": [
-                151936,
-                4096
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                4096
-            ],
-            "lm_head.weight": [
-                151936,
-                4096
-            ]
-        }
-    },
-    "Qwen2.5-1.5B": {
+    "Gemma-4-E2B-Instruct": {
         "tie_word_embeddings": true,
         "standardized_dims": {
             "embed": [
-                151936,
+                262144,
                 1536
             ],
             "lm_head": [
-                151936,
+                262144,
                 1536
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                1536
-            ]
-        }
-    },
-    "Qwen3-0.6B-Base": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                1024
-            ],
-            "lm_head": [
-                151936,
-                1024
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                1024
-            ]
-        }
-    },
-    "Qwen2.5-14B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                5120
-            ],
-            "lm_head": [
-                152064,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                152064,
-                5120
-            ],
-            "lm_head.weight": [
-                152064,
-                5120
-            ]
-        }
-    },
-    "Qwen2.5-32B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                5120
-            ],
-            "lm_head": [
-                152064,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                152064,
-                5120
-            ],
-            "model.embed_tokens.weight": [
-                152064,
-                5120
-            ]
-        }
-    },
-    "Qwen2.5-1.5B-Instruct": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                1536
-            ],
-            "lm_head": [
-                151936,
-                1536
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                1536
-            ]
-        }
-    },
-    "Qwen3-235B-A22B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                4096
-            ],
-            "lm_head": [
-                151936,
-                4096
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                4096
-            ],
-            "lm_head.weight": [
-                151936,
-                4096
-            ]
-        }
-    },
-    "Qwen3-14B-Base": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                5120
-            ],
-            "lm_head": [
-                151936,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                5120
-            ],
-            "lm_head.weight": [
-                151936,
-                5120
-            ]
-        }
-    },
-    "Qwen3.5-35B-A3B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                2048
-            ],
-            "lm_head": [
-                248320,
-                2048
             ]
         },
         "standardized_sources": {
             "embed": "model.language_model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
+            "lm_head": "model.language_model.embed_tokens.weight"
         },
         "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
+            "model.language_model.embed_tokens.weight",
+            "model.language_model.embed_tokens_per_layer.weight"
         ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
+        "raw_lm_head_keys": [],
         "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                248320,
-                2048
-            ],
             "model.language_model.embed_tokens.weight": [
-                248320,
-                2048
+                262144,
+                1536
+            ],
+            "model.language_model.embed_tokens_per_layer.weight": [
+                262144,
+                8960
             ]
         }
     },
-    "Qwen3.5-9B-Base": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                4096
-            ],
-            "lm_head": [
-                248320,
-                4096
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.language_model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                248320,
-                4096
-            ],
-            "model.language_model.embed_tokens.weight": [
-                248320,
-                4096
-            ]
-        }
-    },
-    "Qwen3.5-0.8B-Instruct": {
+    "Gemma-4-26B-A4B-Instruct": {
         "tie_word_embeddings": true,
         "standardized_dims": {
             "embed": [
-                248320,
-                1024
+                262144,
+                2816
             ],
             "lm_head": [
-                248320,
-                1024
+                262144,
+                2816
             ]
         },
         "standardized_sources": {
@@ -831,120 +80,53 @@
         "raw_lm_head_keys": [],
         "raw_tensors_dimensions": {
             "model.language_model.embed_tokens.weight": [
-                248320,
-                1024
+                262144,
+                2816
             ]
         }
     },
-    "Qwen3-0.6B": {
+    "Gemma-4-E4B-Instruct": {
         "tie_word_embeddings": true,
         "standardized_dims": {
             "embed": [
-                151936,
-                1024
+                262144,
+                2560
             ],
             "lm_head": [
-                151936,
-                1024
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                151936,
-                1024
-            ],
-            "model.embed_tokens.weight": [
-                151936,
-                1024
-            ]
-        }
-    },
-    "Qwen3.5-35B-A3B-Base": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                2048
-            ],
-            "lm_head": [
-                248320,
-                2048
+                262144,
+                2560
             ]
         },
         "standardized_sources": {
             "embed": "model.language_model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
+            "lm_head": "model.language_model.embed_tokens.weight"
         },
         "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
+            "model.language_model.embed_tokens.weight",
+            "model.language_model.embed_tokens_per_layer.weight"
         ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
+        "raw_lm_head_keys": [],
         "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                248320,
-                2048
-            ],
             "model.language_model.embed_tokens.weight": [
-                248320,
-                2048
+                262144,
+                2560
+            ],
+            "model.language_model.embed_tokens_per_layer.weight": [
+                262144,
+                10752
             ]
         }
     },
-    "Qwen3-30B-A3B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                2048
-            ],
-            "lm_head": [
-                151936,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                2048
-            ],
-            "lm_head.weight": [
-                151936,
-                2048
-            ]
-        }
-    },
-    "Qwen3.5-2B-Instruct": {
+    "Gemma-4-26B-A4B": {
         "tie_word_embeddings": true,
         "standardized_dims": {
             "embed": [
-                248320,
-                2048
+                262144,
+                2816
             ],
             "lm_head": [
-                248320,
-                2048
+                262144,
+                2816
             ]
         },
         "standardized_sources": {
@@ -957,81 +139,53 @@
         "raw_lm_head_keys": [],
         "raw_tensors_dimensions": {
             "model.language_model.embed_tokens.weight": [
-                248320,
-                2048
+                262144,
+                2816
             ]
         }
     },
-    "Qwen3-14B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                5120
-            ],
-            "lm_head": [
-                151936,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                5120
-            ],
-            "lm_head.weight": [
-                151936,
-                5120
-            ]
-        }
-    },
-    "Qwen2.5-0.5B-Instruct": {
+    "Gemma-4-E4B": {
         "tie_word_embeddings": true,
         "standardized_dims": {
             "embed": [
-                151936,
-                896
+                262144,
+                2560
             ],
             "lm_head": [
-                151936,
-                896
+                262144,
+                2560
             ]
         },
         "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "model.language_model.embed_tokens.weight"
         },
         "raw_embed_keys": [
-            "model.embed_tokens.weight"
+            "model.language_model.embed_tokens.weight",
+            "model.language_model.embed_tokens_per_layer.weight"
         ],
         "raw_lm_head_keys": [],
         "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                896
+            "model.language_model.embed_tokens.weight": [
+                262144,
+                2560
+            ],
+            "model.language_model.embed_tokens_per_layer.weight": [
+                262144,
+                10752
             ]
         }
     },
-    "Qwen3.5-4B-Instruct": {
+    "Gemma-4-31B": {
         "tie_word_embeddings": true,
         "standardized_dims": {
             "embed": [
-                248320,
-                2560
+                262144,
+                5376
             ],
             "lm_head": [
-                248320,
-                2560
+                262144,
+                5376
             ]
         },
         "standardized_sources": {
@@ -1044,21 +198,21 @@
         "raw_lm_head_keys": [],
         "raw_tensors_dimensions": {
             "model.language_model.embed_tokens.weight": [
-                248320,
-                2560
+                262144,
+                5376
             ]
         }
     },
-    "Qwen3.5-4B-Base": {
+    "Gemma-4-E2B": {
         "tie_word_embeddings": true,
         "standardized_dims": {
             "embed": [
-                248320,
-                2560
+                262144,
+                1536
             ],
             "lm_head": [
-                248320,
-                2560
+                262144,
+                1536
             ]
         },
         "standardized_sources": {
@@ -1066,952 +220,35 @@
             "lm_head": "model.language_model.embed_tokens.weight"
         },
         "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
+            "model.language_model.embed_tokens.weight",
+            "model.language_model.embed_tokens_per_layer.weight"
         ],
         "raw_lm_head_keys": [],
         "raw_tensors_dimensions": {
             "model.language_model.embed_tokens.weight": [
-                248320,
-                2560
-            ]
-        }
-    },
-    "Qwen3-4B-Base": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                2560
-            ],
-            "lm_head": [
-                151936,
-                2560
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                2560
-            ]
-        }
-    },
-    "Qwen3-4B": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                2560
-            ],
-            "lm_head": [
-                151936,
-                2560
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                2560
-            ]
-        }
-    },
-    "Qwen3.5-0.8B-Base": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                1024
-            ],
-            "lm_head": [
-                248320,
-                1024
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.language_model.embed_tokens.weight",
-            "lm_head": "model.language_model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.language_model.embed_tokens.weight": [
-                248320,
-                1024
-            ]
-        }
-    },
-    "Qwen3-8B-Base": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                4096
-            ],
-            "lm_head": [
-                151936,
-                4096
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                151936,
-                4096
-            ],
-            "lm_head.weight": [
-                151936,
-                4096
-            ]
-        }
-    },
-    "Qwen3-32B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                151936,
-                5120
-            ],
-            "lm_head": [
-                151936,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                151936,
-                5120
-            ],
-            "model.embed_tokens.weight": [
-                151936,
-                5120
-            ]
-        }
-    },
-    "Qwen3.5-397B-A17B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                248320,
-                4096
-            ],
-            "lm_head": [
-                248320,
-                4096
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.language_model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.language_model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                248320,
-                4096
-            ],
-            "model.language_model.embed_tokens.weight": [
-                248320,
-                4096
-            ]
-        }
-    },
-    "Qwen2.5-7B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                3584
-            ],
-            "lm_head": [
-                152064,
-                3584
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                152064,
-                3584
-            ],
-            "model.embed_tokens.weight": [
-                152064,
-                3584
-            ]
-        }
-    },
-    "DeepSeek-R1-0528": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                129280,
-                7168
-            ],
-            "lm_head": [
-                129280,
-                7168
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.layers.61.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.layers.61.embed_tokens.weight",
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                129280,
-                7168
-            ],
-            "model.layers.61.embed_tokens.weight": [
-                129280,
-                7168
-            ],
-            "model.embed_tokens.weight": [
-                129280,
-                7168
-            ]
-        }
-    },
-    "DeepSeek-R1-Distill-Qwen-1.5B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                151936,
+                262144,
                 1536
             ],
-            "lm_head": [
-                151936,
-                1536
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                151936,
-                1536
-            ],
-            "model.embed_tokens.weight": [
-                151936,
-                1536
+            "model.language_model.embed_tokens_per_layer.weight": [
+                262144,
+                8960
             ]
         }
     },
-    "DeepSeek-V3.2-Speciale": {
+    "MiniMax-M2.7": {
         "tie_word_embeddings": false,
         "standardized_dims": {
             "embed": [
-                129280,
-                7168
-            ],
-            "lm_head": [
-                129280,
-                7168
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.layers.61.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.layers.61.embed_tokens.weight",
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                129280,
-                7168
-            ],
-            "model.layers.61.embed_tokens.weight": [
-                129280,
-                7168
-            ],
-            "model.embed_tokens.weight": [
-                129280,
-                7168
-            ]
-        }
-    },
-    "DeepSeek-V2-Lite-Chat": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                102400,
-                2048
-            ],
-            "lm_head": [
-                102400,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                102400,
-                2048
-            ],
-            "model.embed_tokens.weight": [
-                102400,
-                2048
-            ]
-        }
-    },
-    "DeepSeek-V3-Base": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                129280,
-                7168
-            ],
-            "lm_head": [
-                129280,
-                7168
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.layers.61.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.layers.61.embed_tokens.weight",
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                129280,
-                7168
-            ],
-            "model.layers.61.embed_tokens.weight": [
-                129280,
-                7168
-            ],
-            "model.embed_tokens.weight": [
-                129280,
-                7168
-            ]
-        }
-    },
-    "DeepSeek-R1-Distill-Llama-70B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                128256,
-                8192
-            ],
-            "lm_head": [
-                128256,
-                8192
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                128256,
-                8192
-            ],
-            "lm_head.weight": [
-                128256,
-                8192
-            ]
-        }
-    },
-    "DeepSeek-V3": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                129280,
-                7168
-            ],
-            "lm_head": [
-                129280,
-                7168
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.layers.61.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.layers.61.embed_tokens.weight",
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                129280,
-                7168
-            ],
-            "model.layers.61.embed_tokens.weight": [
-                129280,
-                7168
-            ],
-            "model.embed_tokens.weight": [
-                129280,
-                7168
-            ]
-        }
-    },
-    "DeepSeek-R1": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                129280,
-                7168
-            ],
-            "lm_head": [
-                129280,
-                7168
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.layers.61.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.layers.61.embed_tokens.weight",
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                129280,
-                7168
-            ],
-            "model.layers.61.embed_tokens.weight": [
-                129280,
-                7168
-            ],
-            "model.embed_tokens.weight": [
-                129280,
-                7168
-            ]
-        }
-    },
-    "DeepSeek-R1-Distill-Qwen-32B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                5120
-            ],
-            "lm_head": [
-                152064,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                152064,
-                5120
-            ],
-            "lm_head.weight": [
-                152064,
-                5120
-            ]
-        }
-    },
-    "DeepSeek-V2-Lite": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                102400,
-                2048
-            ],
-            "lm_head": [
-                102400,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                102400,
-                2048
-            ],
-            "model.embed_tokens.weight": [
-                102400,
-                2048
-            ]
-        }
-    },
-    "DeepSeek-R1-Distill-Llama-8B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                128256,
-                4096
-            ],
-            "lm_head": [
-                128256,
-                4096
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                128256,
-                4096
-            ],
-            "lm_head.weight": [
-                128256,
-                4096
-            ]
-        }
-    },
-    "DeepSeek-V3.1": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                129280,
-                7168
-            ],
-            "lm_head": [
-                129280,
-                7168
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.layers.61.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.layers.61.embed_tokens.weight",
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                129280,
-                7168
-            ],
-            "model.layers.61.embed_tokens.weight": [
-                129280,
-                7168
-            ],
-            "model.embed_tokens.weight": [
-                129280,
-                7168
-            ]
-        }
-    },
-    "DeepSeek-V3.2": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                129280,
-                7168
-            ],
-            "lm_head": [
-                129280,
-                7168
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.layers.61.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.layers.61.embed_tokens.weight",
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                129280,
-                7168
-            ],
-            "model.layers.61.embed_tokens.weight": [
-                129280,
-                7168
-            ],
-            "model.embed_tokens.weight": [
-                129280,
-                7168
-            ]
-        }
-    },
-    "DeepSeek-V3.1-Base": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                129280,
-                7168
-            ],
-            "lm_head": [
-                129280,
-                7168
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.layers.61.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.layers.61.embed_tokens.weight",
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                129280,
-                7168
-            ],
-            "model.layers.61.embed_tokens.weight": [
-                129280,
-                7168
-            ],
-            "model.embed_tokens.weight": [
-                129280,
-                7168
-            ]
-        }
-    },
-    "DeepSeek-R1-Distill-Qwen-14B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                5120
-            ],
-            "lm_head": [
-                152064,
-                5120
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                152064,
-                5120
-            ],
-            "lm_head.weight": [
-                152064,
-                5120
-            ]
-        }
-    },
-    "DeepSeek-R1-Distill-Qwen-7B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                152064,
-                3584
-            ],
-            "lm_head": [
-                152064,
-                3584
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                152064,
-                3584
-            ],
-            "lm_head.weight": [
-                152064,
-                3584
-            ]
-        }
-    },
-    "Llama-3.1-8B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                128256,
-                4096
-            ],
-            "lm_head": [
-                128256,
-                4096
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                128256,
-                4096
-            ],
-            "model.embed_tokens.weight": [
-                128256,
-                4096
-            ]
-        }
-    },
-    "Llama-3.2-3B-Instruct": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                128256,
+                200064,
                 3072
             ],
             "lm_head": [
-                128256,
+                200064,
                 3072
             ]
         },
         "standardized_sources": {
             "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                128256,
-                3072
-            ]
-        }
-    },
-    "Llama-3.2-3B": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                128256,
-                3072
-            ],
-            "lm_head": [
-                128256,
-                3072
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                128256,
-                3072
-            ]
-        }
-    },
-    "Gemma-2-9B-Instruct": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                256000,
-                3584
-            ],
-            "lm_head": [
-                256000,
-                3584
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                256000,
-                3584
-            ]
-        }
-    },
-    "Llama-3.2-1B": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                128256,
-                2048
-            ],
-            "lm_head": [
-                128256,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                128256,
-                2048
-            ]
-        }
-    },
-    "Llama-3.1-70B-Base": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                128256,
-                8192
-            ],
-            "lm_head": [
-                128256,
-                8192
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
             "lm_head": "lm_head.weight"
         },
         "raw_embed_keys": [
@@ -2021,241 +258,13 @@
             "lm_head.weight"
         ],
         "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                200064,
+                3072
+            ],
             "lm_head.weight": [
-                128256,
-                8192
-            ],
-            "model.embed_tokens.weight": [
-                128256,
-                8192
-            ]
-        }
-    },
-    "Gemma-2-27B-Instruct": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                256000,
-                4608
-            ],
-            "lm_head": [
-                256000,
-                4608
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                256000,
-                4608
-            ]
-        }
-    },
-    "Gemma-2-9B": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                256000,
-                3584
-            ],
-            "lm_head": [
-                256000,
-                3584
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                256000,
-                3584
-            ]
-        }
-    },
-    "Llama-3.2-1B-Instruct": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                128256,
-                2048
-            ],
-            "lm_head": [
-                128256,
-                2048
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                128256,
-                2048
-            ]
-        }
-    },
-    "Llama-3.1-70B-Instruct": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                128256,
-                8192
-            ],
-            "lm_head": [
-                128256,
-                8192
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                128256,
-                8192
-            ],
-            "model.embed_tokens.weight": [
-                128256,
-                8192
-            ]
-        }
-    },
-    "Gemma-2-2B": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                256000,
-                2304
-            ],
-            "lm_head": [
-                256000,
-                2304
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                256000,
-                2304
-            ]
-        }
-    },
-    "Llama-3.1-8B": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                128256,
-                4096
-            ],
-            "lm_head": [
-                128256,
-                4096
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                128256,
-                4096
-            ],
-            "model.embed_tokens.weight": [
-                128256,
-                4096
-            ]
-        }
-    },
-    "Gemma-2-27B": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                256000,
-                4608
-            ],
-            "lm_head": [
-                256000,
-                4608
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                256000,
-                4608
-            ]
-        }
-    },
-    "Gemma-2-2B-Instruct": {
-        "tie_word_embeddings": true,
-        "standardized_dims": {
-            "embed": [
-                256000,
-                2304
-            ],
-            "lm_head": [
-                256000,
-                2304
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "model.embed_tokens.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [],
-        "raw_tensors_dimensions": {
-            "model.embed_tokens.weight": [
-                256000,
-                2304
+                200064,
+                3072
             ]
         }
     },
@@ -2287,39 +296,6 @@
                 3072
             ],
             "lm_head.weight": [
-                200064,
-                3072
-            ]
-        }
-    },
-    "MiniMax-M2.7": {
-        "tie_word_embeddings": false,
-        "standardized_dims": {
-            "embed": [
-                200064,
-                3072
-            ],
-            "lm_head": [
-                200064,
-                3072
-            ]
-        },
-        "standardized_sources": {
-            "embed": "model.embed_tokens.weight",
-            "lm_head": "lm_head.weight"
-        },
-        "raw_embed_keys": [
-            "model.embed_tokens.weight"
-        ],
-        "raw_lm_head_keys": [
-            "lm_head.weight"
-        ],
-        "raw_tensors_dimensions": {
-            "lm_head.weight": [
-                200064,
-                3072
-            ],
-            "model.embed_tokens.weight": [
                 200064,
                 3072
             ]
@@ -2388,6 +364,2548 @@
             "model.embed_tokens.weight": [
                 154880,
                 6144
+            ]
+        }
+    },
+    "DeepSeek-V4-Pro": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                7168
+            ],
+            "lm_head": [
+                129280,
+                7168
+            ]
+        },
+        "standardized_sources": {
+            "embed": "embed.weight",
+            "lm_head": "head.weight"
+        },
+        "raw_embed_keys": [
+            "embed.weight"
+        ],
+        "raw_lm_head_keys": [
+            "head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "head.weight": [
+                129280,
+                7168
+            ],
+            "embed.weight": [
+                129280,
+                7168
+            ]
+        }
+    },
+    "DeepSeek-V2-Lite": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                102400,
+                2048
+            ],
+            "lm_head": [
+                102400,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                102400,
+                2048
+            ],
+            "model.embed_tokens.weight": [
+                102400,
+                2048
+            ]
+        }
+    },
+    "DeepSeek-R1-Distill-Qwen-14B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                5120
+            ],
+            "lm_head": [
+                152064,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                152064,
+                5120
+            ],
+            "lm_head.weight": [
+                152064,
+                5120
+            ]
+        }
+    },
+    "DeepSeek-V3-Base": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                7168
+            ],
+            "lm_head": [
+                129280,
+                7168
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight",
+            "model.layers.61.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                129280,
+                7168
+            ],
+            "model.embed_tokens.weight": [
+                129280,
+                7168
+            ],
+            "model.layers.61.embed_tokens.weight": [
+                129280,
+                7168
+            ]
+        }
+    },
+    "DeepSeek-V3.2-Speciale": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                7168
+            ],
+            "lm_head": [
+                129280,
+                7168
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight",
+            "model.layers.61.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                129280,
+                7168
+            ],
+            "model.embed_tokens.weight": [
+                129280,
+                7168
+            ],
+            "model.layers.61.embed_tokens.weight": [
+                129280,
+                7168
+            ]
+        }
+    },
+    "DeepSeek-R1-Distill-Qwen-7B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                3584
+            ],
+            "lm_head": [
+                152064,
+                3584
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                152064,
+                3584
+            ],
+            "model.embed_tokens.weight": [
+                152064,
+                3584
+            ]
+        }
+    },
+    "DeepSeek-V3.1-Base": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                7168
+            ],
+            "lm_head": [
+                129280,
+                7168
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight",
+            "model.layers.61.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                129280,
+                7168
+            ],
+            "model.embed_tokens.weight": [
+                129280,
+                7168
+            ],
+            "model.layers.61.embed_tokens.weight": [
+                129280,
+                7168
+            ]
+        }
+    },
+    "DeepSeek-V3": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                7168
+            ],
+            "lm_head": [
+                129280,
+                7168
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight",
+            "model.layers.61.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                129280,
+                7168
+            ],
+            "model.embed_tokens.weight": [
+                129280,
+                7168
+            ],
+            "model.layers.61.embed_tokens.weight": [
+                129280,
+                7168
+            ]
+        }
+    },
+    "DeepSeek-V4-Flash": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                4096
+            ],
+            "lm_head": [
+                129280,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "embed.weight",
+            "lm_head": "head.weight"
+        },
+        "raw_embed_keys": [
+            "embed.weight"
+        ],
+        "raw_lm_head_keys": [
+            "head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "head.weight": [
+                129280,
+                4096
+            ],
+            "embed.weight": [
+                129280,
+                4096
+            ]
+        }
+    },
+    "DeepSeek-R1-Distill-Llama-70B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                8192
+            ],
+            "lm_head": [
+                128256,
+                8192
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                128256,
+                8192
+            ],
+            "lm_head.weight": [
+                128256,
+                8192
+            ]
+        }
+    },
+    "DeepSeek-R1-Distill-Qwen-32B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                5120
+            ],
+            "lm_head": [
+                152064,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                152064,
+                5120
+            ],
+            "lm_head.weight": [
+                152064,
+                5120
+            ]
+        }
+    },
+    "DeepSeek-R1-Distill-Llama-8B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                4096
+            ],
+            "lm_head": [
+                128256,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                128256,
+                4096
+            ],
+            "model.embed_tokens.weight": [
+                128256,
+                4096
+            ]
+        }
+    },
+    "DeepSeek-V3.1": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                7168
+            ],
+            "lm_head": [
+                129280,
+                7168
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight",
+            "model.layers.61.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                129280,
+                7168
+            ],
+            "model.embed_tokens.weight": [
+                129280,
+                7168
+            ],
+            "model.layers.61.embed_tokens.weight": [
+                129280,
+                7168
+            ]
+        }
+    },
+    "DeepSeek-R1": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                7168
+            ],
+            "lm_head": [
+                129280,
+                7168
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight",
+            "model.layers.61.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                129280,
+                7168
+            ],
+            "model.embed_tokens.weight": [
+                129280,
+                7168
+            ],
+            "model.layers.61.embed_tokens.weight": [
+                129280,
+                7168
+            ]
+        }
+    },
+    "DeepSeek-V2-Lite-Chat": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                102400,
+                2048
+            ],
+            "lm_head": [
+                102400,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                102400,
+                2048
+            ],
+            "model.embed_tokens.weight": [
+                102400,
+                2048
+            ]
+        }
+    },
+    "DeepSeek-R1-Distill-Qwen-1.5B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                1536
+            ],
+            "lm_head": [
+                151936,
+                1536
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                151936,
+                1536
+            ],
+            "model.embed_tokens.weight": [
+                151936,
+                1536
+            ]
+        }
+    },
+    "DeepSeek-R1-0528": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                7168
+            ],
+            "lm_head": [
+                129280,
+                7168
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight",
+            "model.layers.61.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                129280,
+                7168
+            ],
+            "model.embed_tokens.weight": [
+                129280,
+                7168
+            ],
+            "model.layers.61.embed_tokens.weight": [
+                129280,
+                7168
+            ]
+        }
+    },
+    "DeepSeek-V3.2": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                129280,
+                7168
+            ],
+            "lm_head": [
+                129280,
+                7168
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight",
+            "model.layers.61.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                129280,
+                7168
+            ],
+            "model.embed_tokens.weight": [
+                129280,
+                7168
+            ],
+            "model.layers.61.embed_tokens.weight": [
+                129280,
+                7168
+            ]
+        }
+    },
+    "Qwen3-8B-Base": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                4096
+            ],
+            "lm_head": [
+                151936,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                4096
+            ],
+            "lm_head.weight": [
+                151936,
+                4096
+            ]
+        }
+    },
+    "Qwen3.6-35B-A3B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                2048
+            ],
+            "lm_head": [
+                248320,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                248320,
+                2048
+            ],
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                2048
+            ]
+        }
+    },
+    "Qwen3.5-4B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                2560
+            ],
+            "lm_head": [
+                248320,
+                2560
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "model.language_model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                2560
+            ]
+        }
+    },
+    "Qwen3-14B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                5120
+            ],
+            "lm_head": [
+                151936,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                151936,
+                5120
+            ],
+            "model.embed_tokens.weight": [
+                151936,
+                5120
+            ]
+        }
+    },
+    "Qwen2.5-32B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                5120
+            ],
+            "lm_head": [
+                152064,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                152064,
+                5120
+            ],
+            "model.embed_tokens.weight": [
+                152064,
+                5120
+            ]
+        }
+    },
+    "Qwen3-30B-A3B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                2048
+            ],
+            "lm_head": [
+                151936,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                151936,
+                2048
+            ],
+            "model.embed_tokens.weight": [
+                151936,
+                2048
+            ]
+        }
+    },
+    "Qwen3.5-35B-A3B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                2048
+            ],
+            "lm_head": [
+                248320,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                248320,
+                2048
+            ],
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                2048
+            ]
+        }
+    },
+    "Qwen3-1.7B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                2048
+            ],
+            "lm_head": [
+                151936,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                151936,
+                2048
+            ],
+            "model.embed_tokens.weight": [
+                151936,
+                2048
+            ]
+        }
+    },
+    "Qwen3-32B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                5120
+            ],
+            "lm_head": [
+                151936,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                151936,
+                5120
+            ],
+            "model.embed_tokens.weight": [
+                151936,
+                5120
+            ]
+        }
+    },
+    "Qwen2.5-14B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                5120
+            ],
+            "lm_head": [
+                152064,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                152064,
+                5120
+            ],
+            "model.embed_tokens.weight": [
+                152064,
+                5120
+            ]
+        }
+    },
+    "Qwen3.5-4B-Base": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                2560
+            ],
+            "lm_head": [
+                248320,
+                2560
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "model.language_model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                2560
+            ]
+        }
+    },
+    "Qwen2.5-14B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                5120
+            ],
+            "lm_head": [
+                152064,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                152064,
+                5120
+            ],
+            "model.embed_tokens.weight": [
+                152064,
+                5120
+            ]
+        }
+    },
+    "Qwen3.5-0.8B-Base": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                1024
+            ],
+            "lm_head": [
+                248320,
+                1024
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "model.language_model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                1024
+            ]
+        }
+    },
+    "Qwen3-30B-A3B-Base": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                2048
+            ],
+            "lm_head": [
+                151936,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                151936,
+                2048
+            ],
+            "model.embed_tokens.weight": [
+                151936,
+                2048
+            ]
+        }
+    },
+    "Qwen3.5-27B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                5120
+            ],
+            "lm_head": [
+                248320,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                248320,
+                5120
+            ],
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                5120
+            ]
+        }
+    },
+    "Qwen2.5-3B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                2048
+            ],
+            "lm_head": [
+                151936,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                2048
+            ]
+        }
+    },
+    "Qwen2.5-7B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                3584
+            ],
+            "lm_head": [
+                152064,
+                3584
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                152064,
+                3584
+            ],
+            "model.embed_tokens.weight": [
+                152064,
+                3584
+            ]
+        }
+    },
+    "Qwen3-4B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                2560
+            ],
+            "lm_head": [
+                151936,
+                2560
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                2560
+            ]
+        }
+    },
+    "Qwen2.5-1.5B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                1536
+            ],
+            "lm_head": [
+                151936,
+                1536
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                1536
+            ]
+        }
+    },
+    "Qwen2.5-72B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                8192
+            ],
+            "lm_head": [
+                152064,
+                8192
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                152064,
+                8192
+            ],
+            "lm_head.weight": [
+                152064,
+                8192
+            ]
+        }
+    },
+    "Qwen3-8B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                4096
+            ],
+            "lm_head": [
+                151936,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                4096
+            ],
+            "lm_head.weight": [
+                151936,
+                4096
+            ]
+        }
+    },
+    "Qwen3.5-35B-A3B-Base": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                2048
+            ],
+            "lm_head": [
+                248320,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                248320,
+                2048
+            ],
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                2048
+            ]
+        }
+    },
+    "Qwen3-235B-A22B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                4096
+            ],
+            "lm_head": [
+                151936,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                4096
+            ],
+            "lm_head.weight": [
+                151936,
+                4096
+            ]
+        }
+    },
+    "Qwen3-4B-Base": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                2560
+            ],
+            "lm_head": [
+                151936,
+                2560
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                2560
+            ]
+        }
+    },
+    "Qwen2.5-32B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                5120
+            ],
+            "lm_head": [
+                152064,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                152064,
+                5120
+            ],
+            "model.embed_tokens.weight": [
+                152064,
+                5120
+            ]
+        }
+    },
+    "Qwen3-0.6B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                1024
+            ],
+            "lm_head": [
+                151936,
+                1024
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                151936,
+                1024
+            ],
+            "model.embed_tokens.weight": [
+                151936,
+                1024
+            ]
+        }
+    },
+    "Qwen3.5-397B-A17B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                4096
+            ],
+            "lm_head": [
+                248320,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                248320,
+                4096
+            ],
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                4096
+            ]
+        }
+    },
+    "Qwen2.5-7B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                3584
+            ],
+            "lm_head": [
+                152064,
+                3584
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                152064,
+                3584
+            ],
+            "model.embed_tokens.weight": [
+                152064,
+                3584
+            ]
+        }
+    },
+    "Qwen2.5-1.5B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                1536
+            ],
+            "lm_head": [
+                151936,
+                1536
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                1536
+            ]
+        }
+    },
+    "Qwen2.5-3B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                2048
+            ],
+            "lm_head": [
+                151936,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                2048
+            ]
+        }
+    },
+    "Qwen3.5-0.8B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                1024
+            ],
+            "lm_head": [
+                248320,
+                1024
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "model.language_model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                1024
+            ]
+        }
+    },
+    "Qwen3.5-2B-Base": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                2048
+            ],
+            "lm_head": [
+                248320,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "model.language_model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                2048
+            ]
+        }
+    },
+    "Qwen3.5-2B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                2048
+            ],
+            "lm_head": [
+                248320,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "model.language_model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                2048
+            ]
+        }
+    },
+    "Qwen2.5-72B-Base": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                152064,
+                8192
+            ],
+            "lm_head": [
+                152064,
+                8192
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                152064,
+                8192
+            ],
+            "lm_head.weight": [
+                152064,
+                8192
+            ]
+        }
+    },
+    "Qwen3-1.7B-Base": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                2048
+            ],
+            "lm_head": [
+                151936,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                2048
+            ]
+        }
+    },
+    "Qwen3-0.6B-Base": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                1024
+            ],
+            "lm_head": [
+                151936,
+                1024
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                1024
+            ]
+        }
+    },
+    "Qwen3.5-122B-A10B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                3072
+            ],
+            "lm_head": [
+                248320,
+                3072
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                248320,
+                3072
+            ],
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                3072
+            ]
+        }
+    },
+    "Qwen3.5-9B-Base": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                4096
+            ],
+            "lm_head": [
+                248320,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                248320,
+                4096
+            ],
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                4096
+            ]
+        }
+    },
+    "Qwen3.5-9B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                248320,
+                4096
+            ],
+            "lm_head": [
+                248320,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.language_model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.language_model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                248320,
+                4096
+            ],
+            "model.language_model.embed_tokens.weight": [
+                248320,
+                4096
+            ]
+        }
+    },
+    "Qwen2.5-0.5B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                896
+            ],
+            "lm_head": [
+                151936,
+                896
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                896
+            ]
+        }
+    },
+    "Qwen2.5-0.5B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                896
+            ],
+            "lm_head": [
+                151936,
+                896
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                151936,
+                896
+            ]
+        }
+    },
+    "Qwen3-14B-Base": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                151936,
+                5120
+            ],
+            "lm_head": [
+                151936,
+                5120
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                151936,
+                5120
+            ],
+            "model.embed_tokens.weight": [
+                151936,
+                5120
+            ]
+        }
+    },
+    "Llama-3.1-8B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                4096
+            ],
+            "lm_head": [
+                128256,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                128256,
+                4096
+            ],
+            "model.embed_tokens.weight": [
+                128256,
+                4096
+            ]
+        }
+    },
+    "Gemma-3-4B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                262208,
+                2560
+            ],
+            "lm_head": [
+                262208,
+                2560
+            ]
+        },
+        "standardized_sources": {
+            "embed": "language_model.model.embed_tokens.weight",
+            "lm_head": "language_model.model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "language_model.model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "language_model.model.embed_tokens.weight": [
+                262208,
+                2560
+            ]
+        }
+    },
+    "Gemma-3-12B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                262208,
+                3840
+            ],
+            "lm_head": [
+                262208,
+                3840
+            ]
+        },
+        "standardized_sources": {
+            "embed": "language_model.model.embed_tokens.weight",
+            "lm_head": "language_model.model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "language_model.model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "language_model.model.embed_tokens.weight": [
+                262208,
+                3840
+            ]
+        }
+    },
+    "Gemma-3-1B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                262144,
+                1152
+            ],
+            "lm_head": [
+                262144,
+                1152
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                262144,
+                1152
+            ]
+        }
+    },
+    "Llama-3.2-1B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                2048
+            ],
+            "lm_head": [
+                128256,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                128256,
+                2048
+            ]
+        }
+    },
+    "Llama-3.2-3B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                3072
+            ],
+            "lm_head": [
+                128256,
+                3072
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                128256,
+                3072
+            ]
+        }
+    },
+    "Gemma-2-2B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                256000,
+                2304
+            ],
+            "lm_head": [
+                256000,
+                2304
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                256000,
+                2304
+            ]
+        }
+    },
+    "Gemma-2-9B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                256000,
+                3584
+            ],
+            "lm_head": [
+                256000,
+                3584
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                256000,
+                3584
+            ]
+        }
+    },
+    "Gemma-2-9B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                256000,
+                3584
+            ],
+            "lm_head": [
+                256000,
+                3584
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                256000,
+                3584
+            ]
+        }
+    },
+    "Llama-3.1-8B": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                4096
+            ],
+            "lm_head": [
+                128256,
+                4096
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "lm_head.weight": [
+                128256,
+                4096
+            ],
+            "model.embed_tokens.weight": [
+                128256,
+                4096
+            ]
+        }
+    },
+    "Llama-3.2-1B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                2048
+            ],
+            "lm_head": [
+                128256,
+                2048
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                128256,
+                2048
+            ]
+        }
+    },
+    "Gemma-3-4B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                262208,
+                2560
+            ],
+            "lm_head": [
+                262208,
+                2560
+            ]
+        },
+        "standardized_sources": {
+            "embed": "language_model.model.embed_tokens.weight",
+            "lm_head": "language_model.model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "language_model.model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "language_model.model.embed_tokens.weight": [
+                262208,
+                2560
+            ]
+        }
+    },
+    "Gemma-3-12B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                262208,
+                3840
+            ],
+            "lm_head": [
+                262208,
+                3840
+            ]
+        },
+        "standardized_sources": {
+            "embed": "language_model.model.embed_tokens.weight",
+            "lm_head": "language_model.model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "language_model.model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "language_model.model.embed_tokens.weight": [
+                262208,
+                3840
+            ]
+        }
+    },
+    "Llama-3.2-3B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                3072
+            ],
+            "lm_head": [
+                128256,
+                3072
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                128256,
+                3072
+            ]
+        }
+    },
+    "Gemma-2-27B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                256000,
+                4608
+            ],
+            "lm_head": [
+                256000,
+                4608
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                256000,
+                4608
+            ]
+        }
+    },
+    "Gemma-2-27B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                256000,
+                4608
+            ],
+            "lm_head": [
+                256000,
+                4608
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                256000,
+                4608
+            ]
+        }
+    },
+    "Gemma-3-27B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                262208,
+                5376
+            ],
+            "lm_head": [
+                262208,
+                5376
+            ]
+        },
+        "standardized_sources": {
+            "embed": "language_model.model.embed_tokens.weight",
+            "lm_head": "language_model.model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "language_model.model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "language_model.model.embed_tokens.weight": [
+                262208,
+                5376
+            ]
+        }
+    },
+    "Gemma-3-1B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                262144,
+                1152
+            ],
+            "lm_head": [
+                262144,
+                1152
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                262144,
+                1152
+            ]
+        }
+    },
+    "Llama-3.1-70B-Instruct": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                8192
+            ],
+            "lm_head": [
+                128256,
+                8192
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                128256,
+                8192
+            ],
+            "lm_head.weight": [
+                128256,
+                8192
+            ]
+        }
+    },
+    "Llama-3.1-70B-Base": {
+        "tie_word_embeddings": false,
+        "standardized_dims": {
+            "embed": [
+                128256,
+                8192
+            ],
+            "lm_head": [
+                128256,
+                8192
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "lm_head.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [
+            "lm_head.weight"
+        ],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                128256,
+                8192
+            ],
+            "lm_head.weight": [
+                128256,
+                8192
+            ]
+        }
+    },
+    "Gemma-2-2B": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                256000,
+                2304
+            ],
+            "lm_head": [
+                256000,
+                2304
+            ]
+        },
+        "standardized_sources": {
+            "embed": "model.embed_tokens.weight",
+            "lm_head": "model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "model.embed_tokens.weight": [
+                256000,
+                2304
+            ]
+        }
+    },
+    "Gemma-3-27B-Instruct": {
+        "tie_word_embeddings": true,
+        "standardized_dims": {
+            "embed": [
+                262208,
+                5376
+            ],
+            "lm_head": [
+                262208,
+                5376
+            ]
+        },
+        "standardized_sources": {
+            "embed": "language_model.model.embed_tokens.weight",
+            "lm_head": "language_model.model.embed_tokens.weight"
+        },
+        "raw_embed_keys": [
+            "language_model.model.embed_tokens.weight"
+        ],
+        "raw_lm_head_keys": [],
+        "raw_tensors_dimensions": {
+            "language_model.model.embed_tokens.weight": [
+                262208,
+                5376
             ]
         }
     }
