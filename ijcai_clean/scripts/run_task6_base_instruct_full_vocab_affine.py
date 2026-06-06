@@ -8,7 +8,7 @@ E_delta 与 A-I 的 SVD 能量。若输出 CSV 已存在，会复用已有 pair 
 只计算配置中新出现或缺失的 pair。
 
 用法:
-  python ijcai_clean/scripts/run_base_instruct_full_vocab_affine.py
+  python ijcai_clean/scripts/run_task6_base_instruct_full_vocab_affine.py
 """
 from __future__ import annotations
 

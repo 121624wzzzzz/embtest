@@ -16,7 +16,7 @@
   报告。
 
 Pair 来源为 ``configs/base_instruct_pairs.yaml``，CLI 入口位于
-``scripts/run_base_instruct_full_vocab_affine.py``。
+``scripts/run_task6_base_instruct_full_vocab_affine.py``。
 """
 from __future__ import annotations
 
@@ -307,6 +307,13 @@ def run_full_vocab_pair(
     e_delta_svd = svd_energy_from_gram(e_delta_gram, prefix="E_delta")
     del e_delta_gram
 
+    if tied_a and tied_b:
+        u_delta_svd = dict(e_delta_svd)
+    else:
+        u_delta_gram = gram_of_row_delta(U_a, U_b, device=device, dtype=dtype, batch_rows=batch_rows)
+        u_delta_svd = svd_energy_from_gram(u_delta_gram, prefix="U_delta")
+        del u_delta_gram
+
     e_diag = full_affine_stream(E_a, E_b, device=device, dtype=dtype, batch_rows=batch_rows)
     if tied_a and tied_b:
         u_diag = dict(e_diag)
@@ -351,6 +358,7 @@ def run_full_vocab_pair(
         prefixed("U", {k: v for k, v in u_diag.items() if not k.startswith("A_delta_")})
     )
     row.update(prefixed("E_delta", e_delta_svd))
+    row.update(prefixed("U_delta", u_delta_svd))
     row.update(
         prefixed("A_delta", {k: v for k, v in e_diag.items() if k.startswith("A_delta_")})
     )
@@ -423,6 +431,7 @@ def csv_fields() -> List[str]:
     ]
     fields += [f"E_{x}" for x in _METRIC_FIELDS] + [f"U_{x}" for x in _METRIC_FIELDS]
     fields += [f"E_delta_E_delta_{x}" for x in _SVD_METRIC_FIELDS]
+    fields += [f"U_delta_U_delta_{x}" for x in _SVD_METRIC_FIELDS]
     fields += [f"A_delta_A_delta_{x}" for x in _SVD_METRIC_FIELDS]
     fields += [
         # 与旧 full-vocab CSV 消费者保持向后兼容的别名列。
@@ -456,8 +465,8 @@ def write_markdown_report(rows: List[Dict[str, Any]], out_md: Path) -> None:
         "",
         "## Summary",
         "",
-        "| group | n | R2_E mean | R2_U mean | rel_err_E mean | rel_err_U mean | E rel A-I mean | E identity cosine mean | E offdiag/A mean | E_delta rank95 mean | A-I rank95 mean |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| group | n | R2_E mean | R2_U mean | rel_err_E mean | rel_err_U mean | E rel A-I mean | E identity cosine mean | E offdiag/A mean | E_delta rank95 mean | U_delta rank95 mean | A-I rank95 mean |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for name, group in groups.items():
         lines.append(
@@ -470,6 +479,7 @@ def write_markdown_report(rows: List[Dict[str, Any]], out_md: Path) -> None:
             f"{_fmt(_mean(float(r['E_identity_cosine']) for r in group))} | "
             f"{_fmt(_mean(float(r['E_offdiag_norm_over_A']) for r in group))} | "
             f"{_fmt(_mean(float(r['E_delta_E_delta_rank_95']) for r in group))} | "
+            f"{_fmt(_mean(float(r['U_delta_U_delta_rank_95']) for r in group))} | "
             f"{_fmt(_mean(float(r['A_delta_A_delta_rank_95']) for r in group))} |"
         )
 
@@ -486,8 +496,8 @@ def write_markdown_report(rows: List[Dict[str, Any]], out_md: Path) -> None:
         "",
         "## Details",
         "",
-        "| model_a | model_b | tied A/B | vocab | hidden | R2_E | rel_err_E | R2_U | rel_err_U | E rel A-I/I | E I cosine | E offdiag/A | E orth err/I | E_delta rank95 | A-I rank95 | E_delta energy@5%h | A-I energy@5%h | elapsed sec |",
-        "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| model_a | model_b | tied A/B | vocab | hidden | R2_E | rel_err_E | R2_U | rel_err_U | E rel A-I/I | E I cosine | E offdiag/A | E orth err/I | E_delta rank95 | U_delta rank95 | A-I rank95 | E_delta energy@5%h | U_delta energy@5%h | A-I energy@5%h | elapsed sec |",
+        "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for r in sorted(rows, key=lambda x: float(x["R2_E"]), reverse=True):
         lines.append(
@@ -501,8 +511,10 @@ def write_markdown_report(rows: List[Dict[str, Any]], out_md: Path) -> None:
             f"{_fmt(r['E_offdiag_norm_over_A'])} | "
             f"{_fmt(r['E_rel_orthogonality_error_over_I'])} | "
             f"{r['E_delta_E_delta_rank_95']} | "
+            f"{r['U_delta_U_delta_rank_95']} | "
             f"{r['A_delta_A_delta_rank_95']} | "
             f"{_fmt(r['E_delta_E_delta_energy_at_5pct_h'])} | "
+            f"{_fmt(r['U_delta_U_delta_energy_at_5pct_h'])} | "
             f"{_fmt(r['A_delta_A_delta_energy_at_5pct_h'])} | "
             f"{float(r['elapsed_sec']):.1f} |"
         )

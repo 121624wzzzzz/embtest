@@ -210,7 +210,7 @@ def _task6(p: argparse.ArgumentParser) -> None:
 def _run_task6(_args: argparse.Namespace) -> None:
     from runpy import run_path
 
-    run_path(str(Path(__file__).with_name("run_base_instruct_full_vocab_affine.py")), run_name="__main__")
+    run_path(str(Path(__file__).with_name("run_task6_base_instruct_full_vocab_affine.py")), run_name="__main__")
 
 
 TASKS: dict[str, dict[str, object]] = {

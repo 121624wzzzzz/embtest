@@ -22,7 +22,7 @@ PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task2_model_series.py 
 PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task3_cross_scale_groups.py --devices auto
 PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task4_moe_cross_family.py --devices auto
 PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task5_affine_relations.py --devices auto
-PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_base_instruct_full_vocab_affine.py
+PYTHONPATH=ijcai_clean/src python ijcai_clean/scripts/run_task6_base_instruct_full_vocab_affine.py
 ```
 
 下载与抽取权重在仓库根目录运行：
