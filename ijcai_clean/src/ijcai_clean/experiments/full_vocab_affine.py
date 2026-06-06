@@ -308,7 +308,7 @@ def run_full_vocab_pair(
     del e_delta_gram
 
     if tied_a and tied_b:
-        u_delta_svd = dict(e_delta_svd)
+        u_delta_svd = {k.replace("E_delta", "U_delta", 1): v for k, v in e_delta_svd.items()}
     else:
         u_delta_gram = gram_of_row_delta(U_a, U_b, device=device, dtype=dtype, batch_rows=batch_rows)
         u_delta_svd = svd_energy_from_gram(u_delta_gram, prefix="U_delta")

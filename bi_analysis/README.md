@@ -12,8 +12,10 @@ Base→Instruct（BI）相关的问题梳理、结论与备忘。与 `ijcai_clea
 | [`tables/EXTENDED_DPR_COMMON_SPECTRUM.md`](tables/EXTENDED_DPR_COMMON_SPECTRUM.md) | extended 4 对 D/P/R 谱摘录（全 30 对见 `dpr_common_spectrum_*.csv`） |
 | [`tables/AFFINE_EFFECTIVE_SUBSPACE.md`](tables/AFFINE_EFFECTIVE_SUBSPACE.md) | raw ΔW 有效子空间 R²_aff,k（30 对） |
 | [`tables/AFFINE_LORA_BUDGET.md`](tables/AFFINE_LORA_BUDGET.md) | Aff/LoRA vs Vocab LoRA；n/d 与 aff@W1（**30 对**） |
-| [`notes/01_excluded_models_gemma4_dsv4.md`](notes/01_excluded_models_gemma4_dsv4.md) | Gemma-4 系列、DeepSeek-V4 不宜纳入 BI 主分析的原因与关键数字 |
+| [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md) | 全仓统一口径、BI 35/30/26 分层、排除规则与特殊案例原因 |
+| [`notes/01_excluded_models_gemma4_dsv4.md`](notes/01_excluded_models_gemma4_dsv4.md) | 旧链接兼容入口，转向全仓统一口径文档 |
 | [`notes/02_affine_effective_update_insight.md`](notes/02_affine_effective_update_insight.md) | **主 Insight**：affine 为何能解释 U 侧更新（R²_aff,K + rank-L + 实测） |
+| [`notes/03_full_vocab_affine_geometry.md`](notes/03_full_vocab_affine_geometry.md) | Task6 full-vocab affine：`A-I`、`E_delta`、归一化 rank / effective-rank、energy@%h |
 
 ## 主分析组约定
 
@@ -29,11 +31,11 @@ Base→Instruct（BI）相关的问题梳理、结论与备忘。与 `ijcai_clea
 | **non-excluded（当前主叙事）** | **30** | main 26 + extended 4；排除 Gemma-4×4、Gemma-3-1B |
 | main | 26 | 历史 aff/LoRA 批次；数字已并入 30 行 `affine_lora_budget_summary.csv` |
 | extended | 4 | DeepSeek V3/V3.1、Qwen3-30B-A3B、Qwen3.5-35B-A3B；budget 已补算并入 30 行主表 |
-| excluded | 5 | 见 `notes/01_excluded_models_gemma4_dsv4.md` |
+| excluded | 5 | 见 [`BI-excluded`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#42-bi-excluded-5-对) |
 
 全库注册 **35 对**（`configs/base_instruct_pairs.yaml`）。
 
-DeepSeek-V4 **无 Base–Instruct 配对**，不在 35 对内；其问题属于**静态 E/U 几何不可比**，见同上笔记。
+DeepSeek-V4 **无 Base–Instruct 配对**，不在 35 对内；其问题属于**静态 E/U 几何不可比**，见 [`dsv4_hc_head`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#63-dsv4_hc_head)。
 
 **结论一致性**：extended 4 并入 30 对后，E/U 分裂、U affine-friendly、tied≈untied U 等结论**方向不变**（untied U vs E 仍 13/13）。
 
@@ -53,6 +55,6 @@ DeepSeek-V4 **无 Base–Instruct 配对**，不在 35 对内；其问题属于*
 ## 外部引用（脚本与原始流水线仍在原处）
 
 - 异常 pair 汇总：`ijcai_clean/results/_analysis/anomaly_group_base_instruct.csv`
-- 行范数 / 谱 audit：`analysis_eu_geometry/docs/SPECIAL_CASES.md`、`results/BI_ROW_NORMS_SUMMARY.md`
+- 行范数 / 谱 audit：`analysis_eu_geometry/results/BI_ROW_NORMS_SUMMARY.md`、[`docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)
 - 仿射主组过滤与 Task6 脚本：`__tep/scripts/*`、`__tep/affine/analysis/tasks/task6_pred_delta_probe.md`
 - 完整 aff/LoRA 流水线原文：`__tep/affine/INSIGHTS.md`、`__tep/affine/README.md`

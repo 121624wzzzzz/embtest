@@ -22,7 +22,7 @@ analysis_1/
 │   ├── task1_base_instruct/  # Task1 GCorr（Base–Instruct BI）
 │   └── task2_model_series/   # Task2 GCorr（同系列 Instruct 跨模型）
 ├── docs/
-│   └── SPECIAL_CASES.md      # Gemma-4 gauge、DSV4 架构例外
+│   └── SPECIAL_CASES.md      # 旧链接兼容入口，转向全仓统一口径文档
 └── notes/
     ├── 01_untied_u_vs_e_static_spectrum.md
     ├── 02_tied_static_spectrum_like_u.md
@@ -129,7 +129,7 @@ Task2 110 对的系列、源 Base/Instruct 选型记录（审计用）。
 
 ## 特殊案例文档
 
-[`docs/SPECIAL_CASES.md`](docs/SPECIAL_CASES.md) — Gemma-4 near-unit-sphere gauge、DeepSeek-V4 hc_head 架构；解释为何静态谱 / Task1 排除某些模型，以及 **Insight 1 不依赖 Gemma-4 Task1 E_euc**。
+特殊案例权威说明见 [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。本包内的 [`docs/SPECIAL_CASES.md`](docs/SPECIAL_CASES.md) 仅保留为旧链接兼容入口。
 
 ---
 

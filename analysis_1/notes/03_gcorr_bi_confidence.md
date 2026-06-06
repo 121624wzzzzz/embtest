@@ -23,7 +23,7 @@
 | tied* | 17 | **E_cos** | **0.9941** | **[0.9792, 0.9997]**（Δ=**2.1×10⁻²**） | **5.9×10⁻³** | **−2.2** | 6/17 |
 | tied* | 17 | E_euc | 0.9828 | [0.8940, 0.9999]（Δ=**1.1×10⁻¹**） | 1.7×10⁻² | −1.8 | 3/17 |
 
-\*tied：排除 Gemma-4 全系与 Gemma-3-1B（gauge / BI 主分析排除，见 [`docs/SPECIAL_CASES.md`](../docs/SPECIAL_CASES.md)）。
+\*tied：排除 Gemma-4 全系与 Gemma-3-1B；原因见 [`gemma4_checkpoint_gauge`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#62-gemma4_checkpoint_gauge) / [`gemma3_1b_rewrite`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#61-gemma3_1b_rewrite)。
 
 **读法**：
 

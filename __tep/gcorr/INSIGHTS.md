@@ -1,6 +1,6 @@
 # 论文 A 洞察摘要（GCorr / AGD 诊断）
 
-> 从 [`main_zh_neurips_full.tex`](main_zh_neurips_full.tex) 抽象叙事，数字对齐 `ijcai_clean/results/task{1-4}_*/`。  
+> 从 [`main_zh_neurips_full.tex`](main_zh_neurips_full.tex) 抽象叙事，数字对齐 `ijcai_clean/results/task{1-4}_*/`。当前全仓口径见 [`../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。  
 > 仿射/SVD 见 [`../affine/INSIGHTS.md`](../affine/INSIGHTS.md)。
 
 ---
@@ -17,13 +17,13 @@
 
 | 任务 | 内容 | pair 数 |
 |------|------|--------|
-| Task1 | Base→Instruct | 31 |
+| Task1 | Base→Instruct | 35 |
 | Task2 | 系列内 | 110 |
 | Task3 | 跨系列×规模 | 176 |
 | Task4 | MoE 跨族 | 21 |
-| **合计** | GCorr | **338** |
+| **合计** | GCorr | **342** |
 
-- **92** 个唯一模型；规模 0.5B–397B（config 口径）。
+- **94** 个唯一模型；规模 0.5B–397B（config 口径）。
 - **tied 口径**：CSV 列 `actual_tied_*`（权重实测，非 config）。
 
 ---
@@ -101,7 +101,7 @@
 
 | 优先级 | tex 现状 | 应用数据 |
 |--------|----------|----------|
-| **P0** | 仿射 **189** 组 | **338**（Task5，与 GCorr 同 pair 宇宙） |
+| **P0** | 仿射 **189** 组 | 当前 Task5 `summary_pair.csv` 为 **340** 行；GCorr Task1-4 当前为 **342** 对，二者需分开报口径 |
 | **P1** | tied BI $E_{\euc}=0.8925$ 作普遍退化 | 并列主组 **0.983** + Gemma 五对分报 |
 | **P1** | 无 Gemma 异常段 | 附录：5 对 BI 异常 |
 | **P0** | §4 预训练表全部数值 | 仓库**无** pretrain CSV，暂不可复核 |

@@ -15,6 +15,7 @@ extracts/
 logs/
 archive/
 local/
+CLAUDE.md
 
 __pycache__/
 *.pyc

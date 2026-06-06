@@ -1,7 +1,7 @@
 # Tied：静态谱更像 untied U（排除 Gemma-4、Gemma-3-1B）
 
 > **对象**：存盘 checkpoint 权重矩阵（非 BI ΔW）。  
-> **范围**：**34 个 tied 模型**（全库 44 tied，排除 Gemma-4 全系与 Gemma-3-1B）。  
+> **范围**：**34 个 tied 模型**（全库 44 tied，排除 Gemma-4 全系与 Gemma-3-1B；原因见 [`BI-excluded`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#42-bi-excluded-5-对)）。  
 > **数据**：[`data/static/layer3_spectral.csv`](../data/static/layer3_spectral.csv)（tied 仅 E 行，E=U 共享矩阵）。
 
 ---
@@ -51,7 +51,7 @@ tied 的 rank1 占 rank5 比例 **0.90**，甚至比 untied U（0.82）更极端
 | untied **U**（lm_head） | μ 强、rank1 高、v₁ ≈ μ |
 | **tied**（E = U 共享） | **谱落在 U 档**；小模型常超过 untied U 中位 |
 
-这与 [`bi_analysis`](../bi_analysis/) 中「tied E ≈ untied U（affine-friendly）」同向：**共享权重时，性质像 lm_head / U 侧，不像 embed / E 侧**。
+这与 [`bi_analysis`](../../bi_analysis/) 中「tied E ≈ untied U（affine-friendly）」同向：**共享权重时，性质像 lm_head / U 侧，不像 embed / E 侧**。
 
 **边界**：综合 9 个谱指标 L1 距离，18/34 整体更像 U、16/34 更像 E；偏 E 侧的多为 Gemma-3（4B/12B/27B）、部分 Qwen3 小模型等（rank1 没那么高），但 **仍不像 untied E 那种 rank1 ~1% 的 diffuse 谱**。
 

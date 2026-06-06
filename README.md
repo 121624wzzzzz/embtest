@@ -8,6 +8,7 @@
 | [`downloaded_models/`](downloaded_models) | 下载缓存 |
 | [`extracts/`](extracts) | 每模型 `*.safetensors` + `*.info.json` |
 | [`tools/`](tools) | 下载、审计、清理 |
+| [`docs/`](docs) | 全仓口径、排除规则与特殊案例统一说明 |
 | [`ijcai_clean/`](ijcai_clean) | 当前主线分析子项目：包 `ijcai_clean`、脚本、Task1-6 结果与方法文档 |
 | [`analysis_eu_geometry/`](analysis_eu_geometry) | 全库 E/U checkpoint 几何审计（94 模型） |
 | [`archive/`](archive) | 2026-05-10 cleanup 归档，仅作追溯；日常分析不用看 |
@@ -31,6 +32,10 @@
 ### `tools/`
 
 - [`tools/`](tools)：仓库级维护工具，包括模型下载抽取、完整性审计和冗余缓存清理；具体脚本见 [`tools/README.md`](tools/README.md)。
+
+### `docs/`
+
+- [`ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)：全仓统一口径，包括全库模型数、tied/untied 数、GCorr Task1-4 pair 数、BI 35/30/26 口径，以及 Gemma-3-1B、Gemma-4、DeepSeek-V4 的排除 / 例外原因。
 
 ### `ijcai_clean/`
 
