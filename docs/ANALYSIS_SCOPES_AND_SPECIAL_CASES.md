@@ -1,0 +1,224 @@
+# 分析口径与特殊案例
+
+本文档是全仓关于 **模型数量、分析口径、BI pair 分层、排除规则和特殊案例** 的统一入口。
+后续文档若需要说明“为什么排除某些模型”，应直接引用本文件对应章节，避免在多个
+`SPECIAL_CASES.md` / notes 中重复维护同一套解释。
+
+## 1. 权威数据源
+
+| 内容 | 权威来源 |
+|------|----------|
+| 全库模型注册 | [`../configs/models.yaml`](../configs/models.yaml) |
+| BI pair 注册 | [`../configs/base_instruct_pairs.yaml`](../configs/base_instruct_pairs.yaml) |
+| BI 分层与排除标签 | [`../bi_analysis/bi_pairs.yaml`](../bi_analysis/bi_pairs.yaml) |
+| tied / untied 实测 | `../extracts/*.info.json` 的 `tie_word_embeddings` 与 `ijcai_clean` 结果列 `actual_tied_*` |
+| GCorr Task1-4 结果 | [`../ijcai_clean/results/`](../ijcai_clean/results/) |
+| 静态 E/U 几何审计 | [`../analysis_eu_geometry/results/all_models_eu_features.csv`](../analysis_eu_geometry/results/all_models_eu_features.csv) |
+| Affine / LoRA 派生表 | [`../__tep/affine/tables/`](../__tep/affine/tables/) 与 [`../bi_analysis/tables/`](../bi_analysis/tables/) |
+
+## 2. 总体模型口径
+
+当前全库注册并已抽取 E/U 的模型为 **94 个**：
+
+| 口径 | 数量 | 说明 |
+|------|-----:|------|
+| Full registry | **94** | `configs/models.yaml` 中注册并在 `extracts/` 有产物 |
+| tied models | **44** | checkpoint 实测 E=U / tied |
+| untied models | **50** | checkpoint 实测 E 与 U 分离 |
+| missing extracts | **0** | 当前 94 个模型均有抽取产物 |
+
+## 3. GCorr Task1-4 口径
+
+当前 `ijcai_clean/results/task1-4` 结果表对应的 GCorr universe：
+
+| Task | 内容 | pair 数 | 唯一模型数 |
+|------|------|-------:|----------:|
+| Task1 | Base→Instruct | **35** | 70 |
+| Task2 | 系列内 model-series | **110** | 60 |
+| Task3 | 跨系列 / 跨规模桶 | **176** | 34 |
+| Task4 | MoE / 跨 family | **21** | 7 |
+| **合计** | Task1-4 GCorr | **342** | **94** |
+
+说明：早期 `__tep/gcorr` 文档中可能还保留 **338 pairs / 92 models / Task1 31 pairs**
+的旧口径。若与当前结果表冲突，以本节的 **342 pairs / 94 models / Task1 35 pairs**
+为当前口径。
+
+## 4. BI pair 口径
+
+当前 Base→Instruct 全注册为 **35 对**，来自
+[`../configs/base_instruct_pairs.yaml`](../configs/base_instruct_pairs.yaml)。
+
+| 口径名 | pair 数 | tied pair | untied pair | 用途 |
+|--------|-------:|----------:|------------:|------|
+| **BI-full** | **35** | 22 | 13 | 全部 Base→Instruct pair；用于完整审计和异常分报 |
+| **BI-clean / non-excluded** | **30** | 17 | 13 | 当前 BI 叙事推荐主口径：排除 5 个异常 pair |
+| **BI-main-26** | **26** | 17 | 9 | 早期 `__tep/affine/tables/final` 口径；不含 4 个 extended pair |
+| **BI-extended** | **4** | 0 | 4 | 已并入 `bi_analysis` 的 30 对叙事，但未进入旧 final 26 表 |
+| **BI-excluded** | **5** | 5 | 0 | 不纳入主结论，只作异常 / 架构 / gauge 分报 |
+
+### 4.1 BI-extended 4 对
+
+这 4 对是 non-excluded，但没有进入旧的 `__tep/affine/tables/final` 26 对总表：
+
+| Pair | tied | 说明 |
+|------|------|------|
+| `Qwen3-30B-A3B-Base -> Qwen3-30B-A3B` | false | MoE active 3B |
+| `Qwen3.5-35B-A3B-Base -> Qwen3.5-35B-A3B-Instruct` | false | MoE active 3B |
+| `DeepSeek-V3-Base -> DeepSeek-V3` | false | DeepSeek V3 MoE，BI 行为正常 |
+| `DeepSeek-V3.1-Base -> DeepSeek-V3.1` | false | DeepSeek V3.1 MoE，BI 行为正常 |
+
+### 4.2 BI-excluded 5 对
+
+| Pair | reason id | tied | 处理 |
+|------|-----------|------|------|
+| `Gemma-3-1B -> Gemma-3-1B-Instruct` | `gemma3_1b_rewrite` | true | 排除出 BI 主结论；单独异常分报 |
+| `Gemma-4-E2B -> Gemma-4-E2B-Instruct` | `gemma4_checkpoint_gauge` | true | 排除出 BI 主结论；单独解释 |
+| `Gemma-4-E4B -> Gemma-4-E4B-Instruct` | `gemma4_checkpoint_gauge` | true | 同上 |
+| `Gemma-4-26B-A4B -> Gemma-4-26B-A4B-Instruct` | `gemma4_checkpoint_gauge` | true | 同上；另有 MoE active 4B |
+| `Gemma-4-31B -> Gemma-4-31B-Instruct` | `gemma4_checkpoint_gauge` | true | 同上 |
+
+### 4.3 Affine / LoRA 相关结果口径
+
+| 结果 | 行数 / pair 数 | 说明 |
+|------|--------------:|------|
+| Task5 affine subsampled `summary_pair.csv` | **340** | 当前可用 Task1-4 pair 并集的子采样 affine 结果；与 GCorr 342 对不是同一行数，应分开报 |
+| Task6 Base-Instruct full-vocab | **35** | 全 BI 35 对完整 id 对齐 full-vocab affine / SVD 诊断 |
+| `__tep/affine/tables/final/*` | **26** | 早期 BI-main-26 final 表 |
+| `bi_analysis/tables/affine_lora_budget_summary.csv` | **30** | 当前 BI-clean / non-excluded 30 对的 Aff/LoRA budget 主表 |
+| `bi_analysis/tables/affine_effective_subspace.csv` | **43** | 17 tied × 1 + 13 untied × 2 的 E/U 有效子空间长表 |
+
+## 5. 静态 E/U 谱口径
+
+`analysis_eu_geometry` 对全库 94 模型做 checkpoint 静态 E/U 几何审计。常用子口径：
+
+| 口径名 | 数量 | 用途 |
+|--------|-----:|------|
+| static-all | 94 models | 全库 E/U row-norm、μ-ratio、spectral 审计 |
+| static-untied-all | 50 models | 全部 untied 模型 |
+| static-untied-comparable | 48 models | 排除 DeepSeek-V4-Flash / Pro 后的普通 untied 谱规律 |
+| static-tied-all | 44 models | 全部 tied 模型 |
+| static-tied-clean | 34 models | 排除 Gemma-4 全系和 Gemma-3-1B/IT 后的 tied 静态谱口径 |
+
+DeepSeek-V4 的排除只针对 **普通 untied U 谱规律**。它不是 BI pair，不参与 BI 主叙事。
+
+## 6. 特殊案例与排除原因
+
+### 6.1 `gemma3_1b_rewrite`
+
+涉及模型：
+
+- `Gemma-3-1B`
+- `Gemma-3-1B-Instruct`
+
+使用范围：
+
+- 排除出 BI-clean / non-excluded 主口径。
+- 在异常组中单独报告，不作为 Base→Instruct 常规规律证据。
+
+主要现象：
+
+| 指标 | 现象 |
+|------|------|
+| Task1 GCorr | `gcorr_E_cos_mean` 约 **0.777**，显著低于其他 Gemma-3 大模型 |
+| Full-vocab affine | `E_R2` 约 **0.375**，远低于主流 BI pair |
+| 行范数漂移 | `delta_E_pct = delta_U_pct = -9.48%` |
+| 局部排错 | 跳过特殊 token 后 row cosine 仍极低，基本排除 token id 错位 / special token 污染 |
+
+当前解释：
+
+`Gemma-3-1B` 更像小容量 text-only 分支在 distillation / post-training 后发生了整体
+embedding 空间重写。这个解释与低 GCorr、低 affine R2、较大 `A-I` 偏移和低
+identity cosine 一致；但它是工作假设，不是官方因果声明。
+
+### 6.2 `gemma4_checkpoint_gauge`
+
+涉及 BI pair：
+
+- `Gemma-4-E2B -> Gemma-4-E2B-Instruct`
+- `Gemma-4-E4B -> Gemma-4-E4B-Instruct`
+- `Gemma-4-26B-A4B -> Gemma-4-26B-A4B-Instruct`
+- `Gemma-4-31B -> Gemma-4-31B-Instruct`
+
+使用范围：
+
+- 排除出 BI-clean / non-excluded 主口径。
+- 若引用 Gemma-4 BI，应单独分报，并优先使用 cosine 或 row-normalized Euclidean。
+
+主要现象：
+
+| 现象 | 说明 |
+|------|------|
+| Base E near-unit row-norm | 四个 Gemma-4 Base 的 E 行范数 mean 约 **1.000000**，var 为 `10^-9` 到 `10^-7` |
+| Instruct 径向漂移 | Instruct E mean 上移到约 **1.12-1.52**，var 约 `10^-2` |
+| raw Euclidean 失真 | raw Euclidean 同时惩罚方向差和半径差，导致 Task1 raw euc GCorr 偏低 |
+| affine R2 偏低 | 四对 Gemma-4 的 full-vocab `E_R2` 约 **0.668-0.776** |
+| 架构差异 | Gemma-4 新架构族含 PLE / MoE / 新长上下文等机制，常规 E/U 不一定覆盖实际嵌入路径 |
+
+排错结论：
+
+- 不要把 Gemma-4 raw Euclidean / raw row-norm 与 Qwen、Llama、DeepSeek V3 直接同口径比较。
+- HF forward 中的 `sqrt(hidden_size)` 是 runtime activation scale，不解释 checkpoint E 行范数为何恰好接近 1。
+- Gemma-4 可作为架构 / gauge 异常讨论，不作为 BI 主规律来源。
+
+### 6.3 `dsv4_hc_head`
+
+涉及模型：
+
+- `DeepSeek-V4-Flash`
+- `DeepSeek-V4-Pro`
+
+使用范围：
+
+- 不在 BI-full 35 对内，没有 Base→Instruct pair。
+- 在 static-untied-comparable 中排除；静态谱只作架构例外记录。
+
+主要原因：
+
+DeepSeek-V4 的输出路径不是传统的：
+
+```text
+logits = U · RMSNorm(h)
+```
+
+而更接近：
+
+```text
+HC states -> hc_head -> RMSNorm -> head.weight -> logits
+```
+
+其中 `hc_head` 是输入相关的动态混合，不能吸收到一个固定矩阵里。因此裸
+`head.weight` 不是完整传统 lm_head，裸 U 的谱几何不能直接代表真实 output geometry。
+
+观察到的静态谱例外：
+
+| 模型 | 矩阵 | μ/mean(row) | rank1 | rank1(c) |
+|------|------|-------------|-------|----------|
+| DeepSeek-V4-Flash | E | 0.237 | 0.055 | 0.021 |
+| DeepSeek-V4-Flash | U | 0.110 | 0.028 | 0.019 |
+| DeepSeek-V4-Pro | E | 0.180 | 0.035 | 0.019 |
+| DeepSeek-V4-Pro | U | 0.108 | 0.027 | 0.019 |
+
+排错结论：
+
+- 讨论普通 untied 模型的 “U raw rank1 > E” 静态规律时，排除 DeepSeek-V4。
+- 若要分析 DeepSeek-V4 的真实 output geometry，应分析 `hc_head + RMSNorm + head.weight`
+  或局部 `∂logits/∂H`；当前仓库没有做这一级有效输出头分解。
+
+## 7. 推荐引用方式
+
+文中建议使用下列表述，保持口径稳定：
+
+| 场景 | 推荐写法 |
+|------|----------|
+| 全库模型数 | “Full registry contains 94 models, with 44 tied and 50 untied checkpoints.” |
+| GCorr 总实验 | “The current GCorr universe has 342 pairs over 94 unique models across Tasks 1-4.” |
+| BI 全量 | “BI-full contains 35 Base-Instruct pairs: 22 tied and 13 untied.” |
+| BI 主叙事 | “BI-clean / non-excluded contains 30 pairs after excluding Gemma-3-1B and four Gemma-4 pairs.” |
+| 旧 affine final 表 | “The early affine final table uses BI-main-26: 17 tied and 9 untied pairs, before adding four extended MoE/DeepSeek pairs.” |
+| 静态 untied 谱 | “Among 48 comparable untied models, excluding DeepSeek-V4 Flash/Pro, U raw rank1 exceeds E.” |
+
+后续需要说明具体排除原因时，直接引用：
+
+- `gemma3_1b_rewrite` → [§6.1](#61-gemma3_1b_rewrite)
+- `gemma4_checkpoint_gauge` → [§6.2](#62-gemma4_checkpoint_gauge)
+- `dsv4_hc_head` → [§6.3](#63-dsv4_hc_head)
