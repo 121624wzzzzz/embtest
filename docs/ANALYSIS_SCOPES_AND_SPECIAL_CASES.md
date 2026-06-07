@@ -27,6 +27,40 @@
 | untied models | **50** | checkpoint 实测 E 与 U 分离 |
 | missing extracts | **0** | 当前 94 个模型均有抽取产物 |
 
+### 2.1 排除已知错误案例后的干净基线
+
+三类已知错误模型共 **12 个**，排除后剩余 **82 个**（34 tied + 48 untied）：
+
+| 排除案例 | 排除模型数 | tied/untied | reason | 说明 |
+|------|:---:|:---:|------|------|
+| DeepSeek-V4-Flash, DeepSeek-V4-Pro | **2** | untied | `dsv4_hc_head` | 裸 `head.weight` ≠ 完整 lm_head；见 [§6.3](#63-dsv4_hc_head) |
+| Gemma-4 全系 (4 Base + 4 Instruct) | **8** | tied | `gemma4_checkpoint_gauge` | Base E near-unit-sphere，raw Euclidean 失真；见 [§6.2](#62-gemma4_checkpoint_gauge) |
+| Gemma-3-1B, Gemma-3-1B-Instruct | **2** | tied | `gemma3_1b_rewrite` | 后训练整体重写 embedding 空间；见 [§6.1](#61-gemma3_1b_rewrite) |
+| **合计** | **12** | 10 tied + 2 untied | | |
+
+| 口径 | 模型数 | tied | untied |
+|------|-----:|-----:|------:|
+| **clean-82**（推荐：排除全部 12 个错误案例） | **82** | 34 | 48 |
+| Full registry | 94 | 44 | 50 |
+
+> **clean-82** 的子集等价于已有的 `static-untied-comparable`（48）∪ `static-tied-clean`（34）。
+
+### 2.2 clean-82 下的 BI pair 数量
+
+排除 5 对 BI pair 后，剩余 **30 对**（17 tied + 13 untied）：
+
+| 排除 pair | reason | tied |
+|------|------|:---:|
+| Gemma-3-1B → Gemma-3-1B-Instruct | `gemma3_1b_rewrite` | tied |
+| Gemma-4-E2B → Gemma-4-E2B-Instruct | `gemma4_checkpoint_gauge` | tied |
+| Gemma-4-E4B → Gemma-4-E4B-Instruct | `gemma4_checkpoint_gauge` | tied |
+| Gemma-4-26B-A4B → Gemma-4-26B-A4B-Instruct | `gemma4_checkpoint_gauge` | tied |
+| Gemma-4-31B → Gemma-4-31B-Instruct | `gemma4_checkpoint_gauge` | tied |
+
+30 对即已有的 **BI-clean / non-excluded** 口径（见 [§4](#4-bi-pair-口径)）。
+
+> DeepSeek-V4-Flash / Pro **无 Base→Instruct pair**，不在 BI 35 对内，不影响 BI pair 计数。
+
 ## 3. GCorr Task1-4 口径
 
 当前 `ijcai_clean/results/task1-4` 结果表对应的 GCorr universe：
@@ -211,6 +245,7 @@ HC states -> hc_head -> RMSNorm -> head.weight -> logits
 | 场景 | 推荐写法 |
 |------|----------|
 | 全库模型数 | “Full registry contains 94 models, with 44 tied and 50 untied checkpoints.” |
+| 干净基线 | “After excluding 12 known anomalous checkpoints (2 DeepSeek-V4, 8 Gemma-4, 2 Gemma-3-1B), the clean-82 baseline contains 34 tied and 48 untied models.” |
 | GCorr 总实验 | “The current GCorr universe has 342 pairs over 94 unique models across Tasks 1-4.” |
 | BI 全量 | “BI-full contains 35 Base-Instruct pairs: 22 tied and 13 untied.” |
 | BI 主叙事 | “BI-clean / non-excluded contains 30 pairs after excluding Gemma-3-1B and four Gemma-4 pairs.” |
