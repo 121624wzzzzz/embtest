@@ -12,7 +12,7 @@
 
 ## 总体分布（数据事实）
 
-对 35 行 `summary.csv` 聚合 `*_mean` 列。BI-full / BI-clean / BI-main-26 的分层见 [`../../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。
+对 35 行 `summary.csv` 聚合 `*_mean` 列。BI-full / BI-clean / BI-main-26 的分层见 [`../../../docs/分析口径与特殊案例.md`](../../../docs/分析口径与特殊案例.md)。
 
 | 指标 | 均值 | 中位数 | 最小 | 最大 |
 |------|------|--------|------|------|

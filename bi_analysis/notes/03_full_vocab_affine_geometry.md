@@ -4,7 +4,7 @@
 
 口径说明：
 
-- 全仓 BI 35/30/26 口径、排除规则与特殊案例见 [`../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。
+- 全仓 BI 35/30/26 口径、排除规则与特殊案例见 [`../../docs/分析口径与特殊案例.md`](../../docs/分析口径与特殊案例.md)。
 - 本文中的 “BI-clean / non-excluded” 指排除 Gemma-3-1B 与 Gemma-4 四对后的 30 对。
 - 原始 Task6 结果见 `../ijcai_clean/results/task6_base_instruct_full_vocab/`。
 
@@ -26,8 +26,8 @@ DeepSeek only:     R2_E mean ~= 1.0000
 
 | case | 现象 | 处理 |
 |------|------|------|
-| `Gemma-3-1B -> Gemma-3-1B-Instruct` | full-vocab affine `R2_E≈0.3751`，row cosine 约 `0.279`，明显脱离其他 Gemma-3 大模型 | 排除出 BI-clean；原因见 [`gemma3_1b_rewrite`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#61-gemma3_1b_rewrite) |
-| `Gemma-4-* -> *-Instruct` | `R2_E≈0.6682-0.7759`，Base E near-unit row-norm gauge，raw Euclidean 受径向标尺影响 | 排除出 BI-clean；原因见 [`gemma4_checkpoint_gauge`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#62-gemma4_checkpoint_gauge) |
+| `Gemma-3-1B -> Gemma-3-1B-Instruct` | full-vocab affine `R2_E≈0.3751`，row cosine 约 `0.279`，明显脱离其他 Gemma-3 大模型 | 排除出 BI-clean；原因见 [`gemma3_1b_rewrite`](../../docs/分析口径与特殊案例.md#61-gemma3_1b_rewrite) |
+| `Gemma-4-* -> *-Instruct` | `R2_E≈0.6682-0.7759`，Base E near-unit row-norm gauge，raw Euclidean 受径向标尺影响 | 排除出 BI-clean；原因见 [`gemma4_checkpoint_gauge`](../../docs/分析口径与特殊案例.md#62-gemma4_checkpoint_gauge) |
 
 ## 2. A 矩阵与单位阵的关系
 
@@ -186,4 +186,4 @@ A-I     median ~= 0.696
 - 画 `energy threshold -> rank / hidden_dim` 的完整曲线，而不是只看 50/80/90/95/99。
 - 画 `top p% hidden dim -> cumulative energy` 曲线，比较 `E_delta` 和 `A-I`。
 - 对每个模型族分别拟合 `effective_rank / h` 的线性关系，避免跨 family 混合造成解释偏差。
-- 若需要说明 Gemma / DeepSeek-V4 异常或排除原因，直接引用 [`../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)，避免在本文档重复维护排错叙述。
+- 若需要说明 Gemma / DeepSeek-V4 异常或排除原因，直接引用 [`../../docs/分析口径与特殊案例.md`](../../docs/分析口径与特殊案例.md)，避免在本文档重复维护排错叙述。

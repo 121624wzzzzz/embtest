@@ -1,6 +1,6 @@
 # Affine / Low-Rank Update：最终洞察
 
-> 本文件沿用早期 affine final 表口径：31 个 Base-Instruct pair 排除 `Gemma-3-1B` 与 `Gemma-4-*` 后 n=26。当前全仓 BI-full 35 / BI-clean 30 / BI-main-26 关系见 [`../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。  
+> 本文件沿用早期 affine final 表口径：31 个 Base-Instruct pair 排除 `Gemma-3-1B` 与 `Gemma-4-*` 后 n=26。当前全仓 BI-full 35 / BI-clean 30 / BI-main-26 关系见 [`../../docs/分析口径与特殊案例.md`](../../docs/分析口径与特殊案例.md)。  
 > 记 `D=Y_c-X_c`，`P=X_c(A-I)`，`R=D-P`。核心指标是 `P/D = ||P||_F^2 / ||D||_F^2`。
 
 ## 1. 故事线

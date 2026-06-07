@@ -43,7 +43,7 @@
 
 - **0/34** tied 的 rank1 或 μ/row 低于 untied E 中位；**26/34** rank1 高于 untied U 中位。
 - 数据源为 [`data/static/layer3_spectral.csv`](../data/static/layer3_spectral.csv) 的 **economy SVD**，与 BI ΔW、Task1 E_euc **无关**。
-- 此处排除 Gemma-4/3-1B 是因为 **静态谱 / BI 主分析** 的一贯约定（见 [`BI-excluded`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#42-bi-excluded-5-对)），**不是因为** 排除后 Insight 1 才成立——Task2 37/37 **已含** Gemma tied 与 untied 的交叉对。
+- 此处排除 Gemma-4/3-1B 是因为 **静态谱 / BI 主分析** 的一贯约定（见 [`BI-excluded`](../../docs/分析口径与特殊案例.md#42-bi-excluded-5-对)），**不是因为** 排除后 Insight 1 才成立——Task2 37/37 **已含** Gemma tied 与 untied 的交叉对。
 
 ---
 

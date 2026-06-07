@@ -1,6 +1,6 @@
 # 论文 A 洞察摘要（GCorr / AGD 诊断）
 
-> 从 [`main_zh_neurips_full.tex`](main_zh_neurips_full.tex) 抽象叙事，数字对齐 `ijcai_clean/results/task{1-4}_*/`。当前全仓口径见 [`../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。  
+> 从 [`main_zh_neurips_full.tex`](main_zh_neurips_full.tex) 抽象叙事，数字对齐 `ijcai_clean/results/task{1-4}_*/`。当前全仓口径见 [`../../docs/分析口径与特殊案例.md`](../../docs/分析口径与特殊案例.md)。  
 > 仿射/SVD 见 [`../affine/INSIGHTS.md`](../affine/INSIGHTS.md)。
 
 ---

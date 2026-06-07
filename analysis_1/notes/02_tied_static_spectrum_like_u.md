@@ -1,7 +1,7 @@
 # Tied：静态谱更像 untied U（排除 Gemma-4、Gemma-3-1B）
 
 > **对象**：存盘 checkpoint 权重矩阵（非 BI ΔW）。  
-> **范围**：**34 个 tied 模型**（全库 44 tied，排除 Gemma-4 全系与 Gemma-3-1B；原因见 [`BI-excluded`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#42-bi-excluded-5-对)）。  
+> **范围**：**34 个 tied 模型**（全库 44 tied，排除 Gemma-4 全系与 Gemma-3-1B；原因见 [`BI-excluded`](../../docs/分析口径与特殊案例.md#42-bi-excluded-5-对)）。  
 > **数据**：[`data/static/layer3_spectral.csv`](../data/static/layer3_spectral.csv)（tied 仅 E 行，E=U 共享矩阵）。
 
 ---

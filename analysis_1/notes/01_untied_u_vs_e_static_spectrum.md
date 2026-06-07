@@ -71,7 +71,7 @@ rank1 占 rank5 累计能量的比例：E 中位 **41%**，U 中位 **82%** → 
 ## 4. 排除 DSV4 的说明
 
 全库 50 untied 中，仅 **DeepSeek-V4-Flash / Pro** 出现 raw rank1：E > U（E 承担更多 HC 初始化偏置，裸 U 非传统 lm_head）。  
-主线 untied 规律：**48/48，U rank1 > E rank1**。排除原因见 [`dsv4_hc_head`](../../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#63-dsv4_hc_head)。
+主线 untied 规律：**48/48，U rank1 > E rank1**。排除原因见 [`dsv4_hc_head`](../../docs/分析口径与特殊案例.md#63-dsv4_hc_head)。
 
 ---
 

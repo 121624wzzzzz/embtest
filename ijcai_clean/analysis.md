@@ -1,6 +1,6 @@
 # 项目分析备忘
 
-本文档用于保留对当前 embedding / unembedding 几何项目的阶段性分析结论。它偏向研究判断和结果解读；具体指标定义、脚本入口和自动生成结果分别见 `docs/methods_and_metrics.md`、`README.md` 与 `results/`。全仓分析口径、BI 分层和特殊案例排错统一见 [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。
+本文档用于保留对当前 embedding / unembedding 几何项目的阶段性分析结论。它偏向研究判断和结果解读；具体指标定义、脚本入口和自动生成结果分别见 `docs/methods_and_metrics.md`、`README.md` 与 `results/`。全仓分析口径、BI 分层和特殊案例排错统一见 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。
 
 ## 项目主线
 
@@ -40,4 +40,4 @@ BI full-vocab affine 的研究性叙事已经移到 [`../bi_analysis/notes/03_fu
 - `rank / hidden_dim`、`effective_rank / hidden_dim`、归一化后的线性关系。
 - `energy_at_1pct_h / 5pct_h / 10pct_h` 等相对 hidden dimension 指标。
 
-本文档只保留代码项目层面的任务入口和结果位置说明；BI 口径、异常排除和论文叙事统一在 `bi_analysis/` 与 [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md) 中维护。
+本文档只保留代码项目层面的任务入口和结果位置说明；BI 口径、异常排除和论文叙事统一在 `bi_analysis/` 与 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md) 中维护。

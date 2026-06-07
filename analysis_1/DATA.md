@@ -129,7 +129,7 @@ Task2 110 对的系列、源 Base/Instruct 选型记录（审计用）。
 
 ## 特殊案例文档
 
-特殊案例权威说明见 [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。本包内的 [`docs/SPECIAL_CASES.md`](docs/SPECIAL_CASES.md) 仅保留为旧链接兼容入口。
+特殊案例权威说明见 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。本包内的 [`docs/SPECIAL_CASES.md`](docs/SPECIAL_CASES.md) 仅保留为旧链接兼容入口。
 
 ---
 

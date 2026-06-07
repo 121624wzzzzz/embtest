@@ -1,6 +1,6 @@
 # __tep/
 
-`__tep/` 是两条论文线的整理区。源数据只读 `../ijcai_clean/results/` 与 `../extracts/`；本目录只放实验洞察、派生表和复现实验脚本。全仓当前口径、BI 35/30/26 分层与特殊案例说明见 [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。
+`__tep/` 是两条论文线的整理区。源数据只读 `../ijcai_clean/results/` 与 `../extracts/`；本目录只放实验洞察、派生表和复现实验脚本。全仓当前口径、BI 35/30/26 分层与特殊案例说明见 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。
 
 ## 入口
 
@@ -31,7 +31,7 @@
 
 ## 符号约定
 
-- BI-main-26：早期 affine final 表口径，31 对 BI 排除 `Gemma-3-1B` 与 `Gemma-4-*` 后 n=26；当前 BI-full / BI-clean 口径见 [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。
+- BI-main-26：早期 affine final 表口径，31 对 BI 排除 `Gemma-3-1B` 与 `Gemma-4-*` 后 n=26；当前 BI-full / BI-clean 口径见 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。
 - `E` = input embedding；`U` / `lm_head` = unembedding。
 - `D=Y_c-X_c`，`P=X_c(A-I)`，`R=D-P`。
 - `P/D` 或 `full_affine_gain` 指 `||P||_F^2 / ||D||_F^2`，是当前 affine 叙事的核心 update-scale 指标。

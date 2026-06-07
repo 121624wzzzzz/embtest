@@ -13,7 +13,7 @@ gauge 和 DeepSeek-V4 的非传统 output head。
 这里产出的静态几何表可被它们引用或用于解释异常。
 
 **核心结论**见 [`docs/FINDINGS.md`](docs/FINDINGS.md)。全仓口径与特殊案例见
-[`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。
+[`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。
 静态 E/U 谱专题证据包见 [`../analysis_1/`](../analysis_1/)。
 
 ---
@@ -50,7 +50,7 @@ analysis_eu_geometry/
 |------|------|
 | [`README.md`](README.md) | 本目录入口：说明定位、数据流、脚本、结果文件与边界 |
 | [`docs/FINDINGS.md`](docs/FINDINGS.md) | 核心发现：Gemma-4 gauge、untied E/U 静态谱差异、BI 行范数漂移、DeepSeek-V4 例外 |
-| [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md) | 全仓统一口径与特殊案例：Gemma-3-1B、Gemma-4、DeepSeek-V4 |
+| [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md) | 全仓统一口径与特殊案例：Gemma-3-1B、Gemma-4、DeepSeek-V4 |
 | [`docs/SPECIAL_CASES.md`](docs/SPECIAL_CASES.md) | 旧链接兼容入口，转向全仓统一口径文档 |
 
 ### 脚本

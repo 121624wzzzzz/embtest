@@ -2,7 +2,7 @@
 
 本目录为 **可独立抽走** 的自包含包：分析叙事、模型配置、原始结果 CSV、特殊案例索引。  
 数据字典见 [`DATA.md`](DATA.md)；文件清单见 [`MANIFEST.json`](MANIFEST.json)。
-全仓统一口径与特殊案例见 [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)。
+全仓统一口径与特殊案例见 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。
 
 ## 分析笔记
 
@@ -38,14 +38,14 @@
 | 文件 | 内容 |
 |------|------|
 | [`docs/SPECIAL_CASES.md`](docs/SPECIAL_CASES.md) | 旧链接兼容入口，转向全仓统一口径文档 |
-| [`../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md) | 全仓口径、排除规则与特殊案例权威说明 |
+| [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md) | 全仓口径、排除规则与特殊案例权威说明 |
 
 ## 排除约定
 
 | 分组 | 排除 | 原因 |
 |------|------|------|
-| untied 静态谱 | DeepSeek-V4-Flash / Pro | [`dsv4_hc_head`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#63-dsv4_hc_head) |
-| tied 静态谱 / Task1 BI | Gemma-4 全系、Gemma-3-1B | [`gemma4_checkpoint_gauge`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#62-gemma4_checkpoint_gauge) / [`gemma3_1b_rewrite`](../docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md#61-gemma3_1b_rewrite) |
+| untied 静态谱 | DeepSeek-V4-Flash / Pro | [`dsv4_hc_head`](../docs/分析口径与特殊案例.md#63-dsv4_hc_head) |
+| tied 静态谱 / Task1 BI | Gemma-4 全系、Gemma-3-1B | [`gemma4_checkpoint_gauge`](../docs/分析口径与特殊案例.md#62-gemma4_checkpoint_gauge) / [`gemma3_1b_rewrite`](../docs/分析口径与特殊案例.md#61-gemma3_1b_rewrite) |
 
 完整模型名单见 [`configs/analysis_subsets.yaml`](configs/analysis_subsets.yaml)。
 

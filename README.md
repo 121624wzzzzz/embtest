@@ -35,7 +35,7 @@
 
 ### `docs/`
 
-- [`ANALYSIS_SCOPES_AND_SPECIAL_CASES.md`](docs/ANALYSIS_SCOPES_AND_SPECIAL_CASES.md)：全仓统一口径，包括全库模型数、tied/untied 数、GCorr Task1-4 pair 数、BI 35/30/26 口径，以及 Gemma-3-1B、Gemma-4、DeepSeek-V4 的排除 / 例外原因。
+- [`分析口径与特殊案例.md`](docs/分析口径与特殊案例.md)：全仓统一口径，包括全库模型数、tied/untied 数、GCorr Task1-4 pair 数、BI 35/30/26 口径，以及 Gemma-3-1B、Gemma-4、DeepSeek-V4 的排除 / 例外原因。
 
 ### `ijcai_clean/`
 
