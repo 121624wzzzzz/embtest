@@ -13,7 +13,7 @@
 
 ## 当前主结论
 
-本目录的 affine final 表仍使用早期 **BI-main-26** 口径：早期 31 个 Base-Instruct pair 排除 `Gemma-3-1B` 与 `Gemma-4-*` 后的 26 对。当前全仓 BI 口径已扩展为 **BI-full 35 对**、**BI-clean 30 对**；三者关系见统一口径文档。
+本目录的 affine final 表仍使用早期 **BI-main-26** 口径：**BI-full 35 对** 排除 `Gemma-3-1B` 与 `Gemma-4-*` 5 对后得 **BI-clean 30 对**，再去掉 extended 4 对（MoE/DeepSeek）即为 BI-main-26。当前全仓主口径为 **BI-clean 30 对**；三者关系见统一口径文档。
 
 | 结论 | 数字 |
 |------|------|
@@ -31,7 +31,7 @@
 
 ## 符号约定
 
-- BI-main-26：早期 affine final 表口径，31 对 BI 排除 `Gemma-3-1B` 与 `Gemma-4-*` 后 n=26；当前 BI-full / BI-clean 口径见 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。
+- BI-main-26：早期 affine final 表口径，BI-full 35 排除 `Gemma-3-1B` 与 `Gemma-4-*` 5 对后得 BI-clean 30，再去掉 extended 4 对即 n=26；当前 BI-full / BI-clean 口径见 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。
 - `E` = input embedding；`U` / `lm_head` = unembedding。
 - `D=Y_c-X_c`，`P=X_c(A-I)`，`R=D-P`。
 - `P/D` 或 `full_affine_gain` 指 `||P||_F^2 / ||D||_F^2`，是当前 affine 叙事的核心 update-scale 指标。

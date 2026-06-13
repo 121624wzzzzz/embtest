@@ -1,6 +1,6 @@
 # Affine / Low-Rank Update：最终洞察
 
-> 本文件沿用早期 affine final 表口径：31 个 Base-Instruct pair 排除 `Gemma-3-1B` 与 `Gemma-4-*` 后 n=26。当前全仓 BI-full 35 / BI-clean 30 / BI-main-26 关系见 [`../../docs/分析口径与特殊案例.md`](../../docs/分析口径与特殊案例.md)。  
+> 本文件沿用早期 affine final 表口径（BI-main-26）：BI-full 35 排除 `Gemma-3-1B` 与 `Gemma-4-*` 5 对后得 BI-clean 30，再去掉 extended 4 对（MoE/DeepSeek）即为 n=26。当前全仓 BI-full 35 / BI-clean 30 / BI-main-26 关系见 [`../../docs/分析口径与特殊案例.md`](../../docs/分析口径与特殊案例.md)。
 > 记 `D=Y_c-X_c`，`P=X_c(A-I)`，`R=D-P`。核心指标是 `P/D = ||P||_F^2 / ||D||_F^2`。
 
 ## 1. 故事线
@@ -10,7 +10,7 @@
 1. **普通 R2 很高，但不够说明问题。** `identity_R2 = 1-||D||^2/||Y_c||^2` 已经接近 1，所以 `full_affine_R2` 的绝对提升很小。
 2. **真正要看 update-scale。** 用 `P/D` 衡量完整 affine component 在小差分 `D` 中占多少。
 3. **E 侧有边界。** E 的 `P/D` median 只有 **0.120**，residual 常常主导；affine 优势主要在低 W-rank 参数预算。
-4. **U 侧救回主叙事。** U/lm_head 的 `P/D` median 为 **0.315**；在 untied 模型中为 **0.462**。
+4. **U 侧救回主叙事。** U/lm_head 的 `P/D` median 为 **0.315**；在 untied 模型中为 **0.462**（main 9 对，旧口径；含 extended 4 对后 BI-clean 30 的 untied 13 对中位降至 **0.319**，因扩展的 4 对 MoE 的 U P/D 偏低，见 [`../../docs/分析口径与特殊案例.md`](../../docs/分析口径与特殊案例.md) §4.1）。
 5. **tied/untied 是结构性解释。** tied 模型 E/U 是同一个矩阵，结果自然一致；untied 模型中，E 侧 affine 弱而 U 侧 affine 强。
 6. **hybrid 给出实用意义。** `affine low-rank(P) + W low-rank(R)` 在 U 侧小到中等 rank 预算下非常稳定。
 

@@ -78,7 +78,7 @@
 | 分组 | n | GCorr cos 均值 | 备注 |
 |------|---|----------------|------|
 | 主分析组 | 26 | **0.995** | 排除 Gemma-3-1B + Gemma-4 |
-| 全体 | 31 | 0.970 | |
+| 全体 | 35 | 0.970 | |
 | 异常 | 5 | 0.835 | 须分报 |
 
 详见 [`analysis/gemma_anomalies.md`](analysis/gemma_anomalies.md)。
