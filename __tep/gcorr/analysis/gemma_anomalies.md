@@ -4,13 +4,13 @@
 
 | 层级 | 模型/现象 | Task1 cos | Task6 E_R2 | 建议处理 |
 |------|-----------|-----------|------------|----------|
-| A | Gemma-3-1B | 0.777 | **0.375** | 移出主组；独立讨论 |
-| B | Gemma-4 全系（4） | 0.79–0.95 | 0.67–0.78 | 移出主组；架构附录 |
-| C | Gemma-3 4B/12B/27B | 0.98+ | 0.96–0.97 | **可进主组**（仅 1B 异常） |
+| A | Gemma-3-1B | 0.777 | **0.375** | 排除；独立讨论 |
+| B | Gemma-4 全系（4） | 0.79–0.95 | 0.67–0.78 | 排除；架构附录 |
+| C | Gemma-3 4B/12B/27B | 0.98+ | 0.96–0.97 | **纳入 BI-clean** |
 | D | Task3 负 euc（23 pair） | cos 常仍 >0.2 | 未算仿射 | 跨族 metric 问题 |
 | E | Task4 DeepSeek×MiniMax 等 | euc<0 | — | 个案脚注 |
 
-**证据**：`anomaly_group_base_instruct.csv`（5 行）、`main_group_base_instruct_summary.csv`（26 行）、`task3_negative_gcorr_pairs.csv`。
+**口径**：前 5 个异常模型均排除；当前统计只使用 BI-clean 30 对。证据来自 `../tables/gcorr_task1_base_instruct_metrics.csv`（30 行）及上游 `ijcai_clean/results/task1_base_instruct/summary.csv`、Task6 汇总。
 
 ---
 
@@ -54,7 +54,7 @@
 | 26B-A4B | 0.707 | 0.441 | 0.812 | 0.699 |
 | 31B | 0.776 | 0.571 | 0.951 | 0.383 |
 
-**来源**：`anomaly_group_base_instruct.csv`；与 Task6 report 逐行一致。
+**来源**：上游 Task1、Task6 汇总；这些排除案例不进入当前 30 对聚合。
 
 ### 架构假设：PLE（Per-Layer Embeddings）
 
@@ -110,21 +110,19 @@
 
 ---
 
-## `_analysis/` 辅助文件
+## 当前证据文件
 
 | 文件 | 用途 |
 |------|------|
-| `main_group_base_instruct_summary.csv` | 26 行主组精简指标（gcorr_euc, E_R2, rank95/h, energy@5%h） |
-| `anomaly_group_base_instruct.csv` | 5 行异常组 |
-| `gemma_series_bi_summary_from_task1.csv` | Gemma 系列 Base-Instruct 汇总 |
-| `gemma_series_row_norms.csv` | row cosine 审计（支持 1B 论点） |
-| `gemma4_norm_gauge_gcorr_verify.csv` | Gemma4 规范/度量验证 |
+| `../tables/gcorr_task1_base_instruct_metrics.csv` | BI-clean 30 对 Task1 指标 |
+| 上游 `ijcai_clean/results/task1_base_instruct/summary.csv` | 35 对原始 Task1（含 5 个排除案例） |
+| 上游 Task6 汇总 | 仿射 R² 与谱指标 |
 
 ---
 
 ## 写作建议（Pass 2）
 
-1. **主文**：Qwen + Llama + Gemma-2/3(除1B) + Gemma-3 大模型 → 26–29 pair 明确范围。  
+1. **主文**：统一报告 BI-clean 30 对；不再设置 26 对主组。
 2. **附录 A**：Gemma-3-1B 案例研究（表格 + row cosine 图）。  
 3. **附录 B**：Gemma-4 与 PLE 局限（不强行纳入主回归）。  
 4. **脚注**：Task3 负 euc 定义与占比 13%。

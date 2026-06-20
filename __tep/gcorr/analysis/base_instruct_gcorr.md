@@ -12,7 +12,7 @@
 
 ## 总体分布（数据事实）
 
-对 35 行 `summary.csv` 聚合 `*_mean` 列。BI-full / BI-clean / BI-main-26 的分层见 [`../../../docs/分析口径与特殊案例.md`](../../../docs/分析口径与特殊案例.md)。
+原始 `summary.csv` 有35行；本文主聚合固定使用排除5个异常 pair 后的 BI-clean 30。分层见 [`../../../docs/分析口径与特殊案例.md`](../../../docs/分析口径与特殊案例.md)。
 
 | 指标 | 均值 | 中位数 | 最小 | 最大 |
 |------|------|--------|------|------|
@@ -58,7 +58,7 @@
 
 ## 与 Task6 的衔接
 
-- 35 对全部进入当前 Task6 full-vocab 结果；早期 31 对上的 `gcorr_E_cos_mean` 与 `E_R2` 相关诊断见 [`../../affine/analysis/archive/laws_old.md`](../../affine/analysis/archive/laws_old.md) §2。
+- 35 对全部进入当前 Task6 full-vocab 原始结果；`__tep` 的联表和结论只使用 BI-clean 30。
 - **BI-clean**（去掉 Gemma-3-1B + Gemma-4 共 5 对，n=30）在 Task1 上 cos 中位数仍 ≈0.998，几乎不受尾部影响。
 
 ## 小结

@@ -1,71 +1,30 @@
-# __tep/
+# __tep：BI-clean 30 论文分析区
 
-`__tep/` 是两条论文线的整理区。源数据只读 `../ijcai_clean/results/` 与 `../extracts/`；本目录只放实验洞察、派生表和复现实验脚本。全仓当前口径、BI 35/30/26 分层与特殊案例说明见 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。
+`__tep/` 统一使用 **BI-clean 30**：`configs/base_instruct_pairs.yaml` 注册的 35 对 Base→Instruct pair，排除 `Gemma-3-1B` 与四对 `Gemma-4` 异常后得到 30 对（17 tied + 13 untied）。本目录不再维护更早的小规模 BI 口径。
 
-## 入口
+## 数据关系
 
-| 模块 | 目录 | 先读 | 说明 |
-|------|------|------|------|
-| A. GCorr / AGD 诊断 | [`gcorr/`](gcorr/) | [`gcorr/INSIGHTS.md`](gcorr/INSIGHTS.md) | 保留为论文 A 的数据审计与改稿清单 |
-| B. Affine / low-rank update | [`affine/`](affine/) | [`affine/INSIGHTS.md`](affine/INSIGHTS.md) | 当前主线，E/U + tied/untied 故事已收束 |
-| 全局统计 | [`data/`](data/) | [`data/key_metrics.csv`](data/key_metrics.csv) | 少量全局统计 JSON/CSV |
-| 派生脚本 | [`scripts/`](scripts/) | [`scripts/verify_metrics.py`](scripts/verify_metrics.py) | 派生表与复核脚本 |
+- 原始实验结果：`../ijcai_clean/results/`
+- 标准化矩阵：`../extracts/`
+- 当前全局统计：`data/computed_stats.json`、`data/key_metrics.csv`
+- GCorr 派生分析：`gcorr/`
+- Affine / low-rank 派生分析：`affine/`
 
-## 当前主结论
+## 当前核心结论
 
-本目录的 affine final 表仍使用早期 **BI-main-26** 口径：**BI-full 35 对** 排除 `Gemma-3-1B` 与 `Gemma-4-*` 5 对后得 **BI-clean 30 对**，再去掉 extended 4 对（MoE/DeepSeek）即为 BI-main-26。当前全仓主口径为 **BI-clean 30 对**；三者关系见统一口径文档。
+| 结论 | BI-clean 30 结果 |
+|---|---:|
+| Task1 E-cos GCorr mean | 0.9955 |
+| Task6 E affine R2 mean | 0.9923 |
+| E 侧 P/D median | 0.1080 |
+| U 侧 P/D median | 0.3098 |
+| untied E / U P/D median | 0.0491 / 0.3188 |
+| W-rank=1 时 affine 胜出 | E 16/30；U 27/30 |
 
-| 结论 | 数字 |
-|------|------|
-| GCorr 与 affine R2 在 BI 主组双高 | GCorr cos mean ≈ **0.995**；E affine R2 mean ≈ **0.991** |
-| 普通 R2 不是核心证据 | identity R2 本来接近 1；要看 update-scale |
-| E 侧 affine 优势存在但有边界 | `P/D` median **0.120**；低 W-rank 窗口内较强 |
-| U/lm_head 侧更支持 affine | `P/D` median **0.315**；hybrid 在 `rW=2/4/8` 为 **26/26** 胜 |
-| tied/untied 是解释变量 | tied: E/U 等价；untied: E 侧弱、U 侧强 |
+Hybrid 的旧结果没有覆盖全部30对，已从当前数据和结论中移除。脚本仍保留，待 GPU 空闲时必须使用 `--all-clean` 对30对完整重跑后才能恢复该分析。
 
-最关键的总表：
-
-- [`affine/tables/final/model_level_e_u_affine_lora_summary.csv`](affine/tables/final/model_level_e_u_affine_lora_summary.csv) ：逐模型 E/U 全指标。
-- [`affine/tables/final/model_level_e_u_by_tied_summary.csv`](affine/tables/final/model_level_e_u_by_tied_summary.csv) ：tied/untied 汇总。
-- [`affine/tables/final/model_level_e_u_by_family_size_summary.csv`](affine/tables/final/model_level_e_u_by_family_size_summary.csv) ：按模型族/尺寸汇总。
-
-## 符号约定
-
-- BI-main-26：早期 affine final 表口径，BI-full 35 排除 `Gemma-3-1B` 与 `Gemma-4-*` 5 对后得 BI-clean 30，再去掉 extended 4 对即 n=26；当前 BI-full / BI-clean 口径见 [`../docs/分析口径与特殊案例.md`](../docs/分析口径与特殊案例.md)。
-- `E` = input embedding；`U` / `lm_head` = unembedding。
-- `D=Y_c-X_c`，`P=X_c(A-I)`，`R=D-P`。
-- `P/D` 或 `full_affine_gain` 指 `||P||_F^2 / ||D||_F^2`，是当前 affine 叙事的核心 update-scale 指标。
-
-## 目录结构
-
-```text
-__tep/
-├── README.md
-├── affine/
-│   ├── INSIGHTS.md
-│   ├── README.md
-│   ├── analysis/
-│   └── tables/  final/ · e/ · u/ · archive/
-├── gcorr/
-│   ├── INSIGHTS.md
-│   ├── analysis/
-│   ├── tables/
-│   └── main_zh_neurips_full.tex
-├── data/
-└── scripts/     active scripts + archive/
-```
-
-## 复现
-
-关键派生脚本在 [`scripts/`](scripts/)；核心数字可用：
+## 复核
 
 ```bash
-python3 scripts/verify_metrics.py
+python3 __tep/scripts/verify_metrics.py
 ```
-
-Affine E/U 与 LoRA budget 的新结果主要由以下脚本生成：
-
-- [`scripts/compute_affine_pred_delta_svd.py`](scripts/compute_affine_pred_delta_svd.py)
-- [`scripts/evaluate_w_rank_budget.py`](scripts/evaluate_w_rank_budget.py)
-- [`scripts/evaluate_pred_delta_common_spectrum.py`](scripts/evaluate_pred_delta_common_spectrum.py)
-- [`scripts/evaluate_hybrid_affine_w_budget.py`](scripts/evaluate_hybrid_affine_w_budget.py)

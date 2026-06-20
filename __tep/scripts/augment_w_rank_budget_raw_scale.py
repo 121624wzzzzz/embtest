@@ -21,8 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SUMMARY_CSV = ROOT / "affine" / "tables" / "final" / "model_level_e_u_affine_lora_summary.csv"
 
 DEFAULT_SWEEPS = {
-    "embed": ROOT / "affine" / "tables" / "e" / "affine_w_rank_budget_sweep_all_main.csv",
-    "lm_head": ROOT / "affine" / "tables" / "u" / "unembed_w_rank_budget_sweep_all_main.csv",
+    "embed": ROOT / "affine" / "tables" / "e" / "affine_w_rank_budget_clean.csv",
+    "lm_head": ROOT / "affine" / "tables" / "u" / "unembed_w_rank_budget_clean.csv",
 }
 
 SUMMARY_RANKS = (1, 2, 4, 8, 16, 32, 64, 128)
@@ -143,9 +143,9 @@ def main() -> None:
 
     for side, sweep in DEFAULT_SWEEPS.items():
         tag = "e" if side == "embed" else "u"
-        out = ROOT / "affine" / "tables" / tag / f"{tag}_w_rank_budget_raw_scale_all_main.csv"
+        out = sweep
         summary_out = (
-            ROOT / "affine" / "tables" / tag / f"{tag}_w_rank_budget_raw_scale_summary.csv"
+            ROOT / "affine" / "tables" / tag / f"{tag}_w_rank_budget_summary.csv"
         )
         process_sweep(
             sweep,

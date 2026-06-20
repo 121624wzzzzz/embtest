@@ -216,7 +216,11 @@ def analyze_pair(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--models", nargs="*", default=None)
-    parser.add_argument("--all-main", action="store_true")
+    parser.add_argument(
+        "--all-clean",
+        action="store_true",
+        help="run all 30 BI-clean pairs (35 registered pairs minus 5 excluded anomalies)",
+    )
     parser.add_argument("--device", default="cuda:7")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--limit", type=int, default=0)
@@ -228,8 +232,8 @@ def main() -> None:
     if args.models:
         wanted = set(args.models)
         selected = [r for r in selected if r["model_a"] in wanted]
-    elif not args.all_main:
-        parser.error("Specify --all-main or --models")
+    elif not args.all_clean:
+        parser.error("Specify --all-clean or --models")
     if args.limit:
         selected = selected[: args.limit]
 

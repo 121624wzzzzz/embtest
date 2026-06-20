@@ -105,7 +105,7 @@ rank-10  A₁₀ ≈ 77%, 29.5× 随机  → 前 10 仍显著对齐
 | | 本分析（raw ΔW, Z=[X,1]） | centered 线 A（D=Y_c−X_c, P=X_c(A−I)） |
 |---|---|---|
 | E 侧 | R²_aff,K ~4%，A_{L,K} ~5%，倍率 ~1.6× | P/D ~5%，R 主导 |
-| U 侧 | R²_aff,K ~33%，R²_aff,full ~36%，A_{L,K} ~77–83%，倍率 ~30× | P/D ~32%（30 对 untied 中位；main 9 约 ~46%），P 谱集中 |
+| U 侧 | R²_aff,K ~33%，R²_aff,full ~36%，A_{L,K} ~77–83%，倍率 ~30× | P/D ~32%（BI-clean 13 个 untied pair 中位），P 谱集中 |
 
 **勿只读一侧**：U 侧 affine 在 raw ΔW 与 centered D 上**同向 substantial**；mean-shift 占 raw Δ 仅 ~2–8%，去中心化不改变 E/U 分裂。详见 [`README.md`](README.md) 线 A「Raw ΔW 对照」。
 

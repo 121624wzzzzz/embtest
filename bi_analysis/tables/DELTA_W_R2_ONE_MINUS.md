@@ -1,6 +1,6 @@
 # ΔW 相关 R²（1−R² 形式）
 
-非 excluded 的 30 对 BI pair（main 26 + extended 4）。族内按模型尺寸从小到大排列（与 `bi_pairs.yaml` 一致）。
+非 excluded 的 BI-clean 30 对。族内按模型尺寸从小到大排列（与 `bi_pairs.yaml` 一致）。
 
 **口径**
 - `1−R²_identity` = `‖Y_c−X_c‖² / ‖Y_c‖²`：Y≈X baseline 下 centered ΔW 占 Instruct 能量比例（= `E_delta_over_Yc`）

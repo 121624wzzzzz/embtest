@@ -95,8 +95,8 @@ def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--e-in", type=Path, default=Path("/tmp/all_main_e_dpr.csv"))
-    parser.add_argument("--u-in", type=Path, default=Path("/tmp/all_main_u_dpr.csv"))
+    parser.add_argument("--e-in", type=Path, default=Path("/tmp/bi_clean_e_dpr.csv"))
+    parser.add_argument("--u-in", type=Path, default=Path("/tmp/bi_clean_u_dpr.csv"))
     args = parser.parse_args()
 
     e_raw = list(csv.DictReader(args.e_in.open(newline="", encoding="utf-8")))

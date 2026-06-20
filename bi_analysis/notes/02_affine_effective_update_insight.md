@@ -316,7 +316,7 @@ U 上 A_{L,K} 很高 → 主成分内部几乎全是 affine 型；r_L 中等 →
 | mean-shift / raw $\Delta W$ | **0.01%** | **6.9%** | $n\|\mu_Y-\mu_X\|^2/\|\Delta W\|^2$ |
 
 U 侧：**约 1/3 raw $\Delta W$ 能量**落在有效 affine 子空间；与 centered $P/D\approx 32\%$ **同档**（mean-shift 很小，去中心化几乎不改变结论）。  
-**脚注**：historical main 9 untied alone 的 U $P/D$ 中位 **46.2%**；extended 4 并入 30 对后降至 **31.9%**（DeepSeek-V3 等 MoE 对拉低中位）。
+BI-clean 13 个 untied pair 的 U $P/D$ 中位为 **31.9%**。
 
 残差占比（U）：
 
@@ -478,7 +478,7 @@ $$
 
 ---
 
-## 10. 实验验证：Aff/LoRA 同解释量优势（主实验）与 Hybrid（补充）
+## 10. 实验验证：Aff/LoRA 同解释量优势
 
 理论预测：若 $\Delta W$ 的主变化落在 $[X,\mathbf{1}_n]$ 有效子空间，则 **hidden-dim Aff/LoRA**（作用在 $A-I$）应以更低 rank 达到与 **W-form / Vocab LoRA**（作用在 $n\times d$ 词表矩阵）相同的解释量。
 
@@ -500,17 +500,17 @@ $$
 
 完整 13 行 untied 表见 [`tables/AFFINE_LORA_BUDGET.md`](../tables/AFFINE_LORA_BUDGET.md)。代表行：
 
-| 模型 | tier | $n/d$ | $(n+d)/2d$ | aff rank @W1 |
-|------|:---:|---:|---:|---:|
-| Qwen3.5-35B-A3B (untied U) | extended | 121 | 61 | **61** |
-| Qwen3.5-0.8B (tied) | main | 242 | 122 | **121** |
-| Qwen3-30B-A3B (untied U) | extended | 74 | 37 | **37** |
-| Qwen3.5-9B (untied U) | main | 61 | 31 | **30** |
-| Qwen3-8B (untied U) | main | 37 | 19 | **19** |
-| Llama-3.1-8B (untied U) | main | 31 | 16 | **16** |
-| Qwen2.5-14B/32B (untied U) | main | 30 | 15 | **15** |
-| DeepSeek-V3/V3.1 (untied U) | extended | 18 | 9 | **9** |
-| Llama-3.1-70B (untied U) | main | 16 | 8 | **8** |
+| 模型 | $n/d$ | $(n+d)/2d$ | aff rank @W1 |
+|------|---:|---:|---:|
+| Qwen3.5-35B-A3B (untied U) | 121 | 61 | **61** |
+| Qwen3.5-0.8B (tied) | 242 | 122 | **121** |
+| Qwen3-30B-A3B (untied U) | 74 | 37 | **37** |
+| Qwen3.5-9B (untied U) | 61 | 31 | **30** |
+| Qwen3-8B (untied U) | 37 | 19 | **19** |
+| Llama-3.1-8B (untied U) | 31 | 16 | **16** |
+| Qwen2.5-14B/32B (untied U) | 30 | 15 | **15** |
+| DeepSeek-V3/V3.1 (untied U) | 18 | 9 | **9** |
+| Llama-3.1-70B (untied U) | 16 | 8 | **8** |
 
 *注：`U_aff_rank_budget_r1` = W rank=1 参数量可买到的 aff rank（$\lfloor(n+h)/(2h)\rfloor$），与 $(n+d)/2d$ 一致。*
 
@@ -529,17 +529,9 @@ $$
 
 **边界例外（不影响主结论）**：r1 唯一 U 侧 aff/W<1 的是 **DeepSeek-V3**（≈0.75）。原因复合、属交界案例而非反证：(1) U 侧 **P/D≈0.12** 低于 untied U 中位 ~0.32，仿射在 Δ 里绝对占比小；(2) $d=7168$、$n/d≈18$ → W rank=1 参匹配 aff rank 仅 **9**（Qwen3-8B 为 19），低秩 aff 对 $P$ 的压缩上限低；(3) 有效子空间与 E/U 分裂仍成立（U 的 R²_aff,K、P/D 仍高于 E）。**12/13 胜率 + 系统性 E/U 分裂**已足够；个别边界模型作脚注即可。DeepSeek-V3.1 同族 aff/W@r1≈1.15，亦支持「边界」而非「类型反转」的读法。
 
-### 10.3 Hybrid（P + R 拆分）——对主 narrative **价值有限**
+### 10.3 Hybrid 状态
 
-Hybrid = rank-$a$ hidden affine 近似 $P$ + rank-$q$ W-form 近似 $R=D-P$，在同参数预算下与 pure W 比解释量。
-
-**为何不必作为主证据**：
-
-1. **结论已被 aff vs W 覆盖**：U 侧 P/D 高、R²_aff,K 高 → 主变化已在 affine 子空间；hybrid 只是把 $D=P+R$ **事后拆分**，不增加「U affine-friendly」的新信息。
-2. **对 U 侧增量小**：24/26 hybrid stable，但 affine-only 已 24/26 @ rW=1,2；高 P/D 的 Qwen2.5 untied U 上 aff/W @r1 仅 ~1.1×，hybrid 与 pure aff 差别不大。
-3. **主要救场在 E / tied 例外**：E 侧 R 主导、hybrid 帮 E 低预算；Qwen2.5-1.5B/3B tied 在 rW=1 偏 W，hybrid 在 rW≥2 救回——均属**边界**，非 U affine 主结论核心。
-
-**定位**：hybrid 可作为「$P$ 低秩 + $R$ 低秩」的构造性脚注；**主叙事依赖 §5 有效子空间 + §10.1–10.2 aff/W**，不必突出 hybrid。
+旧 Hybrid 结果未覆盖 BI-clean 30 对，已从现行表格和结论中移除。脚本仅作为重算入口保留；待 GPU 空闲后使用 `--all-clean` 完整运行，未完成前不得引用旧数字。
 
 ### 10.4 tied ≈ untied U：同一套 affine-friendly 性质
 
@@ -595,7 +587,7 @@ E：r_L↓ + aᵢ≈随机               →  R²_aff,K↓（~4%）
 rank-L：R^(L) = r_L · A_{L,K}
               ↓
 实验：aff/LoRA @30对  untied U 12/13  |  Vocab r=1 → Aff r~8–61
-（hybrid 补充，非主证据）
+Hybrid：当前无完整30对结果，不进入证据链
               ↓
 tied E ≈ untied U（R²_k~32%, A₅~0.82）  ≠  untied E
               ↓

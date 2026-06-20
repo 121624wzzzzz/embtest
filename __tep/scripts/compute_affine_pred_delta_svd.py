@@ -325,8 +325,8 @@ def main() -> None:
     def mean(vals: list[float]) -> float:
         return sum(vals) / len(vals) if vals else math.nan
 
-    main_rows = [r for r in out_rows if not r["is_anomaly"]]
-    print("\nSUMMARY main rows n=", len(main_rows), flush=True)
+    clean_rows = [r for r in out_rows if not r["is_anomaly"]]
+    print("\nSUMMARY BI-clean rows n=", len(clean_rows), flush=True)
     for key in (
         "Delta_rank95_over_h",
         "Centered_delta_rank95_over_h",
@@ -339,7 +339,7 @@ def main() -> None:
         "Residual_over_centered_delta_energy",
         "Mean_shift_over_raw_delta_energy",
     ):
-        print(f"  {key}: {mean([float(r[key]) for r in main_rows]):.6f}", flush=True)
+        print(f"  {key}: {mean([float(r[key]) for r in clean_rows]):.6f}", flush=True)
     try:
         out_label = args.out.resolve().relative_to(REPO_ROOT)
     except ValueError:

@@ -37,7 +37,7 @@ analysis_1/
 | 文件 | 作用 | 与 note 关系 |
 |------|------|--------------|
 | [`configs/analysis_subsets.yaml`](configs/analysis_subsets.yaml) | **汇总本包所有子集**：48 untied、34 tied、Task1 13+17、Task2 37 对等；含排除规则与模型名单 | 所有 note 的「n=」口径 |
-| [`configs/bi_pairs.yaml`](configs/bi_pairs.yaml) | BI 分析注册表（2026-05-24）：`analysis_tier`（main/extended/excluded）、`tied`、`exclude_reason` | note 03 的 untied 13 / tied 17 来自 `analysis_untied` + 排除 Gemma-4/3-1B |
+| [`configs/bi_pairs.yaml`](configs/bi_pairs.yaml) | BI 分析注册表：`analysis_tier`（clean/excluded）、`tied`、`exclude_reason` | note 03 的 untied 13 / tied 17 来自 BI-clean 30 |
 | [`configs/base_instruct_pairs.yaml`](configs/base_instruct_pairs.yaml) | Task1 上游 35 对（含 Gemma-4、Gemma-3-1B） | `data/task1_*` 的配对来源 |
 | [`configs/model_series.yaml`](configs/model_series.yaml) | Task2 按系列列模型 | `data/task2_*` 的 110 对计划来源 |
 

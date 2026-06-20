@@ -193,7 +193,11 @@ def compute_pair(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--models", nargs="*", default=DEFAULT_MODELS)
-    parser.add_argument("--all-main", action="store_true")
+    parser.add_argument(
+        "--all-clean",
+        action="store_true",
+        help="run all 30 BI-clean pairs (35 registered pairs minus 5 excluded anomalies)",
+    )
     parser.add_argument(
         "--ranks",
         type=int,
@@ -212,7 +216,7 @@ def main() -> None:
 
     with TASK6_CSV.open(newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
-    if args.all_main:
+    if args.all_clean:
         selected = [r for r in rows if not is_anomaly(r["model_a"])]
     else:
         wanted = set(args.models)

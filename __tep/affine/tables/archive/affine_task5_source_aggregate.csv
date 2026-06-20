@@ -1,5 +1,0 @@
-source_tasks,n_pairs,R2_E_mean,R2_E_min
-task1_base_instruct,31,0.9424,0.4038
-task2_model_series,110,0.4106,0.1274
-task3_cross_scale_groups,176,0.3577,0.1853
-task4_moe_cross_family,21,0.3607,0.2573

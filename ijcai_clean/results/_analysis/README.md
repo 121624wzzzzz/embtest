@@ -8,8 +8,8 @@ Gemma / E/U checkpoint 几何审计已迁到仓库根目录 `analysis_eu_geometr
 
 | 文件 | 来源 | 用途 |
 |------|------|------|
-| `main_group_base_instruct_summary.csv` | Task1 summary + Task6 full-vocab summary | 主分析组 Base-Instruct pair 的筛选汇总。 |
-| `anomaly_group_base_instruct.csv` | Task1 summary + Task6 full-vocab summary | 异常组 Base-Instruct pair 的筛选汇总，用于解释 Gemma 等特殊现象。 |
+| `clean_group_base_instruct_summary.csv` | Task1 summary + Task6 full-vocab summary | BI-clean 30 对的筛选汇总。 |
+| `anomaly_group_base_instruct.csv` | Task1 summary + Task6 full-vocab summary | 5 个排除模型的诊断汇总，不进入 BI-clean 聚合。 |
 | `task2_hidden_dim_mismatch_pairs.csv` | Task2 pair plan / summary | Task2 中 hidden dim 不一致或因此无法直接比较的 pair 清单。 |
 | `task3_negative_gcorr_pairs.csv` | Task3 summary | Task3 中 GCorr 为负或异常偏低的 pair 清单。 |
 | `task5_low_intra_EU_untied.csv` | Task5 `summary_intra_EU.csv` | untied 模型内部 E->U 仿射解释力偏低的模型清单。 |
