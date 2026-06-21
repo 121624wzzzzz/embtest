@@ -19,7 +19,7 @@ from eu_geometry import (
 
 _REPO = bootstrap_repo()
 
-from ijcai_clean.paths import default_extracts_dir, default_models_yaml  # noqa: E402
+from cross_model_geometry.paths import default_extracts_dir, default_models_yaml  # noqa: E402
 
 
 def main() -> None:

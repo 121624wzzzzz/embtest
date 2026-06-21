@@ -16,7 +16,7 @@
 - E cosine GCorr mean：0.9955。
 - E Euclidean GCorr mean：0.9902。
 - Task6 E affine R2 mean：0.9923。
-- 异常5对继续保留在 `ijcai_clean` 原始结果中，但不混入本目录主聚合。
+- 异常5对继续保留在 `cross_model_geometry` 原始结果中，但不混入本目录主聚合。
 
 ## 跨模型主要发现
 

@@ -54,4 +54,4 @@
 | 资源 | 仓库原路径 |
 |------|------------|
 | GPU SVD 脚本 | [`analysis_eu_geometry/scripts/eu_geometry/spectral.py`](../analysis_eu_geometry/scripts/eu_geometry/spectral.py) |
-| GCorr 流水线 | [`ijcai_clean/`](../ijcai_clean/) |
+| GCorr 流水线 | [`cross_model_geometry/`](../cross_model_geometry/) |

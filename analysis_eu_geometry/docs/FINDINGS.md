@@ -1,6 +1,6 @@
 # E/U checkpoint 几何审计：核心发现
 
-本目录对 `configs/models.yaml` 中 **94 个模型** 的存盘 embedding（E）与 lm_head（U）做 checkpoint 几何审计（行范数、μ-ratio、谱分析）。数据来自 `extracts/*.safetensors`，与 `ijcai_clean` Task1–6 主线结果独立。
+本目录对 `configs/models.yaml` 中 **94 个模型** 的存盘 embedding（E）与 lm_head（U）做 checkpoint 几何审计（行范数、μ-ratio、谱分析）。数据来自 `extracts/*.safetensors`，与 `cross_model_geometry` Task1–6 主线结果独立。
 
 ## 1. 问题背景
 

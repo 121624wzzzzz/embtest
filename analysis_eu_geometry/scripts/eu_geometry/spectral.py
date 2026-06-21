@@ -158,7 +158,7 @@ def run_spectral_audit(
     device: str = "cuda:0",
 ) -> Path:
     import torch
-    from ijcai_clean.data import load_E_U_matrices, load_info_json
+    from cross_model_geometry.data import load_E_U_matrices, load_info_json
 
     if device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError(f"CUDA unavailable, requested device={device}")

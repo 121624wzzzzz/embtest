@@ -38,13 +38,13 @@ def _init_mu_ratio_worker(repo_root: str, extracts_dir: str) -> None:
     global _MU_RATIO_EXTRACTS, _MU_RATIO_REPO
     _MU_RATIO_REPO = Path(repo_root)
     _MU_RATIO_EXTRACTS = Path(extracts_dir)
-    src = _MU_RATIO_REPO / "ijcai_clean" / "src"
+    src = _MU_RATIO_REPO / "cross_model_geometry" / "src"
     if str(src) not in sys.path:
         sys.path.insert(0, str(src))
 
 
 def _mu_ratio_one_model(task: tuple[str, dict[str, object]]) -> list[dict[str, object]]:
-    from ijcai_clean.data import load_E_U_matrices, load_info_json
+    from cross_model_geometry.data import load_E_U_matrices, load_info_json
 
     name, extra = task
     assert _MU_RATIO_EXTRACTS is not None

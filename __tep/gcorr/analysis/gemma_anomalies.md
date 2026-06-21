@@ -10,7 +10,7 @@
 | D | Task3 负 euc（23 pair） | cos 常仍 >0.2 | 未算仿射 | 跨族 metric 问题 |
 | E | Task4 DeepSeek×MiniMax 等 | euc<0 | — | 个案脚注 |
 
-**口径**：前 5 个异常模型均排除；当前统计只使用 BI-clean 30 对。证据来自 `../tables/gcorr_task1_base_instruct_metrics.csv`（30 行）及上游 `ijcai_clean/results/task1_base_instruct/summary.csv`、Task6 汇总。
+**口径**：前 5 个异常模型均排除；当前统计只使用 BI-clean 30 对。证据来自 `../tables/gcorr_task1_base_instruct_metrics.csv`（30 行）及上游 `cross_model_geometry/results/task1_base_instruct/summary.csv`、Task6 汇总。
 
 ---
 
@@ -115,7 +115,7 @@
 | 文件 | 用途 |
 |------|------|
 | `../tables/gcorr_task1_base_instruct_metrics.csv` | BI-clean 30 对 Task1 指标 |
-| 上游 `ijcai_clean/results/task1_base_instruct/summary.csv` | 35 对原始 Task1（含 5 个排除案例） |
+| 上游 `cross_model_geometry/results/task1_base_instruct/summary.csv` | 35 对原始 Task1（含 5 个排除案例） |
 | 上游 Task6 汇总 | 仿射 R² 与谱指标 |
 
 ---

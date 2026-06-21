@@ -5,7 +5,7 @@
 | 项目 | 值 |
 |------|-----|
 | 配置 | `configs/base_instruct_pairs.yaml` |
-| 输出 | `ijcai_clean/results/task1_base_instruct/summary.csv` |
+| 输出 | `cross_model_geometry/results/task1_base_instruct/summary.csv` |
 | Pair 数 | **35** |
 | 采样 | `n_tokens=20000`, `n_pairs=5e6`, `n_bootstrap=100` |
 | 对齐 | 同 vocab → token id 对齐（`align_mode=id`） |

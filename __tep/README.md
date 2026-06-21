@@ -4,7 +4,7 @@
 
 ## 数据关系
 
-- 原始实验结果：`../ijcai_clean/results/`
+- 原始实验结果：`../cross_model_geometry/results/`
 - 标准化矩阵：`../extracts/`
 - 当前全局统计：`data/computed_stats.json`、`data/key_metrics.csv`
 - GCorr 派生分析：`gcorr/`

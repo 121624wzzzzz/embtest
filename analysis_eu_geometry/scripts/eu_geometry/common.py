@@ -32,7 +32,7 @@ def bootstrap_repo() -> Path:
         if os.environ.get("REPO_ROOT")
         else find_repo_root(SCRIPT_DIR)
     )
-    src = repo_root / "ijcai_clean" / "src"
+    src = repo_root / "cross_model_geometry" / "src"
     if str(src) not in sys.path:
         sys.path.insert(0, str(src))
     if str(SCRIPT_DIR) not in sys.path:
@@ -206,7 +206,7 @@ def is_instruct(name: str) -> bool:
 
 
 def bi_models(pairs_file: Path) -> tuple[list[tuple[str, str]], list[str]]:
-    from ijcai_clean.experiments.gcorr_io import load_pairs_yaml
+    from cross_model_geometry.experiments.gcorr_io import load_pairs_yaml
 
     pairs = load_pairs_yaml(pairs_file)
     models = sorted({m for pair in pairs for m in pair})
@@ -214,7 +214,7 @@ def bi_models(pairs_file: Path) -> tuple[list[tuple[str, str]], list[str]]:
 
 
 def other_models(models_yaml: Path, pairs_file: Path) -> list[str]:
-    from ijcai_clean.experiments.gcorr_io import load_pairs_yaml
+    from cross_model_geometry.experiments.gcorr_io import load_pairs_yaml
 
     cfg = yaml.safe_load(models_yaml.read_text(encoding="utf-8"))
     all_models = sorted((cfg.get("model_repo_ids") or {}).keys())

@@ -479,7 +479,7 @@ def main():
             except Exception as e:
                 print(f"⚠️ 读取 {info_path} 失败: {e}")
 
-    summary_dir = os.path.join(script_dir, "ijcai_clean", "audits")
+    summary_dir = os.path.join(script_dir, "cross_model_geometry", "audits")
     summary_path = os.path.join(summary_dir, "all_models_summary.json")
     try:
         os.makedirs(summary_dir, exist_ok=True)

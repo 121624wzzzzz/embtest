@@ -1,12 +1,12 @@
 # BI Full-Vocab Affine Geometry
 
-本文档承接 `ijcai_clean` Task6 / Base-Instruct full-vocab 诊断，专门记录 BI affine 关系的研究性解释：全局仿射 `A`、`A-I`、`E_instruct - E_base` 的谱结构、归一化 rank / effective-rank，以及 energy@相对 hidden dimension。
+本文档承接 `cross_model_geometry` Task6 / Base-Instruct full-vocab 诊断，专门记录 BI affine 关系的研究性解释：全局仿射 `A`、`A-I`、`E_instruct - E_base` 的谱结构、归一化 rank / effective-rank，以及 energy@相对 hidden dimension。
 
 口径说明：
 
 - 全仓 BI 35/30/26 口径、排除规则与特殊案例见 [`../../docs/分析口径与特殊案例.md`](../../docs/分析口径与特殊案例.md)。
 - 本文中的 “BI-clean / non-excluded” 指排除 Gemma-3-1B 与 Gemma-4 四对后的 30 对。
-- 原始 Task6 结果见 `../ijcai_clean/results/task6_base_instruct_full_vocab/`。
+- 原始 Task6 结果见 `../cross_model_geometry/results/task6_base_instruct_full_vocab/`。
 
 ## 1. Full-Vocab Affine 主要结果
 

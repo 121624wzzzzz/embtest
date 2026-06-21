@@ -1,7 +1,7 @@
 # Analysis 1 数据与配置说明
 
 本目录为 **可独立抽走** 的自包含包：`notes/` 叙事 + `configs/` 模型注册 + `data/` 原始结果 CSV。  
-无需再回读仓库根目录的 `ijcai_clean/` 或 `analysis_eu_geometry/results/` 即可复核文中数字。
+无需再回读仓库根目录的 `cross_model_geometry/` 或 `analysis_eu_geometry/results/` 即可复核文中数字。
 
 ---
 
@@ -168,10 +168,10 @@ PY
 | 本包副本 | 仓库原路径 |
 |----------|------------|
 | `data/static/*` | `analysis_eu_geometry/results/` |
-| `data/task1_*` | `ijcai_clean/results/task1_base_instruct/` |
-| `data/task2_*` | `ijcai_clean/results/task2_model_series/` |
+| `data/task1_*` | `cross_model_geometry/results/task1_base_instruct/` |
+| `data/task2_*` | `cross_model_geometry/results/task2_model_series/` |
 | `configs/base_instruct_pairs.yaml` | `configs/base_instruct_pairs.yaml` |
 | `configs/bi_pairs.yaml` | `bi_analysis/bi_pairs.yaml` |
 | `configs/model_series.yaml` | `configs/model_series.yaml` |
 
-重算静态谱需 checkpoint 与 `analysis_eu_geometry/scripts/`；重算 GCorr 需 `ijcai_clean/` 与 `extracts/`。
+重算静态谱需 checkpoint 与 `analysis_eu_geometry/scripts/`；重算 GCorr 需 `cross_model_geometry/` 与 `extracts/`。

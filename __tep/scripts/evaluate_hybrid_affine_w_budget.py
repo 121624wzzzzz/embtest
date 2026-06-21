@@ -34,16 +34,16 @@ from safetensors import safe_open
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
-SRC_ROOT = REPO_ROOT / "ijcai_clean" / "src"
+SRC_ROOT = REPO_ROOT / "cross_model_geometry" / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from ijcai_clean.data import load_info_json  # noqa: E402
-from ijcai_clean.experiments.full_vocab_affine import BATCH_ROWS  # noqa: E402
+from cross_model_geometry.data import load_info_json  # noqa: E402
+from cross_model_geometry.experiments.full_vocab_affine import BATCH_ROWS  # noqa: E402
 
 TASK6_CSV = (
     REPO_ROOT
-    / "ijcai_clean"
+    / "cross_model_geometry"
     / "results"
     / "task6_base_instruct_full_vocab"
     / "summary_pair_base_instruct_full_vocab.csv"

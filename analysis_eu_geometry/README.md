@@ -9,7 +9,7 @@
 gauge 和 DeepSeek-V4 的非传统 output head。
 
 本目录 **不运行 GCorr**，也 **不做 affine fit / LoRA budget 实验**；这些属于
-[`../ijcai_clean/`](../ijcai_clean/) 和 [`../__tep/affine/`](../__tep/affine/)。
+[`../cross_model_geometry/`](../cross_model_geometry/) 和 [`../__tep/affine/`](../__tep/affine/)。
 这里产出的静态几何表可被它们引用或用于解释异常。
 
 **核心结论**见 [`docs/FINDINGS.md`](docs/FINDINGS.md)。全仓口径与特殊案例见
@@ -149,14 +149,14 @@ CLI 参数含义：
 
 ## 与主线实验的关系
 
-本目录独立于 `ijcai_clean/results/task*/`。它主要用于解释 checkpoint 几何异常，
+本目录独立于 `cross_model_geometry/results/task*/`。它主要用于解释 checkpoint 几何异常，
 并为 `analysis_1/`、`bi_analysis/`、`__tep/` 中的论文叙事提供静态 E/U 证据。
 
 主要边界如下：
 
 | 目录 | 角色 |
 |------|------|
-| [`../ijcai_clean/`](../ijcai_clean/) | Task1-6 主实验代码与结果 |
+| [`../cross_model_geometry/`](../cross_model_geometry/) | Task1-6 主实验代码与结果 |
 | [`../analysis_eu_geometry/`](.) | 全库 E/U checkpoint 静态几何审计 |
 | [`../analysis_1/`](../analysis_1/) | 可独立抽走的静态谱 + GCorr 证据包 |
 | [`../bi_analysis/`](../bi_analysis/) | Base-Instruct 口径、排除规则和叙事表格 |

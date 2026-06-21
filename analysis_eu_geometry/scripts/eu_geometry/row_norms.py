@@ -74,7 +74,7 @@ def audit_models(
     models: list[str],
     extra_fields_fn=None,
 ) -> list[dict[str, object]]:
-    from ijcai_clean.data import load_E_U_matrices, load_info_json
+    from cross_model_geometry.data import load_E_U_matrices, load_info_json
 
     rows: list[dict[str, object]] = []
     for name in models:

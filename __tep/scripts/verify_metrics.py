@@ -33,7 +33,7 @@ def check(label: str, got: float, expected: float, tol: float = TOL) -> bool:
 
 def main() -> int:
     root = Path(__file__).resolve().parents[2]
-    results = root / "ijcai_clean" / "results"
+    results = root / "cross_model_geometry" / "results"
     golden = json.loads((root / "__tep" / "data" / "computed_stats.json").read_text())
     ok = True
 

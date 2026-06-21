@@ -10,8 +10,8 @@ sources:
   - name: task1_base_instruct
     pairs_yaml: configs/base_instruct_pairs.yaml
   - name: task2_model_series
-    pairs_yaml: ijcai_clean/results/task2_model_series/generated_pairs.yaml
+    pairs_yaml: cross_model_geometry/results/task2_model_series/generated_pairs.yaml
   - name: task3_cross_scale_groups
-    pairs_yaml: ijcai_clean/results/task3_cross_scale_groups/generated_pairs.yaml
+    pairs_yaml: cross_model_geometry/results/task3_cross_scale_groups/generated_pairs.yaml
   - name: task4_moe_cross_family
-    pairs_yaml: ijcai_clean/results/task4_moe_cross_family/generated_pairs.yaml
+    pairs_yaml: cross_model_geometry/results/task4_moe_cross_family/generated_pairs.yaml

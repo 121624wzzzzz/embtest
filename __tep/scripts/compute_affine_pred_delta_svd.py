@@ -26,19 +26,19 @@ import torch
 from safetensors import safe_open
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SRC_ROOT = REPO_ROOT / "ijcai_clean" / "src"
+SRC_ROOT = REPO_ROOT / "cross_model_geometry" / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from ijcai_clean.data import load_info_json  # noqa: E402
-from ijcai_clean.experiments.full_vocab_affine import (  # noqa: E402
+from cross_model_geometry.data import load_info_json  # noqa: E402
+from cross_model_geometry.experiments.full_vocab_affine import (  # noqa: E402
     BATCH_ROWS,
     svd_energy_from_gram,
 )
 
 TASK6_CSV = (
     REPO_ROOT
-    / "ijcai_clean"
+    / "cross_model_geometry"
     / "results"
     / "task6_base_instruct_full_vocab"
     / "summary_pair_base_instruct_full_vocab.csv"
